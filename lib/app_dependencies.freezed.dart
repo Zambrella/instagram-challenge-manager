@@ -20,6 +20,7 @@ mixin _$AppDependencies {
   BaseDeviceInfo get deviceInfo => throw _privateConstructorUsedError;
   SharedPreferences get sharedPreferences => throw _privateConstructorUsedError;
   Version get appVersion => throw _privateConstructorUsedError;
+  Client get backendClient => throw _privateConstructorUsedError;
 
   /// Create a copy of AppDependencies
   /// with the given fields replaced by the non-null parameter values.
@@ -38,7 +39,8 @@ abstract class $AppDependenciesCopyWith<$Res> {
       {PackageInfo packageInfo,
       BaseDeviceInfo deviceInfo,
       SharedPreferences sharedPreferences,
-      Version appVersion});
+      Version appVersion,
+      Client backendClient});
 }
 
 /// @nodoc
@@ -60,6 +62,7 @@ class _$AppDependenciesCopyWithImpl<$Res, $Val extends AppDependencies>
     Object? deviceInfo = null,
     Object? sharedPreferences = null,
     Object? appVersion = null,
+    Object? backendClient = null,
   }) {
     return _then(_value.copyWith(
       packageInfo: null == packageInfo
@@ -78,6 +81,10 @@ class _$AppDependenciesCopyWithImpl<$Res, $Val extends AppDependencies>
           ? _value.appVersion
           : appVersion // ignore: cast_nullable_to_non_nullable
               as Version,
+      backendClient: null == backendClient
+          ? _value.backendClient
+          : backendClient // ignore: cast_nullable_to_non_nullable
+              as Client,
     ) as $Val);
   }
 }
@@ -94,7 +101,8 @@ abstract class _$$AppDependenciesImplCopyWith<$Res>
       {PackageInfo packageInfo,
       BaseDeviceInfo deviceInfo,
       SharedPreferences sharedPreferences,
-      Version appVersion});
+      Version appVersion,
+      Client backendClient});
 }
 
 /// @nodoc
@@ -114,6 +122,7 @@ class __$$AppDependenciesImplCopyWithImpl<$Res>
     Object? deviceInfo = null,
     Object? sharedPreferences = null,
     Object? appVersion = null,
+    Object? backendClient = null,
   }) {
     return _then(_$AppDependenciesImpl(
       packageInfo: null == packageInfo
@@ -132,6 +141,10 @@ class __$$AppDependenciesImplCopyWithImpl<$Res>
           ? _value.appVersion
           : appVersion // ignore: cast_nullable_to_non_nullable
               as Version,
+      backendClient: null == backendClient
+          ? _value.backendClient
+          : backendClient // ignore: cast_nullable_to_non_nullable
+              as Client,
     ));
   }
 }
@@ -145,7 +158,8 @@ class _$AppDependenciesImpl
       {required this.packageInfo,
       required this.deviceInfo,
       required this.sharedPreferences,
-      required this.appVersion});
+      required this.appVersion,
+      required this.backendClient});
 
   @override
   final PackageInfo packageInfo;
@@ -155,10 +169,12 @@ class _$AppDependenciesImpl
   final SharedPreferences sharedPreferences;
   @override
   final Version appVersion;
+  @override
+  final Client backendClient;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AppDependencies(packageInfo: $packageInfo, deviceInfo: $deviceInfo, sharedPreferences: $sharedPreferences, appVersion: $appVersion)';
+    return 'AppDependencies(packageInfo: $packageInfo, deviceInfo: $deviceInfo, sharedPreferences: $sharedPreferences, appVersion: $appVersion, backendClient: $backendClient)';
   }
 
   @override
@@ -169,7 +185,8 @@ class _$AppDependenciesImpl
       ..add(DiagnosticsProperty('packageInfo', packageInfo))
       ..add(DiagnosticsProperty('deviceInfo', deviceInfo))
       ..add(DiagnosticsProperty('sharedPreferences', sharedPreferences))
-      ..add(DiagnosticsProperty('appVersion', appVersion));
+      ..add(DiagnosticsProperty('appVersion', appVersion))
+      ..add(DiagnosticsProperty('backendClient', backendClient));
   }
 
   @override
@@ -184,12 +201,14 @@ class _$AppDependenciesImpl
             (identical(other.sharedPreferences, sharedPreferences) ||
                 other.sharedPreferences == sharedPreferences) &&
             (identical(other.appVersion, appVersion) ||
-                other.appVersion == appVersion));
+                other.appVersion == appVersion) &&
+            (identical(other.backendClient, backendClient) ||
+                other.backendClient == backendClient));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, packageInfo, deviceInfo, sharedPreferences, appVersion);
+  int get hashCode => Object.hash(runtimeType, packageInfo, deviceInfo,
+      sharedPreferences, appVersion, backendClient);
 
   /// Create a copy of AppDependencies
   /// with the given fields replaced by the non-null parameter values.
@@ -206,7 +225,8 @@ abstract class _AppDependencies implements AppDependencies {
       {required final PackageInfo packageInfo,
       required final BaseDeviceInfo deviceInfo,
       required final SharedPreferences sharedPreferences,
-      required final Version appVersion}) = _$AppDependenciesImpl;
+      required final Version appVersion,
+      required final Client backendClient}) = _$AppDependenciesImpl;
 
   @override
   PackageInfo get packageInfo;
@@ -216,6 +236,8 @@ abstract class _AppDependencies implements AppDependencies {
   SharedPreferences get sharedPreferences;
   @override
   Version get appVersion;
+  @override
+  Client get backendClient;
 
   /// Create a copy of AppDependencies
   /// with the given fields replaced by the non-null parameter values.

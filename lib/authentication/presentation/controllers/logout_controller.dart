@@ -1,4 +1,4 @@
-import 'package:flutter_starter_template/repository_providers.dart';
+import 'package:instagram_challenge_manager/repository_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'logout_controller.g.dart';

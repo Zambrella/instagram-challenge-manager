@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_starter_template/app_dependencies.dart';
-import 'package:flutter_starter_template/repository_providers.dart';
+import 'package:instagram_challenge_manager/app_dependencies.dart';
+import 'package:instagram_challenge_manager/repository_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'login_provider.g.dart';

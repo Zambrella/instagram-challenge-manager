@@ -16,7 +16,7 @@ It makes use of other packages defined in this mono-repo.
 
 
 ## Deep Links 🔗
-Just follow [this](https://codewithandrea.com/articles/flutter-deep-links/) awesome guide. 
+Just follow [this](https://codewithandrea.com/articles/flutter-deep-links/) awesome guide.
 
 Template app has been tested and works with deep links.
 
@@ -47,14 +47,14 @@ Comments:
 name: new_app_name
 ```
 
-### Android 
+### Android
 Follow TODOs in the following files
 - `android/app/build.gradle`
 - `android/app/main/AndroidManifest.xml`
 - `android/app/main/kotlin/**` - Update the folder structure to match package name
 - `android/app/main/kotlin/**/MainActivity.kt`
 
-### iOS 
+### iOS
 - `ios/Runner/Info.plist`
 - Runner Bundle Identifier
 
@@ -219,7 +219,7 @@ This project relies on [flutter_localizations][flutter_localizations_link] and f
 3. Use the new string
 
 ```dart
-import 'package:flutter_starter_template/l10n/l10n.dart';
+import 'package:instagram_challenge_manager/l10n/l10n.dart';
 
 @override
 Widget build(BuildContext context) {

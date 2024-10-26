@@ -7,11 +7,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_starter_template/app.dart';
-import 'package:flutter_starter_template/app_dependencies.dart';
-import 'package:flutter_starter_template/flavors.dart';
-import 'package:flutter_starter_template/logging/app_logging/logger_config.dart';
-import 'package:flutter_starter_template/logging/app_logging/provider_logger.dart';
+import 'package:instagram_challenge_manager/app.dart';
+import 'package:instagram_challenge_manager/app_dependencies.dart';
+import 'package:instagram_challenge_manager/flavors.dart';
+import 'package:instagram_challenge_manager/logging/app_logging/logger_config.dart';
+import 'package:instagram_challenge_manager/logging/app_logging/provider_logger.dart';
 // ignore:depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:logger/logger.dart';
@@ -126,7 +126,8 @@ Future<void> setOptimalDisplayMode() async {
       (DisplayMode a, DisplayMode b) => b.refreshRate.compareTo(a.refreshRate),
     );
 
-  final mostOptimalMode = sameResolution.isNotEmpty ? sameResolution.first : active;
+  final mostOptimalMode =
+      sameResolution.isNotEmpty ? sameResolution.first : active;
 
   // This setting is per session.
   await FlutterDisplayMode.setPreferredMode(mostOptimalMode);

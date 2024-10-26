@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_starter_template/authentication/presentation/pages/login_page.dart';
-import 'package:flutter_starter_template/authentication/presentation/pages/register_page.dart';
-import 'package:flutter_starter_template/authentication/providers/authentication_providers.dart';
-import 'package:flutter_starter_template/home/presentation/home_page.dart';
-import 'package:flutter_starter_template/routing/not_found_screen.dart';
+import 'package:instagram_challenge_manager/authentication/presentation/pages/login_page.dart';
+import 'package:instagram_challenge_manager/authentication/presentation/pages/register_page.dart';
+import 'package:instagram_challenge_manager/authentication/providers/authentication_providers.dart';
+import 'package:instagram_challenge_manager/home/presentation/home_page.dart';
+import 'package:instagram_challenge_manager/routing/not_found_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

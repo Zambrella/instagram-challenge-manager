@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_starter_template/bootstrap.dart';
-import 'package:flutter_starter_template/flavors.dart';
+import 'package:instagram_challenge_manager/bootstrap.dart';
+import 'package:instagram_challenge_manager/flavors.dart';
 
 Future<void> main() async {
   await runZonedGuarded(

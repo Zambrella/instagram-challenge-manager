@@ -4,14 +4,16 @@
 
 import 'dart:async';
 
+import 'package:appwrite/appwrite.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:error_logging_core/error_logging_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_starter_template/authentication/providers/authentication_providers.dart';
-import 'package:flutter_starter_template/flavors.dart';
-import 'package:flutter_starter_template/repository_providers.dart';
+import 'package:instagram_challenge_manager/authentication/providers/authentication_providers.dart';
+import 'package:instagram_challenge_manager/common/appwrite_ids.dart';
+import 'package:instagram_challenge_manager/flavors.dart';
+import 'package:instagram_challenge_manager/repository_providers.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logger/logger.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -29,6 +31,7 @@ class AppDependencies with _$AppDependencies {
     required BaseDeviceInfo deviceInfo,
     required SharedPreferences sharedPreferences,
     required Version appVersion,
+    required Client backendClient,
   }) = _AppDependencies;
 }
 
@@ -66,6 +69,17 @@ Future<AppDependencies> appDependencies(
   }
   // Other examples: database connection, sound pool, vibration service, session storage.
 
+  final client = Client()
+      .setEndpoint(
+        'https://cloud.appwrite.io/v1',
+      )
+      .setProject(
+        AppwriteIds.projectId,
+      )
+      .setSelfSigned(
+        status: flavor == Flavor.dev,
+      );
+
   logger.i('Dependency initialization successful.');
 
   return AppDependencies(
@@ -73,6 +87,7 @@ Future<AppDependencies> appDependencies(
     deviceInfo: deviceInfo,
     sharedPreferences: prefs,
     appVersion: appVersion,
+    backendClient: client,
   );
 }
 

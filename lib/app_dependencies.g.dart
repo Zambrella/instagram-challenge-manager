@@ -6,7 +6,7 @@ part of 'app_dependencies.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appDependenciesHash() => r'83be8b2b7653ca71c59c333232b1e353ba1294d9';
+String _$appDependenciesHash() => r'570d246a60f5c2d45e4c82cd5bae4b2955a33555';
 
 /// See also [appDependencies].
 @ProviderFor(appDependencies)

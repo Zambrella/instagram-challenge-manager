@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:error_logging_core/error_logging_core.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_starter_template/flavors.dart';
+import 'package:instagram_challenge_manager/flavors.dart';
 import 'package:logger/logger.dart';
 
 class AppLogFilter extends LogFilter {

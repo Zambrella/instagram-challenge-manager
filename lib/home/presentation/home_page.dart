@@ -1,12 +1,12 @@
 import 'package:data_privacy/data_privacy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_starter_template/authentication/presentation/controllers/logout_controller.dart';
-import 'package:flutter_starter_template/common/common.dart';
-import 'package:flutter_starter_template/repository_providers.dart';
-import 'package:flutter_starter_template/routing/app_router.dart';
-import 'package:flutter_starter_template/theme/selected_theme.dart';
-import 'package:flutter_starter_template/theme/theme_extensions.dart';
+import 'package:instagram_challenge_manager/authentication/presentation/controllers/logout_controller.dart';
+import 'package:instagram_challenge_manager/common/common.dart';
+import 'package:instagram_challenge_manager/repository_providers.dart';
+import 'package:instagram_challenge_manager/routing/app_router.dart';
+import 'package:instagram_challenge_manager/theme/selected_theme.dart';
+import 'package:instagram_challenge_manager/theme/theme_extensions.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 

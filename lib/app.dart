@@ -2,15 +2,15 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_starter_template/app_dependencies.dart';
-import 'package:flutter_starter_template/authentication/providers/authentication_providers.dart';
-import 'package:flutter_starter_template/authentication/providers/login_provider.dart';
-import 'package:flutter_starter_template/l10n/gen_l10n/app_localizations.dart';
-import 'package:flutter_starter_template/routing/app_router.dart';
-import 'package:flutter_starter_template/theme/app_theme.dart';
-import 'package:flutter_starter_template/theme/form_factor.dart';
-import 'package:flutter_starter_template/theme/selected_theme.dart';
-import 'package:flutter_starter_template/theme/text_scale_factor_clamper.dart';
+import 'package:instagram_challenge_manager/app_dependencies.dart';
+import 'package:instagram_challenge_manager/authentication/providers/authentication_providers.dart';
+import 'package:instagram_challenge_manager/authentication/providers/login_provider.dart';
+import 'package:instagram_challenge_manager/l10n/gen_l10n/app_localizations.dart';
+import 'package:instagram_challenge_manager/routing/app_router.dart';
+import 'package:instagram_challenge_manager/theme/app_theme.dart';
+import 'package:instagram_challenge_manager/theme/form_factor.dart';
+import 'package:instagram_challenge_manager/theme/selected_theme.dart';
+import 'package:instagram_challenge_manager/theme/text_scale_factor_clamper.dart';
 import 'package:toastification/toastification.dart';
 
 class App extends ConsumerStatefulWidget {

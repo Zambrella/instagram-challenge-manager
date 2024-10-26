@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:analytics_core/analytics_core.dart';
-import 'package:flutter_starter_template/repository_providers.dart';
+import 'package:instagram_challenge_manager/repository_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'register_controller.g.dart';
@@ -33,5 +33,6 @@ class RegisterController extends _$RegisterController {
 }
 
 class RegisterCustomEvent extends CustomAnalyticsEvent {
-  RegisterCustomEvent({required String email}) : super('register', parameters: {'email': email});
+  RegisterCustomEvent({required String email})
+      : super('register', parameters: {'email': email});
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_starter_template/app_exception.dart';
-import 'package:flutter_starter_template/authentication/presentation/controllers/register_controller.dart';
-import 'package:flutter_starter_template/common/extensions/toastification_extensions.dart';
-import 'package:flutter_starter_template/routing/app_router.dart';
+import 'package:instagram_challenge_manager/app_exception.dart';
+import 'package:instagram_challenge_manager/authentication/presentation/controllers/register_controller.dart';
+import 'package:instagram_challenge_manager/common/extensions/toastification_extensions.dart';
+import 'package:instagram_challenge_manager/routing/app_router.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 
@@ -23,7 +23,8 @@ class RegisterPage extends ConsumerWidget {
       }
 
       if (next is AsyncError) {
-        toastification.showError(context: context, message: next.error.errorMessage(context));
+        toastification.showError(
+            context: context, message: next.error.errorMessage(context));
       }
     });
 

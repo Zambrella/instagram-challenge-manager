@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_starter_template/routing/app_router.dart';
+import 'package:instagram_challenge_manager/routing/app_router.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatelessWidget {
