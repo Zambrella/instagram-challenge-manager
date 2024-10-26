@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:instagram_challenge_manager/authentication/presentation/pages/login_page.dart';
-import 'package:instagram_challenge_manager/authentication/presentation/pages/register_page.dart';
 import 'package:instagram_challenge_manager/authentication/providers/authentication_providers.dart';
 import 'package:instagram_challenge_manager/home/presentation/home_page.dart';
 import 'package:instagram_challenge_manager/routing/not_found_screen.dart';
-import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_router.g.dart';
@@ -16,7 +15,6 @@ final _rootNavigatorKey =
 
 enum AppRoute {
   login,
-  register,
   home,
   details,
 }
@@ -33,14 +31,14 @@ GoRouter goRouter(Ref ref) {
 
       // Redirect to home page if navigating to login pages while logged in
       if (isLoggedIn) {
-        if (path.startsWith('/login') || path.startsWith('/register')) {
-          return '/home';
+        if (path.startsWith('/login')) {
+          return '/';
         }
       }
 
       // Redirect to login page if navigating to protected pages while not logged in
       if (!isLoggedIn) {
-        if (path.startsWith('/login') || path.startsWith('/register')) {
+        if (path.startsWith('/login')) {
           return null;
         } else {
           return '/login';
@@ -62,13 +60,6 @@ GoRouter goRouter(Ref ref) {
         name: AppRoute.login.name,
         pageBuilder: (context, state) => const NoTransitionPage(
           child: LoginPage(),
-        ),
-      ),
-      GoRoute(
-        path: '/register',
-        name: AppRoute.register.name,
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: RegisterPage(),
         ),
       ),
       GoRoute(

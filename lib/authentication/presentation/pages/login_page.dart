@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:instagram_challenge_manager/routing/app_router.dart';
-import 'package:go_router/go_router.dart';
+import 'package:instagram_challenge_manager/instagram/presentation/widgets/instagram_login_widget.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -12,18 +11,7 @@ class LoginPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                context.goNamed(AppRoute.home.name);
-              },
-              child: const Text('Login'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                context.goNamed(AppRoute.register.name);
-              },
-              child: const Text('Register'),
-            ),
+            InstagramLoginWidget(),
           ],
         ),
       ),
