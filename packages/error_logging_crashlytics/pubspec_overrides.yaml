@@ -1,0 +1,4 @@
+# melos_managed_dependency_overrides: error_logging_core
+dependency_overrides:
+  error_logging_core:
+    path: ../error_logging_core

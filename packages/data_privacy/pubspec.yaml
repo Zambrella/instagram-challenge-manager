@@ -1,0 +1,21 @@
+name: data_privacy
+description: Functions and methods for getting user consent
+version: 0.1.0+1
+publish_to: none
+
+environment:
+  sdk: ^3.5.1
+  flutter: ^3.24.0
+
+dependencies:
+  app_tracking_transparency: ^2.0.5
+  flutter:
+    sdk: flutter
+  shared_preferences: ^2.2.3
+  url_launcher: ^6.2.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mocktail: ^1.0.4
+  very_good_analysis: ^6.0.0

@@ -1,0 +1,4 @@
+# melos_managed_dependency_overrides: auth_core
+dependency_overrides:
+  auth_core:
+    path: ../auth_core

@@ -1,0 +1,22 @@
+name: analytics_firebase
+description: Implementation of analytics using firebase analytics
+version: 0.1.0+1
+publish_to: none
+
+environment:
+  sdk: ^3.5.1
+  flutter: ^3.24.0
+
+dependencies:
+  analytics_core:
+    path: ../analytics_core
+  firebase_analytics: ^11.3.0
+  firebase_core: ^3.4.0
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mocktail: ^1.0.4
+  very_good_analysis: ^6.0.0

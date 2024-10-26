@@ -1,0 +1,4 @@
+# melos_managed_dependency_overrides: data_privacy
+dependency_overrides:
+  data_privacy:
+    path: ..

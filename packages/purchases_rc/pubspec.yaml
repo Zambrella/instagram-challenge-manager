@@ -1,0 +1,23 @@
+name: purchases_rc
+description: Revenue Cat implementation of purchases_core
+version: 0.1.0+1
+publish_to: none
+
+environment:
+  sdk: ^3.5.1
+  flutter: ^3.24.0
+
+dependencies:
+  collection: ^1.18.0
+  flutter:
+    sdk: flutter
+  purchases_core:
+    path: ../purchases_core
+  purchases_flutter: ^6.29.2
+  rxdart: ^0.27.7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mocktail: ^1.0.4
+  very_good_analysis: ^6.0.0

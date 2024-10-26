@@ -1,0 +1,23 @@
+name: auth_appwrite
+description: Appwrite implementation of auth_core
+version: 0.1.0+1
+publish_to: none
+
+environment:
+  sdk: "^3.3.0"
+  flutter: "^3.19.0"
+
+dependencies:
+  appwrite: ^13.0.0
+  auth_core:
+    path: ../auth_core
+  flutter:
+    sdk: flutter
+  flutter_secure_storage: ^9.2.2
+  rxdart: ^0.28.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mocktail: ^1.0.3
+  very_good_analysis: ^5.1.0
