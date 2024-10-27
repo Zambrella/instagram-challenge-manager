@@ -21,6 +21,7 @@ Future<dynamic> main(final context) async {
 
   final data = context.req.bodyJson as Map<String, dynamic>;
   final code = data['code'] as String;
+  context.log('Code: $code');
 
   final response = await http.post(
     Uri.parse('https://api.instagram.com/oauth/access_token'),
@@ -33,22 +34,19 @@ Future<dynamic> main(final context) async {
     },
   );
   final responseData = jsonDecode(response.body) as Map<String, dynamic>;
+  context.log('Response: $responseData');
   if (responseData
       case {
-        'data': [
-          {
-            'access_token': final String accessToken,
-            // Instagram App-scoped User ID (this can be used as a the identifier)
-            'user_id': final String instagramUserId,
-            'permissions': final List<dynamic> permissions,
-          },
-        ],
+        'access_token': final String accessToken,
+        // Instagram App-scoped User ID (this can be used as a the identifier)
+        'user_id': final String instagramUserId,
+        'permissions': final List<dynamic> permissions,
       }) {
     context.log('Access token: $accessToken');
     context.log('Instagram User ID: $instagramUserId');
     context.log('Permissions: $permissions');
   } else {
-    context.log('Error: $responseData');
+    context.log('Error: data did not match expected format');
   }
   return context.res.empty();
 }
