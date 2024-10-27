@@ -7,7 +7,7 @@ part of 'instagram_login_controller.dart';
 // **************************************************************************
 
 String _$instagramLoginControllerHash() =>
-    r'489af36281adecee45afe4b990e97cae31bae0cd';
+    r'4fb6d0a8716a2643fa659a3736727e5960e77e28';
 
 /// See also [InstagramLoginController].
 @ProviderFor(InstagramLoginController)
