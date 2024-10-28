@@ -44,7 +44,7 @@ Future<dynamic> main(final context) async {
   late final String instagramUserId;
   if (responseData.containsKey('access_token')) {
     accessToken = responseData['access_token'] as String;
-    instagramUserId = responseData['user_id'] as String;
+    instagramUserId = (responseData['user_id'] as int).toString();
     final permissions = (responseData['permissions'] as List).cast<String>();
     context.log('Access token: $accessToken');
     context.log('Instagram User ID: $instagramUserId');
