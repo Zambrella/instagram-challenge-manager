@@ -7,7 +7,7 @@ part of 'instagram_login_repository_provider.dart';
 // **************************************************************************
 
 String _$instagramLoginRepositoryHash() =>
-    r'8ca952d57e56f2940f2e68c5cc8e3a3635d213c9';
+    r'4f5d67497016c01d54edb47f515a656485fad59c';
 
 /// See also [instagramLoginRepository].
 @ProviderFor(instagramLoginRepository)
