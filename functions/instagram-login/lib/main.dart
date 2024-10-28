@@ -86,18 +86,43 @@ Future<dynamic> main(final context) async {
   );
   context.log('Long lived token fetched: ${longLivedToken.token}');
 
-  context.log('Saving token to database');
-  await db.createDocument(
+  final docList = await db.listDocuments(
     databaseId: Platform.environment['APPWRITE_DATABASE_ID']!,
     collectionId: Platform.environment['APPWRITE_COLLECTION_ID']!,
-    documentId: ID.unique(),
-    data: longLivedToken.toJson(),
-    permissions: [
-      Permission.read(Role.user(user.$id)),
-      Permission.delete(Role.user(user.$id)),
+    queries: [
+      Query.equal('userId', user.$id),
     ],
   );
-  context.log('Token saved to database');
+
+  context.log('Found ${docList.total} documents in database');
+  // If there are 0 documents, this must be a new user
+  if (docList.total == 0) {
+    context.log('Saving token to database');
+    await db.createDocument(
+      databaseId: Platform.environment['APPWRITE_DATABASE_ID']!,
+      collectionId: Platform.environment['APPWRITE_COLLECTION_ID']!,
+      documentId: ID.unique(),
+      data: longLivedToken.toJson(),
+      permissions: [
+        Permission.read(Role.user(user.$id)),
+        Permission.delete(Role.user(user.$id)),
+      ],
+    );
+    context.log('Token saved to database');
+  } else {
+    assert(
+      docList.total == 1,
+      'There should only be 1 document as every userId is unique',
+    );
+    context.log('Updating token in database');
+    await db.updateDocument(
+      databaseId: Platform.environment['APPWRITE_DATABASE_ID']!,
+      collectionId: Platform.environment['APPWRITE_COLLECTION_ID']!,
+      documentId: docList.documents.first.$id,
+      data: longLivedToken.toJson(),
+    );
+    context.log('Token updated in database');
+  }
 
   // TODO: Get some user info from Instagram? Avatar?
 
