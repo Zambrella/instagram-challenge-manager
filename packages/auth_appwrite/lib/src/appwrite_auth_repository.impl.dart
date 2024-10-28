@@ -206,6 +206,34 @@ class AppwriteAuthRepository implements AuthRepository {
     // TODO: implement updatePassword
     throw UnimplementedError();
   }
+
+  /// Creates a new session for the user with the given [userId] and [secret].
+  Future<AppUser> createSession({
+    required String userId,
+    required String secret,
+  }) async {
+    final session = await _account.createSession(
+      userId: userId,
+      secret: secret,
+    );
+    await _secureStorage.write(key: _sessionKey, value: session.$id);
+    log(
+      'Session created and saved',
+      name: 'AppwriteAuthRepository',
+    );
+    final user = await _account.get();
+    log(
+      'Logged in user: ${user.email}',
+      name: 'AppwriteAuthRepository',
+    );
+    final appUser = user.toAppUser();
+    log(
+      'Adding user to controller',
+      name: 'AppwriteAuthRepository',
+    );
+    _userController.add(appUser);
+    return appUser;
+  }
 }
 
 extension on User {

@@ -84,6 +84,22 @@ final appwriteStorageClientProvider = Provider<Storage>.internal(
 );
 
 typedef AppwriteStorageClientRef = ProviderRef<Storage>;
+String _$appwriteFunctionsClientHash() =>
+    r'fa50cbc860cca96d01ad3dfd0ad67ce4f931ff47';
+
+/// See also [appwriteFunctionsClient].
+@ProviderFor(appwriteFunctionsClient)
+final appwriteFunctionsClientProvider = Provider<Functions>.internal(
+  appwriteFunctionsClient,
+  name: r'appwriteFunctionsClientProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$appwriteFunctionsClientHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef AppwriteFunctionsClientRef = ProviderRef<Functions>;
 String _$authRepositoryHash() => r'8e7a24fccab478af87910ae960ec3b207dadc3a2';
 
 /// See also [authRepository].

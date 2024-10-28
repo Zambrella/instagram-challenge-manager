@@ -42,6 +42,11 @@ Storage appwriteStorageClient(Ref ref) {
 }
 
 @Riverpod(keepAlive: true)
+Functions appwriteFunctionsClient(Ref ref) {
+  return Functions(ref.watch(appwriteClientProvider));
+}
+
+@Riverpod(keepAlive: true)
 AppwriteAuthRepository authRepository(Ref ref) {
   return AppwriteAuthRepository(
     ref.watch(appwriteAccountClientProvider),

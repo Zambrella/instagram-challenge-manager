@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:auth_appwrite/auth_appwrite.dart';
 import 'package:auth_core/auth_core.dart';
 import 'package:instagram_challenge_manager/instagram/domain/instagram_login_exceptions.dart';
 import 'package:instagram_challenge_manager/instagram/domain/instagram_login_service.abs.dart';
@@ -11,14 +12,18 @@ class InstagramLoginServiceImpl implements InstagramLoginService {
     this._instagramLoginRepository,
   );
 
-  final AuthRepository _authRepository;
+  final AppwriteAuthRepository _authRepository;
   final InstagramLoginRepository _instagramLoginRepository;
 
   @override
-  Future<void> loginWithUrlCode(String url) async {
+  Future<AppUser> loginWithUrlCode(String url) async {
     final code = _parseCode(url);
-    await _instagramLoginRepository.loginWithCode(code);
-    // await _authRepository.createSession();
+    final (token, userId) = await _instagramLoginRepository.loginWithCode(code);
+    final user = await _authRepository.createSession(
+      userId: userId,
+      secret: token,
+    );
+    return user;
   }
 
   /// Given a valid [url] with the code query parameter,
