@@ -102,7 +102,7 @@ Future<dynamic> main(final context) async {
   // TODO: Get some user info from Instagram? Avatar?
 
   return context.res.json({
-    'token': token,
+    'token': token.secret,
     'userId': user.$id,
   });
 }
