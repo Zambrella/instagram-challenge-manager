@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:instagram_challenge_manager/app_exception.dart';
 import 'package:instagram_challenge_manager/common/common.dart';
 import 'package:instagram_challenge_manager/instagram/domain/instagram_info.dart';
 import 'package:instagram_challenge_manager/instagram/presentation/controllers/instagram_login_controller.dart';
+import 'package:instagram_challenge_manager/routing/app_router.dart';
 import 'package:toastification/toastification.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
@@ -59,9 +61,16 @@ class _InstagramLoginWidgetState extends ConsumerState<InstagramLoginWidget> {
     ref.listen(
       instagramLoginControllerProvider,
       (prev, state) {
+        // On success
         if (prev != null && prev is AsyncLoading && state is AsyncData) {
           // Pop the wolt modal.
           Navigator.of(context).pop();
+          // Navigate to home page with delay so that the auth changes have time to propagate.
+          Future.delayed(const Duration(milliseconds: 500), () {
+            if (context.mounted) {
+              context.pushReplacementNamed(AppRoute.home.name);
+            }
+          });
         }
         if (state is AsyncError) {
           Navigator.of(context).pop();
