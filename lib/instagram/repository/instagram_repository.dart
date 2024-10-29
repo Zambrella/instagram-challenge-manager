@@ -4,8 +4,8 @@ import 'dart:developer';
 import 'package:appwrite/appwrite.dart';
 import 'package:instagram_challenge_manager/common/appwrite_ids.dart';
 
-class InstagramLoginRepository {
-  const InstagramLoginRepository(this._functions);
+class InstagramRepository {
+  const InstagramRepository(this._functions);
 
   final Functions _functions;
 

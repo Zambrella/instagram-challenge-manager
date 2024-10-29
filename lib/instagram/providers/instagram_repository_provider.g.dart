@@ -1,27 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'instagram_login_repository_provider.dart';
+part of 'instagram_repository_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$instagramLoginRepositoryHash() =>
-    r'4f5d67497016c01d54edb47f515a656485fad59c';
+String _$instagramRepositoryHash() =>
+    r'09c7d782cf76f4f1594418739583f5fff91e9747';
 
-/// See also [instagramLoginRepository].
-@ProviderFor(instagramLoginRepository)
-final instagramLoginRepositoryProvider =
-    Provider<InstagramLoginRepository>.internal(
-  instagramLoginRepository,
-  name: r'instagramLoginRepositoryProvider',
+/// See also [instagramRepository].
+@ProviderFor(instagramRepository)
+final instagramRepositoryProvider = Provider<InstagramRepository>.internal(
+  instagramRepository,
+  name: r'instagramRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$instagramLoginRepositoryHash,
+      : _$instagramRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef InstagramLoginRepositoryRef = ProviderRef<InstagramLoginRepository>;
+typedef InstagramRepositoryRef = ProviderRef<InstagramRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

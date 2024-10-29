@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:instagram_challenge_manager/app_dependencies.dart';
 import 'package:instagram_challenge_manager/instagram/domain/instagram_login_exceptions.dart';
-import 'package:instagram_challenge_manager/instagram/providers/instagram_login_service_provider.dart';
+import 'package:instagram_challenge_manager/instagram/providers/instagram_service_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'instagram_login_controller.g.dart';
@@ -16,8 +16,7 @@ class InstagramLoginController extends _$InstagramLoginController {
   Future<void> validateCodeAndLogin(String url) async {
     state = const AsyncLoading();
     try {
-      final _ =
-          await ref.watch(instagramLoginServiceProvider).loginWithUrlCode(url);
+      final _ = await ref.watch(instagramServiceProvider).loginWithUrlCode(url);
       state = const AsyncData(null);
     } on InstagramLoginCancelledException catch (_) {
       state = const AsyncData(null);

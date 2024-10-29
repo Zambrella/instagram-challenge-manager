@@ -3,17 +3,17 @@ import 'dart:developer';
 import 'package:auth_appwrite/auth_appwrite.dart';
 import 'package:auth_core/auth_core.dart';
 import 'package:instagram_challenge_manager/instagram/domain/instagram_login_exceptions.dart';
-import 'package:instagram_challenge_manager/instagram/domain/instagram_login_service.abs.dart';
-import 'package:instagram_challenge_manager/instagram/repository/instagram_login_repository.dart';
+import 'package:instagram_challenge_manager/instagram/domain/instagram_service.abs.dart';
+import 'package:instagram_challenge_manager/instagram/repository/instagram_repository.dart';
 
-class InstagramLoginServiceImpl implements InstagramLoginService {
-  const InstagramLoginServiceImpl(
+class InstagramServiceImpl implements InstagramService {
+  const InstagramServiceImpl(
     this._authRepository,
     this._instagramLoginRepository,
   );
 
   final AppwriteAuthRepository _authRepository;
-  final InstagramLoginRepository _instagramLoginRepository;
+  final InstagramRepository _instagramLoginRepository;
 
   @override
   Future<AppUser> loginWithUrlCode(String url) async {
