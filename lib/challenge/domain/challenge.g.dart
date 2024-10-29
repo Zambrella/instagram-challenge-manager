@@ -25,6 +25,12 @@ abstract class _$ChallengeCWProxy {
 
   Challenge prizes(List<Prize>? prizes);
 
+  Challenge validEntryIds(List<String> validEntryIds);
+
+  Challenge invalidEntryIds(List<String> invalidEntryIds);
+
+  Challenge winners(Map<String, String?> winners);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `Challenge(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -41,6 +47,9 @@ abstract class _$ChallengeCWProxy {
     DateTime? startDate,
     DateTime? endDate,
     List<Prize>? prizes,
+    List<String>? validEntryIds,
+    List<String>? invalidEntryIds,
+    Map<String, String?>? winners,
   });
 }
 
@@ -80,6 +89,17 @@ class _$ChallengeCWProxyImpl implements _$ChallengeCWProxy {
   Challenge prizes(List<Prize>? prizes) => this(prizes: prizes);
 
   @override
+  Challenge validEntryIds(List<String> validEntryIds) =>
+      this(validEntryIds: validEntryIds);
+
+  @override
+  Challenge invalidEntryIds(List<String> invalidEntryIds) =>
+      this(invalidEntryIds: invalidEntryIds);
+
+  @override
+  Challenge winners(Map<String, String?> winners) => this(winners: winners);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `Challenge(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -97,6 +117,9 @@ class _$ChallengeCWProxyImpl implements _$ChallengeCWProxy {
     Object? startDate = const $CopyWithPlaceholder(),
     Object? endDate = const $CopyWithPlaceholder(),
     Object? prizes = const $CopyWithPlaceholder(),
+    Object? validEntryIds = const $CopyWithPlaceholder(),
+    Object? invalidEntryIds = const $CopyWithPlaceholder(),
+    Object? winners = const $CopyWithPlaceholder(),
   }) {
     return Challenge(
       title: title == const $CopyWithPlaceholder() || title == null
@@ -139,6 +162,20 @@ class _$ChallengeCWProxyImpl implements _$ChallengeCWProxy {
           ? _value.prizes
           // ignore: cast_nullable_to_non_nullable
           : prizes as List<Prize>?,
+      validEntryIds:
+          validEntryIds == const $CopyWithPlaceholder() || validEntryIds == null
+              ? _value.validEntryIds
+              // ignore: cast_nullable_to_non_nullable
+              : validEntryIds as List<String>,
+      invalidEntryIds: invalidEntryIds == const $CopyWithPlaceholder() ||
+              invalidEntryIds == null
+          ? _value.invalidEntryIds
+          // ignore: cast_nullable_to_non_nullable
+          : invalidEntryIds as List<String>,
+      winners: winners == const $CopyWithPlaceholder() || winners == null
+          ? _value.winners
+          // ignore: cast_nullable_to_non_nullable
+          : winners as Map<String, String?>,
     );
   }
 }

@@ -7,6 +7,8 @@ part of 'prize.dart';
 // **************************************************************************
 
 abstract class _$PrizeCWProxy {
+  Prize id(String id);
+
   Prize name(String name);
 
   Prize quantity(double quantity);
@@ -20,6 +22,7 @@ abstract class _$PrizeCWProxy {
   /// Prize(...).copyWith(id: 12, name: "My name")
   /// ````
   Prize call({
+    String? id,
     String? name,
     double? quantity,
     String? sponsor,
@@ -31,6 +34,9 @@ class _$PrizeCWProxyImpl implements _$PrizeCWProxy {
   const _$PrizeCWProxyImpl(this._value);
 
   final Prize _value;
+
+  @override
+  Prize id(String id) => this(id: id);
 
   @override
   Prize name(String name) => this(name: name);
@@ -50,11 +56,16 @@ class _$PrizeCWProxyImpl implements _$PrizeCWProxy {
   /// Prize(...).copyWith(id: 12, name: "My name")
   /// ````
   Prize call({
+    Object? id = const $CopyWithPlaceholder(),
     Object? name = const $CopyWithPlaceholder(),
     Object? quantity = const $CopyWithPlaceholder(),
     Object? sponsor = const $CopyWithPlaceholder(),
   }) {
     return Prize(
+      id: id == const $CopyWithPlaceholder() || id == null
+          ? _value.id
+          // ignore: cast_nullable_to_non_nullable
+          : id as String,
       name: name == const $CopyWithPlaceholder() || name == null
           ? _value.name
           // ignore: cast_nullable_to_non_nullable

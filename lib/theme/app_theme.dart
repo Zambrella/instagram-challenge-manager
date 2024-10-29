@@ -12,7 +12,7 @@ class AppTheme {
   AppTheme._();
 
   static final ThemeData _lightFlexThemeData = FlexThemeData.light(
-    scheme: FlexScheme.hippieBlue,
+    scheme: FlexScheme.tealM3,
     surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
     blendLevel: 7,
     subThemesData: const FlexSubThemesData(
@@ -20,6 +20,7 @@ class AppTheme {
       blendOnColors: false,
       useTextTheme: true,
       useM2StyleDividerInM3: true,
+      defaultRadius: 10,
       alignedDropdown: true,
       useInputDecoratorThemeInDialogs: true,
     ),
@@ -30,13 +31,14 @@ class AppTheme {
   );
 
   static final ThemeData _darkFlexThemeData = FlexThemeData.dark(
-    scheme: FlexScheme.hippieBlue,
+    scheme: FlexScheme.tealM3,
     surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
     blendLevel: 13,
     subThemesData: const FlexSubThemesData(
       blendOnLevel: 20,
       useTextTheme: true,
       useM2StyleDividerInM3: true,
+      defaultRadius: 10,
       alignedDropdown: true,
       useInputDecoratorThemeInDialogs: true,
     ),

@@ -1,14 +1,16 @@
-import 'package:data_privacy/data_privacy.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:go_router/go_router.dart';
+import 'package:instagram_challenge_manager/app_exception.dart';
 import 'package:instagram_challenge_manager/authentication/presentation/controllers/logout_controller.dart';
 import 'package:instagram_challenge_manager/common/common.dart';
-import 'package:instagram_challenge_manager/repository_providers.dart';
 import 'package:instagram_challenge_manager/routing/app_router.dart';
-import 'package:instagram_challenge_manager/theme/selected_theme.dart';
-import 'package:instagram_challenge_manager/theme/theme_extensions.dart';
-import 'package:go_router/go_router.dart';
+import 'package:instagram_challenge_manager/theme/theme.dart';
+import 'package:intl/intl.dart';
 import 'package:toastification/toastification.dart';
+import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -18,6 +20,8 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
+  final formKey = GlobalKey<FormBuilderState>();
+
   @override
   void initState() {
     super.initState();
@@ -27,8 +31,14 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
     ref.listen(logoutControllerProvider, (prev, next) {
       if (next is AsyncData) {
-        // print('User logged out');
-        // context.goNamed(AppRoute.login.name);
+        GoRouter.of(context).clearStackAndNavigate('/login');
+      }
+
+      if (next is AsyncError) {
+        toastification.showError(
+          context: context,
+          message: next.error.errorMessage(context),
+        );
       }
 
       if (next is AsyncLoading) {
@@ -36,82 +46,345 @@ class _HomePageState extends ConsumerState<HomePage> {
       }
     });
 
+    final theme = ref.watch(selectedThemeProvider).valueOrNull;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home Page'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () async {
-                await ref.read(logoutControllerProvider.notifier).logout();
-              },
-              child: const Text('Logout'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                final settings = await showConsentExplainer(
-                  context,
-                  ConsentExplainerConfig(
-                    privacyPolicyUrl: Uri.parse('https://google.com'),
-                    title: 'Your Privacy Matters',
-                    content: const Text('Please accept it helps us both'),
-                    acceptButtonText: 'Agree',
-                    declineButtonText: 'Decline',
-                    continueButtonText: 'Continue',
-                  ),
-                );
-                if (settings != null) {
-                  await ref
-                      .read(dataPrivacyRepositoryProvider)
-                      .savePrivacySettings(settings);
-                }
-              },
-              child: const Text('Enable tracking'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                context.goNamed(AppRoute.details.name);
-              },
-              child: const Text('Details Page'),
-            ),
-            ElevatedButton(
+        centerTitle: true,
+        title: const Text('Challenges'),
+        leading: Padding(
+          padding: EdgeInsets.all(context.theme.appSpacing.small),
+          child: CircleAvatar(),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: 'Logout',
+            onPressed: () {
+              ref.read(logoutControllerProvider.notifier).logout();
+            },
+          ),
+          if (theme != null)
+            IconButton(
+              icon: Icon(
+                switch (theme) {
+                  ThemeMode.system => Icons.brightness_auto,
+                  ThemeMode.light => Icons.brightness_high,
+                  ThemeMode.dark => Icons.brightness_3,
+                },
+              ),
+              tooltip: 'Toggle theme',
               onPressed: () {
                 ref.read(selectedThemeProvider.notifier).setThemeMode(
-                      ref.read(selectedThemeProvider).requireValue ==
-                              ThemeMode.dark
-                          ? ThemeMode.light
-                          : ThemeMode.dark,
+                      switch (theme) {
+                        ThemeMode.system => ThemeMode.light,
+                        ThemeMode.light => ThemeMode.dark,
+                        ThemeMode.dark => ThemeMode.system,
+                      },
                     );
               },
-              child: const Text('Switch theme'),
             ),
-            Padding(
-              padding: EdgeInsets.all(context.theme.appSpacing.medium),
-              child: const TextField(
-                decoration: InputDecoration(
-                  hintText: 'This is a text field',
+        ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () async {
+          await WoltModalSheet.show<void>(
+            context: context,
+            pageListBuilder: (bottomSheetContext) {
+              return [
+                SliverWoltModalSheetPage(
+                  id: 'create_challenge',
+                  pageTitle: Padding(
+                    padding: EdgeInsets.all(context.theme.appSpacing.medium),
+                    child: Text(
+                      'Create a Challenge',
+                      style: context.theme.textTheme.titleLarge,
+                    ),
+                  ),
+                  topBarTitle: Text(
+                    'Create a Challenge',
+                    style: context.theme.textTheme.titleMedium,
+                  ),
+                  trailingNavBarWidget: IconButton(
+                    icon: const Icon(Icons.close),
+                    tooltip: 'Close',
+                    onPressed: () {
+                      Navigator.of(bottomSheetContext).pop();
+                    },
+                  ),
+                  stickyActionBar: Padding(
+                    padding: EdgeInsets.all(context.theme.appSpacing.medium),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: FilledButton(
+                        onPressed: () {
+                          formKey.currentState?.saveAndValidate();
+                          debugPrint(formKey.currentState?.value.toString());
+                        },
+                        child: const Text('Create'),
+                      ),
+                    ),
+                  ),
+                  mainContentSliversBuilder: (context) => [
+                    SliverPadding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: context.theme.appSpacing.medium,
+                      ),
+                      sliver: NewChallengeForm(
+                        bottomSheetContext: bottomSheetContext,
+                        formKey: formKey,
+                      ),
+                    ),
+                  ],
                 ),
+                SliverWoltModalSheetPage(
+                  id: 'select_post',
+                  pageTitle: Padding(
+                    padding: EdgeInsets.all(context.theme.appSpacing.medium),
+                    child: Text(
+                      'Select a Post',
+                      style: context.theme.textTheme.titleLarge,
+                    ),
+                  ),
+                  topBarTitle: Text(
+                    'Select a Post',
+                    style: context.theme.textTheme.titleMedium,
+                  ),
+                  leadingNavBarWidget: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    tooltip: 'Back',
+                    onPressed: () {
+                      WoltModalSheet.of(bottomSheetContext).showPrevious();
+                    },
+                  ),
+                  trailingNavBarWidget: IconButton(
+                    icon: const Icon(Icons.close),
+                    tooltip: 'Close',
+                    onPressed: () {
+                      Navigator.of(bottomSheetContext).pop();
+                    },
+                  ),
+                  mainContentSliversBuilder: (context) => [
+                    SliverPadding(
+                      padding: EdgeInsets.all(context.theme.appSpacing.medium),
+                      sliver: SliverList.list(
+                        children: [
+                          Text(
+                            'Select a post',
+                            style: context.theme.textTheme.titleMedium,
+                          ),
+                          SizedBox(height: context.theme.appSpacing.medium),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ];
+            },
+          );
+        },
+        icon: const Icon(Icons.add),
+        label: const Text('Create a challenge'),
+      ),
+      body: Container(),
+    );
+  }
+}
+
+class NewChallengeForm extends ConsumerStatefulWidget {
+  const NewChallengeForm({
+    required this.bottomSheetContext,
+    required this.formKey,
+    super.key,
+  });
+
+  final BuildContext bottomSheetContext;
+  final GlobalKey<FormBuilderState> formKey;
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _NewChallengeFormState();
+}
+
+class _NewChallengeFormState extends ConsumerState<NewChallengeForm> {
+  // Work-around to https://github.com/woltapp/wolt_modal_sheet/issues/112
+  bool isOffstageFromDelayedCheck = true;
+
+  @override
+  void initState() {
+    super.initState();
+    checkVisibilityInitially();
+  }
+
+  void checkVisibilityInitially() {
+    Future.delayed(const Duration(milliseconds: 50), () {
+      if (!mounted) return;
+
+      setState(() {
+        isOffstageFromDelayedCheck =
+            context.findAncestorWidgetOfExactType<Offstage>()?.offstage ??
+                false;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isOffstageFromBuildCheck =
+        context.findAncestorWidgetOfExactType<Offstage>()?.offstage ?? true;
+    final isOffstage = isOffstageFromDelayedCheck && isOffstageFromBuildCheck;
+    return FormBuilder(
+      key: isOffstage ? null : widget.formKey,
+      child: SliverList.list(
+        children: [
+          // TODO: Create a provider to hold the selected post id.
+          ElevatedButton(
+            onPressed: () {
+              // Navigate to next page where the user can select a post
+              WoltModalSheet.of(widget.bottomSheetContext).showNext();
+            },
+            child: Text('Select post'),
+          ),
+          SizedBox(height: context.theme.appSpacing.medium),
+          FormBuilderTextField(
+            name: 'title',
+            decoration: const InputDecoration(
+              labelText: 'Title',
+              hintText: 'Enter the title of the challenge',
+            ),
+            validator: FormBuilderValidators.compose(
+              [
+                FormBuilderValidators.required(),
+                FormBuilderValidators.minLength(3),
+                FormBuilderValidators.maxLength(128),
+              ],
+            ),
+          ),
+          SizedBox(height: context.theme.appSpacing.medium),
+          FormBuilderTextField(
+            name: 'description',
+            maxLines: null,
+            decoration: const InputDecoration(
+              labelText: 'Description',
+              hintText: 'Enter the description of the challenge',
+            ),
+            validator: FormBuilderValidators.compose(
+              [
+                FormBuilderValidators.required(),
+              ],
+            ),
+          ),
+          SizedBox(height: context.theme.appSpacing.medium),
+          const Divider(),
+          SizedBox(height: context.theme.appSpacing.medium),
+          FormBuilderDropdown<bool>(
+            name: 'hashtagsRequired',
+            decoration: const InputDecoration(
+              labelText: 'Hashtags Required',
+              hintText: '',
+            ),
+            validator: FormBuilderValidators.compose(
+              [
+                FormBuilderValidators.required(),
+              ],
+            ),
+            items: const [
+              DropdownMenuItem(
+                value: true,
+                child: Text('Yes'),
               ),
+              DropdownMenuItem(
+                value: false,
+                child: Text('No'),
+              ),
+            ],
+          ),
+          SizedBox(height: context.theme.appSpacing.medium),
+          FormBuilderTextField(
+            name: 'hashtags',
+            decoration: const InputDecoration(
+              labelText: 'Hashtags',
+              hintText: 'Enter the hashtags separated by commas',
             ),
-            TextButton(
-              onPressed: () {
-                toastification.showError(
-                  context: context,
-                  message: 'This is an error message',
-                );
-              },
-              child: const Text('Text Button'),
+            validator: FormBuilderValidators.compose(
+              [
+                FormBuilderValidators.required(),
+              ],
             ),
-            Switch(
-              value: true,
-              onChanged: (_) {},
+          ),
+          SizedBox(height: context.theme.appSpacing.medium),
+          const Divider(),
+          SizedBox(height: context.theme.appSpacing.medium),
+          FormBuilderDropdown<bool>(
+            name: 'accountsRequired',
+            decoration: const InputDecoration(
+              labelText: 'Accounts Required',
+              hintText: '',
             ),
-            const Text('This is some random text'),
-          ],
-        ),
+            validator: FormBuilderValidators.compose(
+              [
+                FormBuilderValidators.required(),
+              ],
+            ),
+            items: const [
+              DropdownMenuItem(
+                value: true,
+                child: Text('Yes'),
+              ),
+              DropdownMenuItem(
+                value: false,
+                child: Text('No'),
+              ),
+            ],
+          ),
+          SizedBox(height: context.theme.appSpacing.medium),
+          FormBuilderTextField(
+            name: 'accounts',
+            decoration: const InputDecoration(
+              labelText: 'Hosts',
+              hintText: '',
+            ),
+            validator: FormBuilderValidators.compose(
+              [
+                FormBuilderValidators.required(),
+              ],
+            ),
+          ),
+          SizedBox(height: context.theme.appSpacing.medium),
+          const Divider(),
+          SizedBox(height: context.theme.appSpacing.medium),
+          FormBuilderDateTimePicker(
+            inputType: InputType.date,
+            name: 'endDate',
+            format: DateFormat.yMMMd(),
+            decoration: const InputDecoration(
+              labelText: 'Close Date',
+              hintText: '',
+            ),
+            validator: FormBuilderValidators.compose(
+              [
+                FormBuilderValidators.required(),
+              ],
+            ),
+          ),
+          SizedBox(height: context.theme.appSpacing.medium),
+          const Divider(),
+          SizedBox(height: context.theme.appSpacing.medium),
+          // TODO: Navigate to prizes page where new ones can be created.
+          FormBuilderTextField(
+            name: 'prizes',
+            decoration: const InputDecoration(
+              labelText: 'Prizes',
+              hintText: '',
+            ),
+            validator: FormBuilderValidators.compose(
+              [
+                FormBuilderValidators.required(),
+              ],
+            ),
+          ),
+          SizedBox(height: 100),
+        ],
       ),
     );
   }
