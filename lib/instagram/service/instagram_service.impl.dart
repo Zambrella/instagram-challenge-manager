@@ -3,22 +3,24 @@ import 'dart:developer';
 import 'package:auth_appwrite/auth_appwrite.dart';
 import 'package:auth_core/auth_core.dart';
 import 'package:instagram_challenge_manager/instagram/domain/instagram_login_exceptions.dart';
+import 'package:instagram_challenge_manager/instagram/domain/instagram_post.dart';
 import 'package:instagram_challenge_manager/instagram/domain/instagram_service.abs.dart';
 import 'package:instagram_challenge_manager/instagram/repository/instagram_repository.dart';
+import 'package:instagram_challenge_manager/instagram/utils/instagram_post_extension.dart';
 
 class InstagramServiceImpl implements InstagramService {
   const InstagramServiceImpl(
     this._authRepository,
-    this._instagramLoginRepository,
+    this._instagramRepository,
   );
 
   final AppwriteAuthRepository _authRepository;
-  final InstagramRepository _instagramLoginRepository;
+  final InstagramRepository _instagramRepository;
 
   @override
   Future<AppUser> loginWithUrlCode(String url) async {
     final code = _parseCode(url);
-    final (token, userId) = await _instagramLoginRepository.loginWithCode(code);
+    final (token, userId) = await _instagramRepository.loginWithCode(code);
     final user = await _authRepository.createSession(
       userId: userId,
       secret: token,
@@ -82,5 +84,22 @@ class InstagramServiceImpl implements InstagramService {
     } catch (e) {
       rethrow;
     }
+  }
+
+  @override
+  Future<InstagramPost> getPost(String postId) {
+    // TODO: implement getPost
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<InstagramPost>> getUserPosts() async {
+    final instagramPostDtos = await _instagramRepository.getUserPosts();
+    final instagramPosts = instagramPostDtos
+        .map(
+          (dto) => dto.toDomain(),
+        )
+        .toList();
+    return instagramPosts;
   }
 }

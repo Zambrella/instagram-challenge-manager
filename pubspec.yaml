@@ -37,6 +37,8 @@ dependencies:
   freezed: ^2.5.7
   freezed_annotation: ^2.4.4
   go_router: ^14.1.0
+  instagram_models:
+    path: ./instagram_models
   intl: any
   json_annotation: ^4.9.0
   logger: ^2.3.0
