@@ -9,7 +9,9 @@ dependencies:
   dart_appwrite: ^12.1.0
   http: ^1.0.0
   instagram_models:
-    path: ../../instagram_models
+    git:
+      url: https://github.com/Zambrella/instagram-challenge-manager.git
+      path: instagram_models
 
 dev_dependencies:
   lints: ^4.0.0
