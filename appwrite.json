@@ -1,0 +1,164 @@
+{
+    "projectId": "671d33330004e06d2fa9",
+    "projectName": "instagram-challenge-manager",
+    "settings": {
+        "services": {
+            "account": true,
+            "avatars": true,
+            "databases": true,
+            "locale": true,
+            "health": true,
+            "storage": true,
+            "teams": true,
+            "users": true,
+            "functions": true,
+            "graphql": true,
+            "messaging": true
+        },
+        "auth": {
+            "methods": {
+                "jwt": true,
+                "phone": true,
+                "invites": true,
+                "anonymous": true,
+                "email-otp": true,
+                "magic-url": true,
+                "email-password": true
+            },
+            "security": {
+                "duration": 31536000,
+                "limit": 0,
+                "sessionsLimit": 10,
+                "passwordHistory": 0,
+                "passwordDictionary": false,
+                "personalDataCheck": false,
+                "sessionAlerts": false,
+                "mockNumbers": []
+            }
+        }
+    },
+    "functions": [
+        {
+            "$id": "671e96a400351c09118d",
+            "execute": [
+                "any"
+            ],
+            "name": "instagramLogin",
+            "enabled": true,
+            "logging": true,
+            "runtime": "dart-3.1",
+            "scopes": [
+                "users.read",
+                "users.write",
+                "collections.read",
+                "collections.write",
+                "attributes.read",
+                "attributes.write",
+                "indexes.read",
+                "indexes.write",
+                "documents.read",
+                "documents.write",
+                "files.read",
+                "files.write",
+                "buckets.read",
+                "buckets.write",
+                "avatars.read"
+            ],
+            "events": [],
+            "schedule": "",
+            "timeout": 15,
+            "entrypoint": "lib/main.dart",
+            "commands": "dart pub get",
+            "path": "functions/instagramLogin"
+        },
+        {
+            "$id": "6722610a003785b24e4e",
+            "execute": [
+                "users"
+            ],
+            "name": "User Instagram Posts",
+            "enabled": true,
+            "logging": true,
+            "runtime": "dart-3.1",
+            "scopes": [
+                "collections.read",
+                "collections.write",
+                "documents.read",
+                "documents.write"
+            ],
+            "events": [],
+            "schedule": "",
+            "timeout": 15,
+            "entrypoint": "lib/main.dart",
+            "commands": "dart pub get",
+            "path": "functions/User Instagram Posts"
+        }
+    ],
+    "databases": [
+        {
+            "$id": "671d3af40026158112ee",
+            "name": "main",
+            "enabled": true
+        }
+    ],
+    "collections": [
+        {
+            "$id": "671f55a100251a9b2b64",
+            "$permissions": [],
+            "databaseId": "671d3af40026158112ee",
+            "name": "instagram_access_token",
+            "enabled": true,
+            "documentSecurity": true,
+            "attributes": [
+                {
+                    "key": "token",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 1024,
+                    "default": null
+                },
+                {
+                    "key": "userId",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 128,
+                    "default": null
+                },
+                {
+                    "key": "expiresAt",
+                    "type": "datetime",
+                    "required": true,
+                    "array": false,
+                    "format": "",
+                    "default": null
+                }
+            ],
+            "indexes": [
+                {
+                    "key": "user_id_index",
+                    "type": "unique",
+                    "status": "available",
+                    "attributes": [
+                        "userId"
+                    ],
+                    "orders": [
+                        "ASC"
+                    ]
+                },
+                {
+                    "key": "expires_at_index",
+                    "type": "key",
+                    "status": "available",
+                    "attributes": [
+                        "expiresAt"
+                    ],
+                    "orders": [
+                        "ASC"
+                    ]
+                }
+            ]
+        }
+    ]
+}
