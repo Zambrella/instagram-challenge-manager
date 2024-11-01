@@ -73,7 +73,7 @@ class InstagramRepository {
       'Data: $data',
       name: 'InstagramLoginRepository',
     );
-    final posts = (data['data'] as List)
+    final posts = (data['posts'] as List)
         .map((e) => InstagramPostDto.fromJson(e as Map<String, dynamic>))
         .toList();
     return posts;

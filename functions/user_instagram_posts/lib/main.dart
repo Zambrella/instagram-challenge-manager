@@ -23,7 +23,8 @@ Future<dynamic> main(final context) async {
   final db = Databases(client);
 
   // Get user id
-  final userId = Platform.environment['x-appwrite-user-id'];
+  final userId = context.req.headers['x-appwrite-user-id']!;
+  context.log('Executing function as user $userId');
 
   // Get their access token
   final documentList = await db.listDocuments(
@@ -38,21 +39,24 @@ Future<dynamic> main(final context) async {
         .text("Error: User not found. Please sign in to continue.");
   }
   final accessToken = documentList.documents[0].data['token'];
+  context.log('Successfully fetched access token');
 
   // Call endpoint
-  final clientId = Platform.environment['INSTAGRAM_CLIENT_ID']!;
-  final secret = Platform.environment['INSTAGRAM_SECRET']!;
-
   final postIdsUri = Uri.parse(
-    'https://graph.instagram.com/$userId/media&access_token=$accessToken',
+    'https://graph.instagram.com/$userId/media?access_token=$accessToken',
   );
   final response = await http.get(postIdsUri);
-  final responseData = jsonDecode(response.body) as List;
+  final decodedResponse = jsonDecode(response.body) as Map<String, dynamic>;
+  final responseData = decodedResponse['data'] as List;
+  final pagination = decodedResponse['paging'] as Map<String, dynamic>;
   final postIds = responseData.map((e) => e['id'] as String).toList();
+  context.log('Post IDs: $postIds');
 
-  final postUris = postIds.map((id) => Uri.parse(
-        'https://graph.instagram.com/$id?fields=id,media_type,media_url,permalink,thumbnail_url,timestamp&access_token=$accessToken',
-      ));
+  final postUris = postIds.map(
+    (id) => Uri.parse(
+      'https://graph.instagram.com/$id?fields=caption,id,media_type,media_url,permalink,thumbnail_url,timestamp&access_token=$accessToken',
+    ),
+  );
 
   final posts = await Future.wait(
     postUris.map((uri) async {
@@ -63,7 +67,12 @@ Future<dynamic> main(final context) async {
     }),
     eagerError: true,
   );
+  context.log('Returning ${posts.length} posts');
 
   // Return response
-  return context.res.json(posts.map((post) => post.toJson()).toList());
+  return context.res.json(
+    {
+      'posts': posts.map((post) => post.toJson()).toList(),
+    },
+  );
 }

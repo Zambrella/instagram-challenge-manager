@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:instagram_challenge_manager/app_exception.dart';
 import 'package:instagram_challenge_manager/authentication/presentation/controllers/logout_controller.dart';
 import 'package:instagram_challenge_manager/common/common.dart';
+import 'package:instagram_challenge_manager/instagram/domain/instagram_post.dart';
+import 'package:instagram_challenge_manager/instagram/providers/recent_user_instagram_posts.dart';
 import 'package:instagram_challenge_manager/routing/app_router.dart';
 import 'package:instagram_challenge_manager/theme/theme.dart';
 import 'package:intl/intl.dart';
@@ -165,17 +167,82 @@ class _HomePageState extends ConsumerState<HomePage> {
                     },
                   ),
                   mainContentSliversBuilder: (context) => [
-                    SliverPadding(
-                      padding: EdgeInsets.all(context.theme.appSpacing.medium),
-                      sliver: SliverList.list(
-                        children: [
-                          Text(
-                            'Select a post',
-                            style: context.theme.textTheme.titleMedium,
-                          ),
-                          SizedBox(height: context.theme.appSpacing.medium),
-                        ],
-                      ),
+                    Consumer(
+                      builder: (context, ref, _) {
+                        return SliverPadding(
+                          padding:
+                              EdgeInsets.all(context.theme.appSpacing.medium),
+                          sliver: ref
+                              .watch(recentUserInstagramPostsProvider)
+                              .when(
+                                data: (posts) {
+                                  return SliverList(
+                                    delegate: SliverChildBuilderDelegate(
+                                      (context, index) {
+                                        final post = posts[index];
+                                        return ListTile(
+                                          title: Text(post.caption),
+                                          subtitle: Text(
+                                            DateFormat.yMMMd()
+                                                .format(post.timestamp),
+                                          ),
+                                          onTap: () {
+                                            Navigator.of(bottomSheetContext)
+                                                .pop();
+                                          },
+                                        );
+                                      },
+                                      childCount: posts.length,
+                                    ),
+                                  );
+                                },
+                                loading: () => const SliverFillRemaining(
+                                  child: Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                ),
+                                error: (error, _) => SliverFillRemaining(
+                                  child: Center(
+                                    child: Text(error.errorMessage(context)),
+                                  ),
+                                ),
+                              ),
+                          // sliver: switch (
+                          //     ref.watch(recentUserInstagramPostsProvider)) {
+                          //   AsyncData<List<InstagramPost>>(
+                          //     valueOrNull: final posts?
+                          //   ) =>
+                          //     SliverList(
+                          //       delegate: SliverChildBuilderDelegate(
+                          //         (context, index) {
+                          //           final post = posts[index];
+                          //           return ListTile(
+                          //             title: Text(post.caption),
+                          //             subtitle: Text(
+                          //               DateFormat.yMMMd().format(post.timestamp),
+                          //             ),
+                          //             onTap: () {
+                          //               Navigator.of(bottomSheetContext).pop();
+                          //             },
+                          //           );
+                          //         },
+                          //         childCount: posts.length,
+                          //       ),
+                          //     ),
+                          //   AsyncError<List<InstagramPost>>(:final error) =>
+                          //     SliverFillRemaining(
+                          //       child: Center(
+                          //         child: Text(error.errorMessage(context)),
+                          //       ),
+                          //     ),
+                          //   _ => const SliverFillRemaining(
+                          //       child: Center(
+                          //         child: CircularProgressIndicator(),
+                          //       ),
+                          //     ),
+                          // },
+                        );
+                      },
                     ),
                   ],
                 ),

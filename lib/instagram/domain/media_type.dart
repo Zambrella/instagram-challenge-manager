@@ -6,21 +6,21 @@ enum MediaType {
   String get name {
     switch (this) {
       case MediaType.album:
-        return 'album';
+        return 'ALBUM';
       case MediaType.image:
-        return 'image';
+        return 'IMAGE';
       case MediaType.video:
-        return 'video';
+        return 'VIDEO';
     }
   }
 
   static MediaType fromString(String value) {
     switch (value) {
-      case 'album':
+      case 'ALBUM':
         return MediaType.album;
-      case 'image':
+      case 'IMAGE':
         return MediaType.image;
-      case 'video':
+      case 'VIDEO':
         return MediaType.video;
       default:
         throw Exception('Unknown media type: $value');
