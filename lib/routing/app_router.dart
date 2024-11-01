@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instagram_challenge_manager/authentication/presentation/pages/login_page.dart';
 import 'package:instagram_challenge_manager/authentication/providers/authentication_providers.dart';
-import 'package:instagram_challenge_manager/home/presentation/home_page.dart';
+import 'package:instagram_challenge_manager/home/presentation/pages/home_page.dart';
 import 'package:instagram_challenge_manager/routing/not_found_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

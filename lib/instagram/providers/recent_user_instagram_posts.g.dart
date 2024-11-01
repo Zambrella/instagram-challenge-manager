@@ -7,7 +7,7 @@ part of 'recent_user_instagram_posts.dart';
 // **************************************************************************
 
 String _$recentUserInstagramPostsHash() =>
-    r'47a8ec4c09fb4f4a4e20c9f112d7f03bc7883789';
+    r'010049f0a55ec62d786e150af46a3ea3dbab7362';
 
 /// See also [recentUserInstagramPosts].
 @ProviderFor(recentUserInstagramPosts)

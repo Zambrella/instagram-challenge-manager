@@ -41,4 +41,8 @@ class InstagramPost extends Equatable {
         permalink,
         timestamp,
       ];
+
+  List<String> get hashtags {
+    return caption.split(' ').where((word) => word.startsWith('#')).toList();
+  }
 }
