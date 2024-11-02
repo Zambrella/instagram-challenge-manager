@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instagram_challenge_manager/app_exception.dart';
 import 'package:instagram_challenge_manager/authentication/presentation/controllers/logout_controller.dart';
+import 'package:instagram_challenge_manager/challenge/providers/all_challenges_provider.dart';
 import 'package:instagram_challenge_manager/common/common.dart';
 import 'package:instagram_challenge_manager/home/presentation/controllers/selected_post_controller.dart';
 import 'package:instagram_challenge_manager/home/presentation/widgets/new_challenge_sheet.dart';
@@ -116,7 +117,32 @@ class _HomePageState extends ConsumerState<HomePage> {
         icon: const Icon(Icons.add),
         label: const Text('Create a challenge'),
       ),
-      body: Container(),
+      body: switch (ref.watch(allChallengesProvider)) {
+        AsyncData(valueOrNull: final challenges?) => ListView.builder(
+            itemCount: challenges.length,
+            itemBuilder: (context, index) {
+              final challenge = challenges[index];
+              return ListTile(
+                title: Text(challenge.title),
+                subtitle: Text(challenge.description),
+                onTap: () {
+                  context.pushNamed(
+                    AppRoute.challengeDetails.name,
+                    pathParameters: {
+                      'challengeId': challenge.id,
+                    },
+                  );
+                },
+              );
+            },
+          ),
+        AsyncError(:final error) => Center(
+            child: Text(error.errorMessage(context)),
+          ),
+        _ => const Center(
+            child: CircularProgressIndicator(),
+          ),
+      },
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instagram_challenge_manager/authentication/presentation/pages/login_page.dart';
 import 'package:instagram_challenge_manager/authentication/providers/authentication_providers.dart';
+import 'package:instagram_challenge_manager/challenge/presentation/pages/challenge_details_page.dart';
 import 'package:instagram_challenge_manager/home/presentation/pages/home_page.dart';
 import 'package:instagram_challenge_manager/routing/not_found_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -16,7 +17,7 @@ final _rootNavigatorKey =
 enum AppRoute {
   login,
   home,
-  details,
+  challengeDetails,
 }
 
 @Riverpod(keepAlive: true)
@@ -70,14 +71,18 @@ GoRouter goRouter(Ref ref) {
         ),
         routes: [
           GoRoute(
-            path: 'details',
-            name: AppRoute.details.name,
+            path: ':challengeId',
+            name: AppRoute.challengeDetails.name,
             pageBuilder: (context, state) {
-              return const NoTransitionPage(
-                child: Scaffold(
-                  body: Center(
-                    child: Text('Details Page'),
-                  ),
+              final challengeId = state.pathParameters['challengeId'];
+              if (challengeId == null) {
+                return const NoTransitionPage(
+                  child: NotFoundScreen(),
+                );
+              }
+              return NoTransitionPage(
+                child: ChallengeDetailsPage(
+                  challengeId: challengeId,
                 ),
               );
             },

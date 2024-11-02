@@ -147,7 +147,6 @@ class _NewChallengeFormState extends ConsumerState<NewChallengeForm> {
       if (prev != null && prev is AsyncLoading && next is AsyncData) {
         Navigator.of(widget.bottomSheetContext).pop();
       }
-      // TODO: Referesh the challenges list
     });
 
     final isOffstageFromBuildCheck =

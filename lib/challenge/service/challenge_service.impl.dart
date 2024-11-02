@@ -18,26 +18,30 @@ class ChallengeServiceImpl implements ChallengeService {
   }
 
   @override
-  Future<void> deleteChallenge(String id) {
-    // TODO: implement deleteChallenge
-    throw UnimplementedError();
+  Future<void> deleteChallenge(String id) async {
+    await _challengeRepository.deleteChallenge(id);
   }
 
   @override
-  Future<Challenge> getChallenge(String id) {
-    // TODO: implement getChallenge
-    throw UnimplementedError();
+  Future<Challenge> getChallenge(String id) async {
+    final challengeDto = await _challengeRepository.getChallenge(id);
+    final challenge = challengeDto.toDomain();
+    return challenge;
   }
 
   @override
-  Future<List<Challenge>> getChallenges() {
-    // TODO: implement getChallenges
-    throw UnimplementedError();
+  Future<List<Challenge>> getChallenges() async {
+    final challengeDtos = await _challengeRepository.getChallenges();
+    final challenges = challengeDtos.map((e) => e.toDomain()).toList();
+    return challenges;
   }
 
   @override
-  Future<Challenge> updateChallenge(Challenge challenge) {
-    // TODO: implement updateChallenge
-    throw UnimplementedError();
+  Future<Challenge> updateChallenge(Challenge challenge) async {
+    final challengeDto = ChallengeDto.fromDomain(challenge);
+    final updatedChallengeDto =
+        await _challengeRepository.updateChallenge(challengeDto);
+    final updatedChallenge = updatedChallengeDto.toDomain();
+    return updatedChallenge;
   }
 }
