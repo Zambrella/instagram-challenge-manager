@@ -7,6 +7,8 @@ part of 'challenge.dart';
 // **************************************************************************
 
 abstract class _$ChallengeCWProxy {
+  Challenge id(String id);
+
   Challenge title(String title);
 
   Challenge description(String description);
@@ -38,6 +40,7 @@ abstract class _$ChallengeCWProxy {
   /// Challenge(...).copyWith(id: 12, name: "My name")
   /// ````
   Challenge call({
+    String? id,
     String? title,
     String? description,
     List<Hashtag>? hashtags,
@@ -58,6 +61,9 @@ class _$ChallengeCWProxyImpl implements _$ChallengeCWProxy {
   const _$ChallengeCWProxyImpl(this._value);
 
   final Challenge _value;
+
+  @override
+  Challenge id(String id) => this(id: id);
 
   @override
   Challenge title(String title) => this(title: title);
@@ -108,6 +114,7 @@ class _$ChallengeCWProxyImpl implements _$ChallengeCWProxy {
   /// Challenge(...).copyWith(id: 12, name: "My name")
   /// ````
   Challenge call({
+    Object? id = const $CopyWithPlaceholder(),
     Object? title = const $CopyWithPlaceholder(),
     Object? description = const $CopyWithPlaceholder(),
     Object? hashtags = const $CopyWithPlaceholder(),
@@ -122,6 +129,10 @@ class _$ChallengeCWProxyImpl implements _$ChallengeCWProxy {
     Object? winners = const $CopyWithPlaceholder(),
   }) {
     return Challenge(
+      id: id == const $CopyWithPlaceholder() || id == null
+          ? _value.id
+          // ignore: cast_nullable_to_non_nullable
+          : id as String,
       title: title == const $CopyWithPlaceholder() || title == null
           ? _value.title
           // ignore: cast_nullable_to_non_nullable

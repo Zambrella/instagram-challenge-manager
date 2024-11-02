@@ -9,6 +9,7 @@ part 'challenge.g.dart';
 @CopyWith()
 class Challenge extends Equatable {
   const Challenge({
+    required this.id,
     required this.title,
     required this.description,
     required this.hashtags,
@@ -22,6 +23,9 @@ class Challenge extends Equatable {
     this.invalidEntryIds = const [],
     this.winners = const {},
   });
+
+  /// The id of the challenge.
+  final String id;
 
   /// The title of the challenge.
   final String title;
@@ -66,6 +70,7 @@ class Challenge extends Equatable {
 
   @override
   List<Object?> get props => [
+        id,
         title,
         description,
         hashtags,

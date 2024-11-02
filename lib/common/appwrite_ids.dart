@@ -3,7 +3,10 @@ class AppwriteIds {
   static const String projectId = '671d33330004e06d2fa9';
 
   // Database
-  static const String mainDatabaseId = '6707fc3f0000e1bc9774';
+  static const String mainDatabaseId = '671d3af40026158112ee';
+
+  // Collections
+  static const String challengeCollectionId = '67261efe00100d6d7912';
 
   // Functions
   static const String instagramLoginFunctionId = '671e96a400351c09118d';

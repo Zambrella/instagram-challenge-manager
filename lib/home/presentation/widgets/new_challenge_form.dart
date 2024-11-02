@@ -3,13 +3,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:instagram_challenge_manager/app_exception.dart';
 import 'package:instagram_challenge_manager/challenge/domain/account.dart';
 import 'package:instagram_challenge_manager/challenge/domain/challenge.dart';
 import 'package:instagram_challenge_manager/challenge/domain/hashtag.dart';
+import 'package:instagram_challenge_manager/challenge/presentation/controllers/create_new_challenge_controller.dart';
 import 'package:instagram_challenge_manager/home/presentation/controllers/selected_post_controller.dart';
 import 'package:instagram_challenge_manager/instagram/presentation/widgets/instagram_post_widget.dart';
 import 'package:instagram_challenge_manager/theme/theme.dart';
 import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
 
 class NewChallengeForm extends ConsumerStatefulWidget {
   const NewChallengeForm({
@@ -116,7 +119,7 @@ class _NewChallengeFormState extends ConsumerState<NewChallengeForm> {
   void _onAccountSubmit() {
     var value = _accountController.text;
     if (value.isNotEmpty && !accounts.contains(value)) {
-      if (value.startsWith('#')) {
+      if (value.startsWith('@')) {
         value = value.substring(1);
       }
       setState(() {
@@ -140,6 +143,13 @@ class _NewChallengeFormState extends ConsumerState<NewChallengeForm> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(createNewChallengeControllerProvider, (prev, next) {
+      if (prev != null && prev is AsyncLoading && next is AsyncData) {
+        Navigator.of(widget.bottomSheetContext).pop();
+      }
+      // TODO: Referesh the challenges list
+    });
+
     final isOffstageFromBuildCheck =
         context.findAncestorWidgetOfExactType<Offstage>()?.offstage ?? true;
     final isOffstage = isOffstageFromDelayedCheck && isOffstageFromBuildCheck;
@@ -361,27 +371,50 @@ class _NewChallengeFormState extends ConsumerState<NewChallengeForm> {
             padding: EdgeInsets.symmetric(
               vertical: context.theme.appSpacing.medium,
             ),
-            child: FilledButton(
-              onPressed: () {
-                if (widget.formKey.currentState!.saveAndValidate()) {
-                  final formData = widget.formKey.currentState!.value;
-                  final challenge = Challenge(
-                    title: formData['title'] as String,
-                    description: formData['description'] as String,
-                    hashtagsRequired: formData['hashtagsRequired'] as bool,
-                    accountMentionRequired:
-                        formData['accountsRequired'] as bool,
-                    hashtags: hashtags.map(Hashtag.new).toList(),
-                    accounts: accounts.map(Account.new).toList(),
-                    startDate: formData['startDate'] as DateTime,
-                    endDate: formData['endDate'] as DateTime,
-                  );
-                  print(challenge);
-                }
-              },
-              child: const Text('Save'),
-            ),
+            child: ref.watch(createNewChallengeControllerProvider).isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : FilledButton(
+                    onPressed: () async {
+                      if (widget.formKey.currentState!.saveAndValidate()) {
+                        final formData = widget.formKey.currentState!.value;
+                        final challenge = Challenge(
+                          id: const Uuid().v4(),
+                          title: formData['title'] as String,
+                          description: formData['description'] as String,
+                          hashtagsRequired:
+                              formData['hashtagsRequired'] as bool,
+                          accountMentionRequired:
+                              formData['accountsRequired'] as bool,
+                          hashtags: hashtags.map(Hashtag.new).toList(),
+                          accounts: accounts.map(Account.new).toList(),
+                          startDate: formData['startDate'] as DateTime,
+                          endDate: formData['endDate'] as DateTime,
+                        );
+                        await ref
+                            .read(createNewChallengeControllerProvider.notifier)
+                            .createNewChallenge(challenge);
+                      }
+                    },
+                    child: const Text('Save'),
+                  ),
           ),
+          if (ref.watch(createNewChallengeControllerProvider).hasError)
+            Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: context.theme.appSpacing.medium,
+              ),
+              child: Text(
+                ref
+                    .watch(createNewChallengeControllerProvider)
+                    .error!
+                    .errorMessage(context),
+                style: context.theme.textTheme.bodyMedium!.copyWith(
+                  color: context.theme.colorScheme.error,
+                ),
+              ),
+            ),
         ],
       ),
     );

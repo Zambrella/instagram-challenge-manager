@@ -139,9 +139,16 @@ class NewChallengeSheet {
                           ),
                         );
                       },
-                      loading: () => const SliverFillRemaining(
+                      loading: () => SliverFillRemaining(
                         child: Center(
-                          child: CircularProgressIndicator(),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const CircularProgressIndicator(),
+                              SizedBox(height: context.theme.appSpacing.small),
+                              const Text('Fetching recent posts...'),
+                            ],
+                          ),
                         ),
                       ),
                       error: (error, _) => SliverFillRemaining(
