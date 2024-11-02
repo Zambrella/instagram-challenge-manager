@@ -43,19 +43,6 @@ class NewChallengeSheet {
         tooltip: 'Close',
         onPressed: onClose,
       ),
-      stickyActionBar: Padding(
-        padding: EdgeInsets.all(bottomSheetContext.theme.appSpacing.medium),
-        child: SizedBox(
-          width: double.infinity,
-          child: FilledButton(
-            onPressed: () {
-              formKey.currentState?.saveAndValidate();
-              debugPrint(formKey.currentState?.value.toString());
-            },
-            child: const Text('Create'),
-          ),
-        ),
-      ),
       mainContentSliversBuilder: (context) => [
         SliverPadding(
           padding: EdgeInsets.symmetric(

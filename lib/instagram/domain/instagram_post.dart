@@ -2,6 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:instagram_challenge_manager/instagram/domain/media_type.dart';
 
+// TODO: Add the owner of the post.
+
 @immutable
 class InstagramPost extends Equatable {
   const InstagramPost({
