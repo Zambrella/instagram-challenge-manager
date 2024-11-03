@@ -21,6 +21,7 @@ class ChallengeDto with _$ChallengeDto {
     required DateTime endDate,
     required List<String> validEntryIds,
     required List<String> invalidEntryIds,
+    String? postId,
   }) = _ChallengeDto;
 
   const ChallengeDto._();
@@ -41,6 +42,7 @@ class ChallengeDto with _$ChallengeDto {
       endDate: challenge.endDate,
       validEntryIds: challenge.validEntryIds,
       invalidEntryIds: challenge.invalidEntryIds,
+      postId: challenge.postId,
     );
   }
 
@@ -57,6 +59,7 @@ class ChallengeDto with _$ChallengeDto {
       endDate: endDate,
       validEntryIds: validEntryIds,
       invalidEntryIds: invalidEntryIds,
+      postId: postId,
     );
   }
 }

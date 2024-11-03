@@ -33,6 +33,7 @@ mixin _$ChallengeDto {
   DateTime get endDate => throw _privateConstructorUsedError;
   List<String> get validEntryIds => throw _privateConstructorUsedError;
   List<String> get invalidEntryIds => throw _privateConstructorUsedError;
+  String? get postId => throw _privateConstructorUsedError;
 
   /// Serializes this ChallengeDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -61,7 +62,8 @@ abstract class $ChallengeDtoCopyWith<$Res> {
       DateTime startDate,
       DateTime endDate,
       List<String> validEntryIds,
-      List<String> invalidEntryIds});
+      List<String> invalidEntryIds,
+      String? postId});
 }
 
 /// @nodoc
@@ -90,6 +92,7 @@ class _$ChallengeDtoCopyWithImpl<$Res, $Val extends ChallengeDto>
     Object? endDate = null,
     Object? validEntryIds = null,
     Object? invalidEntryIds = null,
+    Object? postId = freezed,
   }) {
     return _then(_value.copyWith(
       $id: null == $id
@@ -136,6 +139,10 @@ class _$ChallengeDtoCopyWithImpl<$Res, $Val extends ChallengeDto>
           ? _value.invalidEntryIds
           : invalidEntryIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      postId: freezed == postId
+          ? _value.postId
+          : postId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -159,7 +166,8 @@ abstract class _$$ChallengeDtoImplCopyWith<$Res>
       DateTime startDate,
       DateTime endDate,
       List<String> validEntryIds,
-      List<String> invalidEntryIds});
+      List<String> invalidEntryIds,
+      String? postId});
 }
 
 /// @nodoc
@@ -186,6 +194,7 @@ class __$$ChallengeDtoImplCopyWithImpl<$Res>
     Object? endDate = null,
     Object? validEntryIds = null,
     Object? invalidEntryIds = null,
+    Object? postId = freezed,
   }) {
     return _then(_$ChallengeDtoImpl(
       $id: null == $id
@@ -232,6 +241,10 @@ class __$$ChallengeDtoImplCopyWithImpl<$Res>
           ? _value._invalidEntryIds
           : invalidEntryIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      postId: freezed == postId
+          ? _value.postId
+          : postId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -250,7 +263,8 @@ class _$ChallengeDtoImpl extends _ChallengeDto {
       required this.startDate,
       required this.endDate,
       required final List<String> validEntryIds,
-      required final List<String> invalidEntryIds})
+      required final List<String> invalidEntryIds,
+      this.postId})
       : _hashtags = hashtags,
         _accounts = accounts,
         _validEntryIds = validEntryIds,
@@ -309,8 +323,11 @@ class _$ChallengeDtoImpl extends _ChallengeDto {
   }
 
   @override
+  final String? postId;
+
+  @override
   String toString() {
-    return 'ChallengeDto(\$id: ${$id}, title: $title, description: $description, hashtags: $hashtags, hashtagsRequired: $hashtagsRequired, accounts: $accounts, accountMentionRequired: $accountMentionRequired, startDate: $startDate, endDate: $endDate, validEntryIds: $validEntryIds, invalidEntryIds: $invalidEntryIds)';
+    return 'ChallengeDto(\$id: ${$id}, title: $title, description: $description, hashtags: $hashtags, hashtagsRequired: $hashtagsRequired, accounts: $accounts, accountMentionRequired: $accountMentionRequired, startDate: $startDate, endDate: $endDate, validEntryIds: $validEntryIds, invalidEntryIds: $invalidEntryIds, postId: $postId)';
   }
 
   @override
@@ -334,7 +351,8 @@ class _$ChallengeDtoImpl extends _ChallengeDto {
             const DeepCollectionEquality()
                 .equals(other._validEntryIds, _validEntryIds) &&
             const DeepCollectionEquality()
-                .equals(other._invalidEntryIds, _invalidEntryIds));
+                .equals(other._invalidEntryIds, _invalidEntryIds) &&
+            (identical(other.postId, postId) || other.postId == postId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -351,7 +369,8 @@ class _$ChallengeDtoImpl extends _ChallengeDto {
       startDate,
       endDate,
       const DeepCollectionEquality().hash(_validEntryIds),
-      const DeepCollectionEquality().hash(_invalidEntryIds));
+      const DeepCollectionEquality().hash(_invalidEntryIds),
+      postId);
 
   /// Create a copy of ChallengeDto
   /// with the given fields replaced by the non-null parameter values.
@@ -381,7 +400,8 @@ abstract class _ChallengeDto extends ChallengeDto {
       required final DateTime startDate,
       required final DateTime endDate,
       required final List<String> validEntryIds,
-      required final List<String> invalidEntryIds}) = _$ChallengeDtoImpl;
+      required final List<String> invalidEntryIds,
+      final String? postId}) = _$ChallengeDtoImpl;
   const _ChallengeDto._() : super._();
 
   factory _ChallengeDto.fromJson(Map<String, dynamic> json) =
@@ -411,6 +431,8 @@ abstract class _ChallengeDto extends ChallengeDto {
   List<String> get validEntryIds;
   @override
   List<String> get invalidEntryIds;
+  @override
+  String? get postId;
 
   /// Create a copy of ChallengeDto
   /// with the given fields replaced by the non-null parameter values.

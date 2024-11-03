@@ -78,4 +78,37 @@ class InstagramRepository {
         .toList();
     return posts;
   }
+
+  Future<InstagramPostDto> getPost(String postId) async {
+    log(
+      'Fetching user posts',
+      name: 'InstagramLoginRepository',
+    );
+
+    final result = await _functions.createExecution(
+      functionId: AppwriteIds.instagramPostFunctionId,
+      body: jsonEncode({
+        'postId': postId,
+      }),
+    );
+    log(
+      'Response: ${result.responseBody}',
+      name: 'InstagramLoginRepository',
+    );
+    if (result.responseStatusCode != 200) {
+      log(
+        'Failed to get post: ${result.responseStatusCode} - ${result.errors}',
+        name: 'InstagramLoginRepository',
+      );
+      throw Exception('Failed to get post with id $postId: ${result.errors}');
+    }
+    final data = jsonDecode(result.responseBody) as Map<String, dynamic>;
+    log(
+      'Data: $data',
+      name: 'InstagramLoginRepository',
+    );
+    final post =
+        InstagramPostDto.fromJson(data['post'] as Map<String, dynamic>);
+    return post;
+  }
 }

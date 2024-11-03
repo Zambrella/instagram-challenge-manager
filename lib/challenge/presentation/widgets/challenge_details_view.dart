@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:instagram_challenge_manager/challenge/domain/challenge.dart';
+import 'package:instagram_challenge_manager/instagram/presentation/widgets/instagram_post_widget.dart';
+import 'package:instagram_challenge_manager/instagram/providers/instagram_post.dart';
 import 'package:instagram_challenge_manager/theme/theme.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChallengeDetailsView extends ConsumerStatefulWidget {
   const ChallengeDetailsView({
@@ -70,10 +73,28 @@ class _ChallengeDetailsViewState extends ConsumerState<ChallengeDetailsView> {
                       ],
                     ),
                     SizedBox(height: context.theme.appSpacing.medium),
+                    ref
+                        .watch(
+                          instagramPostProvider(challenge.postId.toString()),
+                        )
+                        .maybeWhen(
+                          data: (post) => InstagramPostWidget(
+                            post: post,
+                            onPostTap: () async {
+                              await launchUrl(post.permalink);
+                            },
+                          ),
+                          error: (error, _) => Text(error.toString()),
+                          orElse: () => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ),
+                    SizedBox(height: context.theme.appSpacing.medium),
                     Text(
                       'Title',
                       style: context.theme.textTheme.bodyMedium!.copyWith(
                         fontWeight: FontWeight.bold,
+                        color: context.theme.colorScheme.onSurfaceVariant,
                       ),
                     ),
                     Text(
@@ -85,6 +106,7 @@ class _ChallengeDetailsViewState extends ConsumerState<ChallengeDetailsView> {
                       'Description',
                       style: context.theme.textTheme.bodyMedium!.copyWith(
                         fontWeight: FontWeight.bold,
+                        color: context.theme.colorScheme.onSurfaceVariant,
                       ),
                     ),
                     Text(
@@ -96,6 +118,7 @@ class _ChallengeDetailsViewState extends ConsumerState<ChallengeDetailsView> {
                       'Hashtags',
                       style: context.theme.textTheme.bodyMedium!.copyWith(
                         fontWeight: FontWeight.bold,
+                        color: context.theme.colorScheme.onSurfaceVariant,
                       ),
                     ),
                     SizedBox(height: context.theme.appSpacing.small),
@@ -113,6 +136,7 @@ class _ChallengeDetailsViewState extends ConsumerState<ChallengeDetailsView> {
                       'Accounts',
                       style: context.theme.textTheme.bodyMedium!.copyWith(
                         fontWeight: FontWeight.bold,
+                        color: context.theme.colorScheme.onSurfaceVariant,
                       ),
                     ),
                     SizedBox(height: context.theme.appSpacing.small),
@@ -130,6 +154,7 @@ class _ChallengeDetailsViewState extends ConsumerState<ChallengeDetailsView> {
                       'Dates',
                       style: context.theme.textTheme.bodyMedium!.copyWith(
                         fontWeight: FontWeight.bold,
+                        color: context.theme.colorScheme.onSurfaceVariant,
                       ),
                     ),
                     Text(
@@ -141,6 +166,7 @@ class _ChallengeDetailsViewState extends ConsumerState<ChallengeDetailsView> {
                       'Prizes',
                       style: context.theme.textTheme.bodyMedium!.copyWith(
                         fontWeight: FontWeight.bold,
+                        color: context.theme.colorScheme.onSurfaceVariant,
                       ),
                     ),
                     Text(

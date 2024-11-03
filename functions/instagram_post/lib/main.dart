@@ -22,6 +22,10 @@ Future<dynamic> main(final context) async {
 
   final db = Databases(client);
 
+  final bodyData = context.req.bodyJson as Map<String, dynamic>;
+  final postId = bodyData['postId'] as String;
+  context.log('Post id: $postId');
+
   // Get user id
   final userId = context.req.headers['x-appwrite-user-id']!;
   context.log('Executing function as user $userId');
@@ -41,38 +45,19 @@ Future<dynamic> main(final context) async {
   final accessToken = documentList.documents[0].data['token'];
   context.log('Successfully fetched access token');
 
-  // Call endpoint
-  final postIdsUri = Uri.parse(
-    'https://graph.instagram.com/$userId/media?access_token=$accessToken',
+  // Fetch the post
+  final uri = Uri.parse(
+    'https://graph.instagram.com/$postId?fields=caption,comments_count,like_count,id,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=$accessToken',
   );
-  final response = await http.get(postIdsUri);
-  final decodedResponse = jsonDecode(response.body) as Map<String, dynamic>;
-  final responseData = decodedResponse['data'] as List;
-  final pagination = decodedResponse['paging'] as Map<String, dynamic>;
-  final postIds = responseData.map((e) => e['id'] as String).toList();
-  context.log('Post IDs: $postIds');
+  context.log('Fetching post with id: $postId');
+  final response = await http.get(uri);
+  final data = jsonDecode(response.body) as Map<String, dynamic>;
+  final instagramPostDto = InstagramPostDto.fromJson(data);
+  context.log('Fetched post: $instagramPostDto');
 
-  final postUris = postIds.map(
-    (id) => Uri.parse(
-      'https://graph.instagram.com/$id?fields=caption,comments_count,like_count,id,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=$accessToken',
-    ),
-  );
-
-  final posts = await Future.wait(
-    postUris.map((uri) async {
-      final response = await http.get(uri);
-      final data = jsonDecode(response.body) as Map<String, dynamic>;
-      final instagramPostDto = InstagramPostDto.fromJson(data);
-      return instagramPostDto;
-    }),
-    eagerError: true,
-  );
-  context.log('Returning ${posts.length} posts');
-
-  // Return response
   return context.res.json(
     {
-      'posts': posts.map((post) => post.toJson()).toList(),
+      'post': instagramPostDto.toJson(),
     },
   );
 }

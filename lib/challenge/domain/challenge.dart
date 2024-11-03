@@ -18,6 +18,7 @@ class Challenge extends Equatable {
     required this.accountMentionRequired,
     required this.startDate,
     required this.endDate,
+    this.postId,
     this.prizes,
     this.validEntryIds = const [],
     this.invalidEntryIds = const [],
@@ -51,6 +52,9 @@ class Challenge extends Equatable {
   /// The end date of the challenge.
   final DateTime endDate;
 
+  /// The id of the Instagram post that started the challenge.
+  final String? postId;
+
   /// The prizes for the challenge.
   /// `null` means there are no prizes.
   final List<Prize>? prizes;
@@ -79,6 +83,7 @@ class Challenge extends Equatable {
         accountMentionRequired,
         startDate,
         endDate,
+        postId,
         prizes,
         validEntryIds,
         invalidEntryIds,

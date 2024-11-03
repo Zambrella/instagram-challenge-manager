@@ -25,6 +25,8 @@ abstract class _$ChallengeCWProxy {
 
   Challenge endDate(DateTime endDate);
 
+  Challenge postId(String? postId);
+
   Challenge prizes(List<Prize>? prizes);
 
   Challenge validEntryIds(List<String> validEntryIds);
@@ -49,6 +51,7 @@ abstract class _$ChallengeCWProxy {
     bool? accountMentionRequired,
     DateTime? startDate,
     DateTime? endDate,
+    String? postId,
     List<Prize>? prizes,
     List<String>? validEntryIds,
     List<String>? invalidEntryIds,
@@ -92,6 +95,9 @@ class _$ChallengeCWProxyImpl implements _$ChallengeCWProxy {
   Challenge endDate(DateTime endDate) => this(endDate: endDate);
 
   @override
+  Challenge postId(String? postId) => this(postId: postId);
+
+  @override
   Challenge prizes(List<Prize>? prizes) => this(prizes: prizes);
 
   @override
@@ -123,6 +129,7 @@ class _$ChallengeCWProxyImpl implements _$ChallengeCWProxy {
     Object? accountMentionRequired = const $CopyWithPlaceholder(),
     Object? startDate = const $CopyWithPlaceholder(),
     Object? endDate = const $CopyWithPlaceholder(),
+    Object? postId = const $CopyWithPlaceholder(),
     Object? prizes = const $CopyWithPlaceholder(),
     Object? validEntryIds = const $CopyWithPlaceholder(),
     Object? invalidEntryIds = const $CopyWithPlaceholder(),
@@ -169,6 +176,10 @@ class _$ChallengeCWProxyImpl implements _$ChallengeCWProxy {
           ? _value.endDate
           // ignore: cast_nullable_to_non_nullable
           : endDate as DateTime,
+      postId: postId == const $CopyWithPlaceholder()
+          ? _value.postId
+          // ignore: cast_nullable_to_non_nullable
+          : postId as String?,
       prizes: prizes == const $CopyWithPlaceholder()
           ? _value.prizes
           // ignore: cast_nullable_to_non_nullable

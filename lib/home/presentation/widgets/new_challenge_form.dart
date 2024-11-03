@@ -47,15 +47,18 @@ class _NewChallengeFormState extends ConsumerState<NewChallengeForm> {
     _accountController = TextEditingController();
     _hashtagController.addListener(_handleHashtagInput);
     _accountController.addListener(_handleAccountInput);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final selectedPost = ref.read(selectedPostControllerProvider);
+      if (selectedPost != null) {
+        hashtags.addAll(selectedPost.hashtags);
+        accounts.add(selectedPost.owner.toString());
+      }
+    });
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final selectedPost = ref.read(selectedPostControllerProvider);
-    if (selectedPost != null) {
-      hashtags.addAll(selectedPost.hashtags);
-    }
   }
 
   @override
@@ -390,6 +393,7 @@ class _NewChallengeFormState extends ConsumerState<NewChallengeForm> {
                           accounts: accounts.map(Account.new).toList(),
                           startDate: formData['startDate'] as DateTime,
                           endDate: formData['endDate'] as DateTime,
+                          postId: selectedPost?.id,
                         );
                         await ref
                             .read(createNewChallengeControllerProvider.notifier)

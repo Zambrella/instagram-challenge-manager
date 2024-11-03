@@ -87,9 +87,10 @@ class InstagramServiceImpl implements InstagramService {
   }
 
   @override
-  Future<InstagramPost> getPost(String postId) {
-    // TODO: implement getPost
-    throw UnimplementedError();
+  Future<InstagramPost> getPost(String postId) async {
+    final instagramPostDto = await _instagramRepository.getPost(postId);
+    final instagramPost = instagramPostDto.toDomain();
+    return instagramPost;
   }
 
   @override

@@ -25,6 +25,7 @@ _$ChallengeDtoImpl _$$ChallengeDtoImplFromJson(Map<String, dynamic> json) =>
       invalidEntryIds: (json['invalidEntryIds'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
+      postId: json['postId'] as String?,
     );
 
 Map<String, dynamic> _$$ChallengeDtoImplToJson(_$ChallengeDtoImpl instance) =>
@@ -39,4 +40,5 @@ Map<String, dynamic> _$$ChallengeDtoImplToJson(_$ChallengeDtoImpl instance) =>
       'endDate': instance.endDate.toIso8601String(),
       'validEntryIds': instance.validEntryIds,
       'invalidEntryIds': instance.invalidEntryIds,
+      'postId': instance.postId,
     };

@@ -92,6 +92,28 @@
       "entrypoint": "lib/main.dart",
       "commands": "dart pub get",
       "path": "functions/user_instagram_posts"
+    },
+    {
+      "$id": "7c2451c299de11ef8291700ecaba87b5",
+      "execute": [
+        "users"
+      ],
+      "name": "instagram_post",
+      "enabled": true,
+      "logging": true,
+      "runtime": "dart-3.1",
+      "scopes": [
+        "collections.read",
+        "collections.write",
+        "documents.read",
+        "documents.write"
+      ],
+      "events": [],
+      "schedule": "",
+      "timeout": 15,
+      "entrypoint": "lib/main.dart",
+      "commands": "dart pub get",
+      "path": "functions/instagram_post"
     }
   ],
   "databases": [
