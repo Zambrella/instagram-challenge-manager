@@ -6,14 +6,15 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'recent_user_instagram_posts.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 FutureOr<List<InstagramPost>> recentUserInstagramPosts(Ref ref) async {
   final allPosts = await ref.watch(instagramServiceProvider).getUserPosts();
   final allImagePosts = allPosts
       .where(
         (post) =>
             post.mediaType == MediaType.image ||
-            post.mediaType == MediaType.album,
+            post.mediaType == MediaType.album ||
+            post.mediaType == MediaType.carouselAlbum,
       )
       .where(
         (post) => post.mediaUrl != null,

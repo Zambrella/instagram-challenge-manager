@@ -1,5 +1,6 @@
 enum MediaType {
   album,
+  carouselAlbum,
   image,
   video;
 
@@ -11,6 +12,8 @@ enum MediaType {
         return 'IMAGE';
       case MediaType.video:
         return 'VIDEO';
+      case MediaType.carouselAlbum:
+        return 'CAROUSEL_ALBUM';
     }
   }
 
@@ -22,6 +25,8 @@ enum MediaType {
         return MediaType.image;
       case 'VIDEO':
         return MediaType.video;
+      case 'CAROUSEL_ALBUM':
+        return MediaType.carouselAlbum;
       default:
         throw Exception('Unknown media type: $value');
     }

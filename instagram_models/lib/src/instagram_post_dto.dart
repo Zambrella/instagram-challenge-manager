@@ -9,11 +9,14 @@ class InstagramPostDto with _$InstagramPostDto {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory InstagramPostDto({
     required String id,
+    required String username,
     required String caption,
     required String mediaType,
     required String mediaUrl,
     required String permalink,
     required DateTime timestamp,
+    required int likeCount,
+    required int commentsCount,
   }) = _InstagramPostDto;
 
   const InstagramPostDto._();

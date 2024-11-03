@@ -46,10 +46,11 @@ class _InstagramPostWidgetState extends ConsumerState<InstagramPostWidget> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Flexible(
+                    Expanded(
                       child: Text(
                         post.caption,
                         style: context.theme.textTheme.bodyLarge,
+                        maxLines: 8,
                       ),
                     ),
                     SizedBox(height: context.theme.appSpacing.small),

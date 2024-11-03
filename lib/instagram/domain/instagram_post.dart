@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:instagram_challenge_manager/challenge/domain/account.dart';
 import 'package:instagram_challenge_manager/instagram/domain/media_type.dart';
 
 // TODO: Add the owner of the post.
@@ -8,6 +9,7 @@ import 'package:instagram_challenge_manager/instagram/domain/media_type.dart';
 class InstagramPost extends Equatable {
   const InstagramPost({
     required this.id,
+    required this.owner,
     required this.caption,
     required this.mediaType,
     required this.mediaUrl,
@@ -17,6 +19,9 @@ class InstagramPost extends Equatable {
 
   /// The unique identifier for the post.
   final String id;
+
+  /// The owner of the post.
+  final Account owner;
 
   /// The caption of the post.
   final String caption;
@@ -37,6 +42,7 @@ class InstagramPost extends Equatable {
   @override
   List<Object?> get props => [
         id,
+        owner,
         caption,
         mediaType,
         mediaUrl,
@@ -45,6 +51,11 @@ class InstagramPost extends Equatable {
       ];
 
   List<String> get hashtags {
-    return caption.split(' ').where((word) => word.startsWith('#')).toList();
+    return caption
+        .split(' ')
+        .where((word) => word.startsWith('#'))
+        .map((tag) => tag.substring(1).trim())
+        .toSet()
+        .toList();
   }
 }

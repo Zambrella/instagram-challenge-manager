@@ -21,11 +21,14 @@ InstagramPostDto _$InstagramPostDtoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$InstagramPostDto {
   String get id => throw _privateConstructorUsedError;
+  String get username => throw _privateConstructorUsedError;
   String get caption => throw _privateConstructorUsedError;
   String get mediaType => throw _privateConstructorUsedError;
   String get mediaUrl => throw _privateConstructorUsedError;
   String get permalink => throw _privateConstructorUsedError;
   DateTime get timestamp => throw _privateConstructorUsedError;
+  int get likeCount => throw _privateConstructorUsedError;
+  int get commentsCount => throw _privateConstructorUsedError;
 
   /// Serializes this InstagramPostDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -45,11 +48,14 @@ abstract class $InstagramPostDtoCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
+      String username,
       String caption,
       String mediaType,
       String mediaUrl,
       String permalink,
-      DateTime timestamp});
+      DateTime timestamp,
+      int likeCount,
+      int commentsCount});
 }
 
 /// @nodoc
@@ -68,16 +74,23 @@ class _$InstagramPostDtoCopyWithImpl<$Res, $Val extends InstagramPostDto>
   @override
   $Res call({
     Object? id = null,
+    Object? username = null,
     Object? caption = null,
     Object? mediaType = null,
     Object? mediaUrl = null,
     Object? permalink = null,
     Object? timestamp = null,
+    Object? likeCount = null,
+    Object? commentsCount = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      username: null == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
               as String,
       caption: null == caption
           ? _value.caption
@@ -99,6 +112,14 @@ class _$InstagramPostDtoCopyWithImpl<$Res, $Val extends InstagramPostDto>
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      likeCount: null == likeCount
+          ? _value.likeCount
+          : likeCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      commentsCount: null == commentsCount
+          ? _value.commentsCount
+          : commentsCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -113,11 +134,14 @@ abstract class _$$InstagramPostDtoImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
+      String username,
       String caption,
       String mediaType,
       String mediaUrl,
       String permalink,
-      DateTime timestamp});
+      DateTime timestamp,
+      int likeCount,
+      int commentsCount});
 }
 
 /// @nodoc
@@ -134,16 +158,23 @@ class __$$InstagramPostDtoImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? username = null,
     Object? caption = null,
     Object? mediaType = null,
     Object? mediaUrl = null,
     Object? permalink = null,
     Object? timestamp = null,
+    Object? likeCount = null,
+    Object? commentsCount = null,
   }) {
     return _then(_$InstagramPostDtoImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      username: null == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
               as String,
       caption: null == caption
           ? _value.caption
@@ -165,6 +196,14 @@ class __$$InstagramPostDtoImplCopyWithImpl<$Res>
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      likeCount: null == likeCount
+          ? _value.likeCount
+          : likeCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      commentsCount: null == commentsCount
+          ? _value.commentsCount
+          : commentsCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -175,11 +214,14 @@ class __$$InstagramPostDtoImplCopyWithImpl<$Res>
 class _$InstagramPostDtoImpl extends _InstagramPostDto {
   const _$InstagramPostDtoImpl(
       {required this.id,
+      required this.username,
       required this.caption,
       required this.mediaType,
       required this.mediaUrl,
       required this.permalink,
-      required this.timestamp})
+      required this.timestamp,
+      required this.likeCount,
+      required this.commentsCount})
       : super._();
 
   factory _$InstagramPostDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -187,6 +229,8 @@ class _$InstagramPostDtoImpl extends _InstagramPostDto {
 
   @override
   final String id;
+  @override
+  final String username;
   @override
   final String caption;
   @override
@@ -197,10 +241,14 @@ class _$InstagramPostDtoImpl extends _InstagramPostDto {
   final String permalink;
   @override
   final DateTime timestamp;
+  @override
+  final int likeCount;
+  @override
+  final int commentsCount;
 
   @override
   String toString() {
-    return 'InstagramPostDto(id: $id, caption: $caption, mediaType: $mediaType, mediaUrl: $mediaUrl, permalink: $permalink, timestamp: $timestamp)';
+    return 'InstagramPostDto(id: $id, username: $username, caption: $caption, mediaType: $mediaType, mediaUrl: $mediaUrl, permalink: $permalink, timestamp: $timestamp, likeCount: $likeCount, commentsCount: $commentsCount)';
   }
 
   @override
@@ -209,6 +257,8 @@ class _$InstagramPostDtoImpl extends _InstagramPostDto {
         (other.runtimeType == runtimeType &&
             other is _$InstagramPostDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.username, username) ||
+                other.username == username) &&
             (identical(other.caption, caption) || other.caption == caption) &&
             (identical(other.mediaType, mediaType) ||
                 other.mediaType == mediaType) &&
@@ -217,13 +267,17 @@ class _$InstagramPostDtoImpl extends _InstagramPostDto {
             (identical(other.permalink, permalink) ||
                 other.permalink == permalink) &&
             (identical(other.timestamp, timestamp) ||
-                other.timestamp == timestamp));
+                other.timestamp == timestamp) &&
+            (identical(other.likeCount, likeCount) ||
+                other.likeCount == likeCount) &&
+            (identical(other.commentsCount, commentsCount) ||
+                other.commentsCount == commentsCount));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, caption, mediaType, mediaUrl, permalink, timestamp);
+  int get hashCode => Object.hash(runtimeType, id, username, caption, mediaType,
+      mediaUrl, permalink, timestamp, likeCount, commentsCount);
 
   /// Create a copy of InstagramPostDto
   /// with the given fields replaced by the non-null parameter values.
@@ -245,11 +299,14 @@ class _$InstagramPostDtoImpl extends _InstagramPostDto {
 abstract class _InstagramPostDto extends InstagramPostDto {
   const factory _InstagramPostDto(
       {required final String id,
+      required final String username,
       required final String caption,
       required final String mediaType,
       required final String mediaUrl,
       required final String permalink,
-      required final DateTime timestamp}) = _$InstagramPostDtoImpl;
+      required final DateTime timestamp,
+      required final int likeCount,
+      required final int commentsCount}) = _$InstagramPostDtoImpl;
   const _InstagramPostDto._() : super._();
 
   factory _InstagramPostDto.fromJson(Map<String, dynamic> json) =
@@ -257,6 +314,8 @@ abstract class _InstagramPostDto extends InstagramPostDto {
 
   @override
   String get id;
+  @override
+  String get username;
   @override
   String get caption;
   @override
@@ -267,6 +326,10 @@ abstract class _InstagramPostDto extends InstagramPostDto {
   String get permalink;
   @override
   DateTime get timestamp;
+  @override
+  int get likeCount;
+  @override
+  int get commentsCount;
 
   /// Create a copy of InstagramPostDto
   /// with the given fields replaced by the non-null parameter values.
