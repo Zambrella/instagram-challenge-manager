@@ -7,7 +7,7 @@ part of 'challenge_entries_controller.dart';
 // **************************************************************************
 
 String _$challengeEntriesControllerHash() =>
-    r'05d57c749beeda4ee28c855a9d94b57db516ca5f';
+    r'f14e312f304eab9c79a4d393cc2f16b580e807db';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -31,10 +31,11 @@ class _SystemHash {
 }
 
 abstract class _$ChallengeEntriesController
-    extends BuildlessAutoDisposeAsyncNotifier<ChallengeEntries> {
+    extends BuildlessAutoDisposeAsyncNotifier<
+        (Challenge challenge, ChallengeEntries challengeEntries)> {
   late final Challenge challenge;
 
-  FutureOr<ChallengeEntries> build(
+  FutureOr<(Challenge challenge, ChallengeEntries challengeEntries)> build(
     Challenge challenge,
   );
 }
@@ -44,8 +45,8 @@ abstract class _$ChallengeEntriesController
 const challengeEntriesControllerProvider = ChallengeEntriesControllerFamily();
 
 /// See also [ChallengeEntriesController].
-class ChallengeEntriesControllerFamily
-    extends Family<AsyncValue<ChallengeEntries>> {
+class ChallengeEntriesControllerFamily extends Family<
+    AsyncValue<(Challenge challenge, ChallengeEntries challengeEntries)>> {
   /// See also [ChallengeEntriesController].
   const ChallengeEntriesControllerFamily();
 
@@ -85,7 +86,7 @@ class ChallengeEntriesControllerFamily
 /// See also [ChallengeEntriesController].
 class ChallengeEntriesControllerProvider
     extends AutoDisposeAsyncNotifierProviderImpl<ChallengeEntriesController,
-        ChallengeEntries> {
+        (Challenge challenge, ChallengeEntries challengeEntries)> {
   /// See also [ChallengeEntriesController].
   ChallengeEntriesControllerProvider(
     Challenge challenge,
@@ -116,7 +117,8 @@ class ChallengeEntriesControllerProvider
   final Challenge challenge;
 
   @override
-  FutureOr<ChallengeEntries> runNotifierBuild(
+  FutureOr<(Challenge challenge, ChallengeEntries challengeEntries)>
+      runNotifierBuild(
     covariant ChallengeEntriesController notifier,
   ) {
     return notifier.build(
@@ -142,7 +144,8 @@ class ChallengeEntriesControllerProvider
 
   @override
   AutoDisposeAsyncNotifierProviderElement<ChallengeEntriesController,
-      ChallengeEntries> createElement() {
+          (Challenge challenge, ChallengeEntries challengeEntries)>
+      createElement() {
     return _ChallengeEntriesControllerProviderElement(this);
   }
 
@@ -161,15 +164,16 @@ class ChallengeEntriesControllerProvider
   }
 }
 
-mixin ChallengeEntriesControllerRef
-    on AutoDisposeAsyncNotifierProviderRef<ChallengeEntries> {
+mixin ChallengeEntriesControllerRef on AutoDisposeAsyncNotifierProviderRef<
+    (Challenge challenge, ChallengeEntries challengeEntries)> {
   /// The parameter `challenge` of this provider.
   Challenge get challenge;
 }
 
 class _ChallengeEntriesControllerProviderElement
     extends AutoDisposeAsyncNotifierProviderElement<ChallengeEntriesController,
-        ChallengeEntries> with ChallengeEntriesControllerRef {
+        (Challenge challenge, ChallengeEntries challengeEntries)>
+    with ChallengeEntriesControllerRef {
   _ChallengeEntriesControllerProviderElement(super.provider);
 
   @override

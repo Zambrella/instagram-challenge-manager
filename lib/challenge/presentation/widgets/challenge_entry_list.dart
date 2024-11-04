@@ -24,16 +24,22 @@ class ChallengeEntryList extends ConsumerStatefulWidget {
 }
 
 class _ChallengeEntryListState extends ConsumerState<ChallengeEntryList> {
-  Challenge get challenge => widget.challenge;
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ref.watch(challengeEntriesControllerProvider(challenge)).maybeWhen(
-          data: (entries) {
-            final pendingEntries = entries.pending;
-            final validEntries = entries.valid;
-            final invalidEntries = entries.invalid;
-            return entries.isEmpty
+    return ref
+        .watch(challengeEntriesControllerProvider(widget.challenge))
+        .maybeWhen(
+          data: (state) {
+            final pendingEntries = state.$2.pending;
+            final validEntries = state.$2.valid;
+            final invalidEntries = state.$2.invalid;
+            final challenge = state.$1;
+            return state.$2.isEmpty
                 ? const Center(
                     child: Text('No entries yet'),
                   )
@@ -116,24 +122,22 @@ class _ChallengeEntryListState extends ConsumerState<ChallengeEntryList> {
                                           await ref
                                               .read(
                                                 challengeEntriesControllerProvider(
-                                                  challenge,
+                                                  widget.challenge,
                                                 ).notifier,
                                               )
                                               .approveEntry(
                                                 entry,
-                                                challenge,
                                               );
                                         },
                                         onReject: () async {
                                           await ref
                                               .read(
                                                 challengeEntriesControllerProvider(
-                                                  challenge,
+                                                  widget.challenge,
                                                 ).notifier,
                                               )
                                               .rejectEntry(
                                                 entry,
-                                                challenge,
                                               );
                                         },
                                       );
@@ -196,12 +200,11 @@ class _ChallengeEntryListState extends ConsumerState<ChallengeEntryList> {
                                           await ref
                                               .read(
                                                 challengeEntriesControllerProvider(
-                                                  challenge,
+                                                  widget.challenge,
                                                 ).notifier,
                                               )
                                               .rejectEntry(
                                                 entry,
-                                                challenge,
                                               );
                                         },
                                       );
@@ -263,12 +266,11 @@ class _ChallengeEntryListState extends ConsumerState<ChallengeEntryList> {
                                           await ref
                                               .read(
                                                 challengeEntriesControllerProvider(
-                                                  challenge,
+                                                  widget.challenge,
                                                 ).notifier,
                                               )
                                               .approveEntry(
                                                 entry,
-                                                challenge,
                                               );
                                         },
                                       );

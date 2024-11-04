@@ -18,7 +18,7 @@ class InstagramRepository {
   Future<(String token, String userId)> loginWithCode(String code) async {
     log(
       'Logging in with code: $code',
-      name: 'InstagramLoginRepository',
+      name: 'InstagramRepository',
     );
     final body = jsonEncode(
       {
@@ -32,19 +32,19 @@ class InstagramRepository {
     );
     log(
       'Response: ${result.responseBody}',
-      name: 'InstagramLoginRepository',
+      name: 'InstagramRepository',
     );
     if (result.responseStatusCode != 200) {
       log(
         'Failed to login with code: ${result.responseStatusCode} - ${result.errors}',
-        name: 'InstagramLoginRepository',
+        name: 'InstagramRepository',
       );
       throw Exception('Failed to login with code: ${result.errors}');
     }
     final data = jsonDecode(result.responseBody) as Map<String, dynamic>;
     log(
       'Data: $data',
-      name: 'InstagramLoginRepository',
+      name: 'InstagramRepository',
     );
     return (data['token'] as String, data['userId'] as String);
   }
@@ -52,7 +52,7 @@ class InstagramRepository {
   Future<List<InstagramPostDto>> getUserPosts() async {
     log(
       'Fetching user posts',
-      name: 'InstagramLoginRepository',
+      name: 'InstagramRepository',
     );
 
     final result = await _functions.createExecution(
@@ -60,19 +60,19 @@ class InstagramRepository {
     );
     log(
       'Response: ${result.responseBody}',
-      name: 'InstagramLoginRepository',
+      name: 'InstagramRepository',
     );
     if (result.responseStatusCode != 200) {
       log(
         'Failed to get user posts: ${result.responseStatusCode} - ${result.errors}',
-        name: 'InstagramLoginRepository',
+        name: 'InstagramRepository',
       );
       throw Exception('Failed to get user posts: ${result.errors}');
     }
     final data = jsonDecode(result.responseBody) as Map<String, dynamic>;
     log(
       'Data: $data',
-      name: 'InstagramLoginRepository',
+      name: 'InstagramRepository',
     );
     final posts = (data['posts'] as List)
         .map((e) => InstagramPostDto.fromJson(e as Map<String, dynamic>))
@@ -83,7 +83,7 @@ class InstagramRepository {
   Future<InstagramPostDto> getPost(String postId) async {
     log(
       'Fetching user posts',
-      name: 'InstagramLoginRepository',
+      name: 'InstagramRepository',
     );
 
     final result = await _functions.createExecution(
@@ -94,19 +94,19 @@ class InstagramRepository {
     );
     log(
       'Response: ${result.responseBody}',
-      name: 'InstagramLoginRepository',
+      name: 'InstagramRepository',
     );
     if (result.responseStatusCode != 200) {
       log(
         'Failed to get post: ${result.responseStatusCode} - ${result.errors}',
-        name: 'InstagramLoginRepository',
+        name: 'InstagramRepository',
       );
       throw Exception('Failed to get post with id $postId: ${result.errors}');
     }
     final data = jsonDecode(result.responseBody) as Map<String, dynamic>;
     log(
       'Data: $data',
-      name: 'InstagramLoginRepository',
+      name: 'InstagramRepository',
     );
     final post =
         InstagramPostDto.fromJson(data['post'] as Map<String, dynamic>);
@@ -121,7 +121,7 @@ class InstagramRepository {
   }) async {
     log(
       'Fetching instagram posts for challenge: $challengeId',
-      name: 'InstagramLoginRepository',
+      name: 'InstagramRepository',
     );
 
     final result = await _functions.createExecution(
@@ -136,19 +136,19 @@ class InstagramRepository {
     );
     log(
       'Response: ${result.responseBody}',
-      name: 'InstagramLoginRepository',
+      name: 'InstagramRepository',
     );
     if (result.responseStatusCode != 200) {
       log(
         'Failed to get posts for challenge: ${result.responseStatusCode} - ${result.errors}',
-        name: 'InstagramLoginRepository',
+        name: 'InstagramRepository',
       );
       throw Exception('Failed to get user posts: ${result.errors}');
     }
     final data = jsonDecode(result.responseBody) as Map<String, dynamic>;
     log(
       'Data: $data',
-      name: 'InstagramLoginRepository',
+      name: 'InstagramRepository',
     );
     final posts = (data['posts'] as List)
         .map((e) => InstagramPostDto.fromJson(e as Map<String, dynamic>))

@@ -90,6 +90,11 @@ class Challenge extends Equatable {
         winners,
       ];
 
+  @override
+  String toString() {
+    return 'Challenge(id: $id, title: $title)';
+  }
+
   /// Adds a valid entry to the challenge.
   /// Will remove the entry from invalid entries if it exists.
   Challenge addValidEntry(String id) {

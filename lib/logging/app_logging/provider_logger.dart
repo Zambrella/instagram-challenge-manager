@@ -13,7 +13,7 @@ class ProviderLogger extends ProviderObserver {
     ProviderContainer container,
   ) {
     _logger.t(
-      '${provider.name ?? provider.runtimeType} initialized with $value',
+      '${provider.name ?? provider.runtimeType} (${provider.hashCode}) initialized with $value',
     );
   }
 
@@ -22,7 +22,9 @@ class ProviderLogger extends ProviderObserver {
     ProviderBase<Object?> provider,
     ProviderContainer container,
   ) {
-    _logger.t('${provider.name ?? provider.runtimeType} disposed');
+    _logger.t(
+      '${provider.name ?? provider.runtimeType} (${provider.hashCode}) disposed',
+    );
   }
 
   @override
@@ -46,6 +48,7 @@ class ProviderLogger extends ProviderObserver {
     Object? newValue,
     ProviderContainer container,
   ) {
-    _logger.t('${provider.name ?? provider.runtimeType} updated from $previousValue to $newValue');
+    _logger.t(
+        '${provider.name ?? provider.runtimeType} updated from $previousValue to $newValue');
   }
 }

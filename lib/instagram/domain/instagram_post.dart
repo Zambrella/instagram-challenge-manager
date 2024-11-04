@@ -50,6 +50,11 @@ class InstagramPost extends Equatable {
         timestamp,
       ];
 
+  @override
+  String toString() {
+    return 'InstagramPost(id: $id)';
+  }
+
   List<String> get hashtags {
     return caption
         .split(' ')

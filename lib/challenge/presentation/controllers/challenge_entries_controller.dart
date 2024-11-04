@@ -10,7 +10,7 @@ part 'challenge_entries_controller.g.dart';
 @riverpod
 class ChallengeEntriesController extends _$ChallengeEntriesController {
   @override
-  FutureOr<ChallengeEntries> build(
+  Future<(Challenge challenge, ChallengeEntries challengeEntries)> build(
     Challenge challenge,
   ) async {
     final posts = await ref
@@ -29,22 +29,24 @@ class ChallengeEntriesController extends _$ChallengeEntriesController {
               !challenge.invalidEntryIds.contains(post.id),
         )
         .toList();
-    return {
-      EntryStatus.valid: validPosts,
-      EntryStatus.invalid: invalidPosts,
-      EntryStatus.pending: pendingPosts,
-    };
+    return (
+      challenge,
+      {
+        EntryStatus.valid: validPosts,
+        EntryStatus.invalid: invalidPosts,
+        EntryStatus.pending: pendingPosts,
+      }
+    );
   }
 
   Future<void> approveEntry(
     InstagramPost post,
-    Challenge challenge,
   ) async {
     try {
-      final newState =
-          state.requireValue.addOrUpdateEntry(post, EntryStatus.valid);
-      state = AsyncData(newState);
-      final newChallenge = challenge.addValidEntry(post.id);
+      final newEntries =
+          state.requireValue.$2.addOrUpdateEntry(post, EntryStatus.valid);
+      final newChallenge = state.requireValue.$1.addValidEntry(post.id);
+      state = AsyncData((newChallenge, newEntries));
       await ref.read(challengeServiceProvider).updateChallenge(newChallenge);
     } catch (e, st) {
       state = AsyncError(e, st);
@@ -54,13 +56,12 @@ class ChallengeEntriesController extends _$ChallengeEntriesController {
 
   Future<void> rejectEntry(
     InstagramPost post,
-    Challenge challenge,
   ) async {
     try {
-      final newState =
-          state.requireValue.addOrUpdateEntry(post, EntryStatus.invalid);
-      state = AsyncData(newState);
-      final newChallenge = challenge.addInvalidEntry(post.id);
+      final newEntries =
+          state.requireValue.$2.addOrUpdateEntry(post, EntryStatus.invalid);
+      final newChallenge = state.requireValue.$1.addInvalidEntry(post.id);
+      state = AsyncData((newChallenge, newEntries));
       await ref.read(challengeServiceProvider).updateChallenge(newChallenge);
     } catch (e, st) {
       state = AsyncError(e, st);
