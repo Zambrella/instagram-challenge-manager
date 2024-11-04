@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:auth_appwrite/auth_appwrite.dart';
 import 'package:auth_core/auth_core.dart';
+import 'package:instagram_challenge_manager/challenge/domain/challenge.dart';
 import 'package:instagram_challenge_manager/instagram/domain/instagram_login_exceptions.dart';
 import 'package:instagram_challenge_manager/instagram/domain/instagram_post.dart';
 import 'package:instagram_challenge_manager/instagram/domain/instagram_service.abs.dart';
@@ -96,6 +97,26 @@ class InstagramServiceImpl implements InstagramService {
   @override
   Future<List<InstagramPost>> getUserPosts() async {
     final instagramPostDtos = await _instagramRepository.getUserPosts();
+    final instagramPosts = instagramPostDtos
+        .map(
+          (dto) => dto.toDomain(),
+        )
+        .toList();
+    return instagramPosts;
+  }
+
+  @override
+  Future<List<InstagramPost>> getChallengeEntries(Challenge challenge) async {
+    final instagramPostDtos = await _instagramRepository.getChallengeEntries(
+      challengeId: challenge.id,
+      hashtags: challenge.hashtagsRequired
+          ? challenge.hashtags.map((e) => e.toString()).toList()
+          : null,
+      accounts: challenge.accountMentionRequired
+          ? challenge.accounts.map((e) => e.toString()).toList()
+          : null,
+      challengeStartedAt: challenge.startDate.millisecondsSinceEpoch,
+    );
     final instagramPosts = instagramPostDtos
         .map(
           (dto) => dto.toDomain(),

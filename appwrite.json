@@ -114,6 +114,28 @@
       "entrypoint": "lib/main.dart",
       "commands": "dart pub get",
       "path": "functions/instagram_post"
+    },
+    {
+      "$id": "1370a5ba9a9a11efbae59db62a6e2dd7",
+      "execute": [
+        "users"
+      ],
+      "name": "challenge_entries",
+      "enabled": true,
+      "logging": true,
+      "runtime": "dart-3.1",
+      "scopes": [
+        "collections.read",
+        "collections.write",
+        "documents.read",
+        "documents.write"
+      ],
+      "events": [],
+      "schedule": "",
+      "timeout": 15,
+      "entrypoint": "lib/main.dart",
+      "commands": "dart pub get",
+      "path": "functions/challenge_entries"
     }
   ],
   "databases": [

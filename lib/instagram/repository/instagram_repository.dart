@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:appwrite/appwrite.dart';
+import 'package:instagram_challenge_manager/challenge/domain/challenge.dart';
 import 'package:instagram_challenge_manager/common/appwrite_ids.dart';
 import 'package:instagram_models/instagram_models.dart';
 
@@ -110,5 +111,48 @@ class InstagramRepository {
     final post =
         InstagramPostDto.fromJson(data['post'] as Map<String, dynamic>);
     return post;
+  }
+
+  Future<List<InstagramPostDto>> getChallengeEntries({
+    required String challengeId,
+    required List<String>? hashtags,
+    required List<String>? accounts,
+    required int challengeStartedAt,
+  }) async {
+    log(
+      'Fetching instagram posts for challenge: $challengeId',
+      name: 'InstagramLoginRepository',
+    );
+
+    final result = await _functions.createExecution(
+      functionId: AppwriteIds.challengeEntriesFunctionId,
+      body: jsonEncode(
+        {
+          'hashtags': hashtags,
+          'accounts': accounts,
+          'challengeStartedAt': challengeStartedAt,
+        },
+      ),
+    );
+    log(
+      'Response: ${result.responseBody}',
+      name: 'InstagramLoginRepository',
+    );
+    if (result.responseStatusCode != 200) {
+      log(
+        'Failed to get posts for challenge: ${result.responseStatusCode} - ${result.errors}',
+        name: 'InstagramLoginRepository',
+      );
+      throw Exception('Failed to get user posts: ${result.errors}');
+    }
+    final data = jsonDecode(result.responseBody) as Map<String, dynamic>;
+    log(
+      'Data: $data',
+      name: 'InstagramLoginRepository',
+    );
+    final posts = (data['posts'] as List)
+        .map((e) => InstagramPostDto.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return posts;
   }
 }

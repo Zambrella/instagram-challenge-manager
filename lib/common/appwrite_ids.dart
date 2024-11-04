@@ -13,4 +13,6 @@ class AppwriteIds {
   static const String instagramUserPostsFunctionId = '6722610a003785b24e4e';
   static const String instagramPostFunctionId =
       '7c2451c299de11ef8291700ecaba87b5';
+  static const String challengeEntriesFunctionId =
+      '1370a5ba9a9a11efbae59db62a6e2dd7';
 }

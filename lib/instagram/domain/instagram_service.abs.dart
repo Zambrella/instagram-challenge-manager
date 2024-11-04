@@ -1,5 +1,6 @@
 // ignore: one_member_abstracts
 import 'package:auth_core/auth_core.dart';
+import 'package:instagram_challenge_manager/challenge/domain/challenge.dart';
 import 'package:instagram_challenge_manager/instagram/domain/instagram_post.dart';
 
 // ignore: one_member_abstracts
@@ -16,4 +17,7 @@ abstract class InstagramService {
 
   /// Gets a single Instagram post by its [postId].
   Future<InstagramPost> getPost(String postId);
+
+  /// Gets a list of Instagram posts associated with a [challenge].
+  Future<List<InstagramPost>> getChallengeEntries(Challenge challenge);
 }

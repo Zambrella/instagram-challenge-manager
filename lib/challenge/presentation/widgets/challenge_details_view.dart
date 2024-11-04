@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:instagram_challenge_manager/challenge/domain/challenge.dart';
 import 'package:instagram_challenge_manager/instagram/presentation/widgets/instagram_post_widget.dart';
+import 'package:instagram_challenge_manager/instagram/providers/challenge_entries_provider.dart';
 import 'package:instagram_challenge_manager/instagram/providers/instagram_post.dart';
 import 'package:instagram_challenge_manager/theme/theme.dart';
 import 'package:intl/intl.dart';
@@ -206,32 +207,57 @@ class _ChallengeDetailsViewState extends ConsumerState<ChallengeDetailsView> {
                       ],
                     ),
                     SizedBox(height: context.theme.appSpacing.medium),
-                    ...Iterable.generate(20, (i) => i).map(
-                      (i) {
-                        return ListTile(
-                          leading: CircleAvatar(
-                            child: Text(i.toString()),
-                          ),
-                          title: Text('User $i'),
-                          subtitle: Text('Entry $i'),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.check),
-                                tooltip: 'Approve',
-                                onPressed: () {},
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.close),
-                                tooltip: 'Reject',
-                                onPressed: () {},
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
+                    ...ref.watch(challengeEntriesProvider(challenge)).maybeWhen(
+                          data: (entries) {
+                            return entries.isEmpty
+                                ? [
+                                    const Center(
+                                      child: Text('No entries yet'),
+                                    ),
+                                  ]
+                                : entries.map(
+                                    (entry) {
+                                      return InstagramPostWidget(
+                                        post: entry,
+                                        onPostTap: () async {
+                                          await launchUrl(entry.permalink);
+                                        },
+                                      );
+                                      // return ListTile(
+                                      //   leading: CircleAvatar(
+                                      //     backgroundImage: NetworkImage(
+                                      //         entry.user.avatarUrl),
+                                      //   ),
+                                      //   title: Text(entry.user.username),
+                                      //   subtitle: Text(entry.postUrl),
+                                      //   trailing: Row(
+                                      //     mainAxisSize: MainAxisSize.min,
+                                      //     children: [
+                                      //       IconButton(
+                                      //         icon: const Icon(Icons.check),
+                                      //         tooltip: 'Approve',
+                                      //         onPressed: () {},
+                                      //       ),
+                                      //       IconButton(
+                                      //         icon: const Icon(Icons.close),
+                                      //         tooltip: 'Reject',
+                                      //         onPressed: () {},
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      // );
+                                    },
+                                  );
+                          },
+                          error: (error, _) => [
+                            Text(error.toString()),
+                          ],
+                          orElse: () => [
+                            const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          ],
+                        ),
                     const SizedBox(height: 100),
                   ],
                 ),
