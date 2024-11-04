@@ -89,4 +89,29 @@ class Challenge extends Equatable {
         invalidEntryIds,
         winners,
       ];
+
+  /// Adds a valid entry to the challenge.
+  /// Will remove the entry from invalid entries if it exists.
+  Challenge addValidEntry(String id) {
+    return copyWith(
+      validEntryIds:
+          validEntryIds.contains(id) ? validEntryIds : [...validEntryIds, id],
+      invalidEntryIds: invalidEntryIds.contains(id)
+          ? List<String>.from(invalidEntryIds.where((element) => element != id))
+          : invalidEntryIds,
+    );
+  }
+
+  /// Adds an invalid entry to the challenge.
+  /// Will remove the entry from valid entries if it exists.
+  Challenge addInvalidEntry(String id) {
+    return copyWith(
+      invalidEntryIds: invalidEntryIds.contains(id)
+          ? invalidEntryIds
+          : [...invalidEntryIds, id],
+      validEntryIds: validEntryIds.contains(id)
+          ? List<String>.from(validEntryIds.where((element) => element != id))
+          : validEntryIds,
+    );
+  }
 }

@@ -11,12 +11,14 @@ class ChallengeEntryWidget extends ConsumerStatefulWidget {
     required this.post,
     required this.status,
     this.onApprove,
+    this.onReject,
     super.key,
   });
 
   final InstagramPost post;
   final EntryStatus status;
   final VoidCallback? onApprove;
+  final VoidCallback? onReject;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -126,7 +128,7 @@ class _ChallengeEntryWidgetState extends ConsumerState<ChallengeEntryWidget> {
                       style: TextButton.styleFrom(
                         foregroundColor: context.theme.colorScheme.error,
                       ),
-                      onPressed: () {},
+                      onPressed: widget.onReject,
                       icon: const Icon(Icons.cancel),
                       label: const Text('Reject'),
                     ),

@@ -7,7 +7,7 @@ part of 'challenge_entries_controller.dart';
 // **************************************************************************
 
 String _$challengeEntriesControllerHash() =>
-    r'e58e5bd55cd06ad4dc2d75130c10a67e613c5a5f';
+    r'05d57c749beeda4ee28c855a9d94b57db516ca5f';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -31,11 +31,10 @@ class _SystemHash {
 }
 
 abstract class _$ChallengeEntriesController
-    extends BuildlessAutoDisposeAsyncNotifier<
-        Map<EntryStatus, List<InstagramPost>>> {
+    extends BuildlessAutoDisposeAsyncNotifier<ChallengeEntries> {
   late final Challenge challenge;
 
-  FutureOr<Map<EntryStatus, List<InstagramPost>>> build(
+  FutureOr<ChallengeEntries> build(
     Challenge challenge,
   );
 }
@@ -46,7 +45,7 @@ const challengeEntriesControllerProvider = ChallengeEntriesControllerFamily();
 
 /// See also [ChallengeEntriesController].
 class ChallengeEntriesControllerFamily
-    extends Family<AsyncValue<Map<EntryStatus, List<InstagramPost>>>> {
+    extends Family<AsyncValue<ChallengeEntries>> {
   /// See also [ChallengeEntriesController].
   const ChallengeEntriesControllerFamily();
 
@@ -86,7 +85,7 @@ class ChallengeEntriesControllerFamily
 /// See also [ChallengeEntriesController].
 class ChallengeEntriesControllerProvider
     extends AutoDisposeAsyncNotifierProviderImpl<ChallengeEntriesController,
-        Map<EntryStatus, List<InstagramPost>>> {
+        ChallengeEntries> {
   /// See also [ChallengeEntriesController].
   ChallengeEntriesControllerProvider(
     Challenge challenge,
@@ -117,7 +116,7 @@ class ChallengeEntriesControllerProvider
   final Challenge challenge;
 
   @override
-  FutureOr<Map<EntryStatus, List<InstagramPost>>> runNotifierBuild(
+  FutureOr<ChallengeEntries> runNotifierBuild(
     covariant ChallengeEntriesController notifier,
   ) {
     return notifier.build(
@@ -143,7 +142,7 @@ class ChallengeEntriesControllerProvider
 
   @override
   AutoDisposeAsyncNotifierProviderElement<ChallengeEntriesController,
-      Map<EntryStatus, List<InstagramPost>>> createElement() {
+      ChallengeEntries> createElement() {
     return _ChallengeEntriesControllerProviderElement(this);
   }
 
@@ -162,16 +161,15 @@ class ChallengeEntriesControllerProvider
   }
 }
 
-mixin ChallengeEntriesControllerRef on AutoDisposeAsyncNotifierProviderRef<
-    Map<EntryStatus, List<InstagramPost>>> {
+mixin ChallengeEntriesControllerRef
+    on AutoDisposeAsyncNotifierProviderRef<ChallengeEntries> {
   /// The parameter `challenge` of this provider.
   Challenge get challenge;
 }
 
 class _ChallengeEntriesControllerProviderElement
     extends AutoDisposeAsyncNotifierProviderElement<ChallengeEntriesController,
-        Map<EntryStatus, List<InstagramPost>>>
-    with ChallengeEntriesControllerRef {
+        ChallengeEntries> with ChallengeEntriesControllerRef {
   _ChallengeEntriesControllerProviderElement(super.provider);
 
   @override

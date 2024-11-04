@@ -7,7 +7,6 @@ import 'package:instagram_challenge_manager/challenge/domain/entry_status.dart';
 import 'package:instagram_challenge_manager/challenge/presentation/controllers/challenge_entries_controller.dart';
 import 'package:instagram_challenge_manager/challenge/presentation/widgets/challenge_entry_widget.dart';
 import 'package:instagram_challenge_manager/challenge/presentation/widgets/challenge_pinned_header.dart';
-import 'package:instagram_challenge_manager/instagram/providers/challenge_entries_provider.dart';
 import 'package:instagram_challenge_manager/theme/theme.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
@@ -31,9 +30,9 @@ class _ChallengeEntryListState extends ConsumerState<ChallengeEntryList> {
   Widget build(BuildContext context) {
     return ref.watch(challengeEntriesControllerProvider(challenge)).maybeWhen(
           data: (entries) {
-            final pendingEntries = entries[EntryStatus.pending]!;
-            final validEntries = entries[EntryStatus.valid]!;
-            final invalidEntries = entries[EntryStatus.invalid]!;
+            final pendingEntries = entries.pending;
+            final validEntries = entries.valid;
+            final invalidEntries = entries.invalid;
             return entries.isEmpty
                 ? const Center(
                     child: Text('No entries yet'),
@@ -72,6 +71,20 @@ class _ChallengeEntryListState extends ConsumerState<ChallengeEntryList> {
                           const ChallengePinnedHeader(
                             status: EntryStatus.pending,
                           ),
+                          if (pendingEntries.isEmpty)
+                            SliverToBoxAdapter(
+                              child: Padding(
+                                padding: EdgeInsets.all(
+                                  context.theme.appSpacing.large,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'No pending entries',
+                                    style: context.theme.textTheme.bodyLarge,
+                                  ),
+                                ),
+                              ),
+                            ),
                           SliverPadding(
                             padding: EdgeInsets.only(
                               bottom: context.theme.appSpacing.veryLarge,
@@ -107,6 +120,18 @@ class _ChallengeEntryListState extends ConsumerState<ChallengeEntryList> {
                                                 ).notifier,
                                               )
                                               .approveEntry(
+                                                entry,
+                                                challenge,
+                                              );
+                                        },
+                                        onReject: () async {
+                                          await ref
+                                              .read(
+                                                challengeEntriesControllerProvider(
+                                                  challenge,
+                                                ).notifier,
+                                              )
+                                              .rejectEntry(
                                                 entry,
                                                 challenge,
                                               );
@@ -167,6 +192,18 @@ class _ChallengeEntryListState extends ConsumerState<ChallengeEntryList> {
                                       return ChallengeEntryWidget(
                                         post: entry,
                                         status: EntryStatus.valid,
+                                        onReject: () async {
+                                          await ref
+                                              .read(
+                                                challengeEntriesControllerProvider(
+                                                  challenge,
+                                                ).notifier,
+                                              )
+                                              .rejectEntry(
+                                                entry,
+                                                challenge,
+                                              );
+                                        },
                                       );
                                     },
                                   ),
@@ -222,6 +259,18 @@ class _ChallengeEntryListState extends ConsumerState<ChallengeEntryList> {
                                       return ChallengeEntryWidget(
                                         post: entry,
                                         status: EntryStatus.invalid,
+                                        onApprove: () async {
+                                          await ref
+                                              .read(
+                                                challengeEntriesControllerProvider(
+                                                  challenge,
+                                                ).notifier,
+                                              )
+                                              .approveEntry(
+                                                entry,
+                                                challenge,
+                                              );
+                                        },
                                       );
                                     },
                                   ),
@@ -239,35 +288,5 @@ class _ChallengeEntryListState extends ConsumerState<ChallengeEntryList> {
             child: CircularProgressIndicator(),
           ),
         );
-  }
-}
-
-class SimpleSliverPersistentHeaderDelegate
-    extends SliverPersistentHeaderDelegate {
-  const SimpleSliverPersistentHeaderDelegate({
-    required this.minHeight,
-    required this.maxHeight,
-    required this.child,
-  });
-
-  final double minHeight;
-  final double maxHeight;
-  final Widget child;
-
-  @override
-  double get minExtent => minHeight;
-
-  @override
-  double get maxExtent => maxHeight;
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return child;
-  }
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return true;
   }
 }
