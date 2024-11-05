@@ -15,8 +15,6 @@ abstract class _$ChallengeCWProxy {
 
   Challenge hashtags(List<Hashtag> hashtags);
 
-  Challenge hashtagsRequired(bool hashtagsRequired);
-
   Challenge accounts(List<Account> accounts);
 
   Challenge accountMentionRequired(bool accountMentionRequired);
@@ -27,7 +25,7 @@ abstract class _$ChallengeCWProxy {
 
   Challenge postId(String? postId);
 
-  Challenge prizes(List<Prize>? prizes);
+  Challenge prizes(List<Prize> prizes);
 
   Challenge validEntryIds(List<String> validEntryIds);
 
@@ -46,7 +44,6 @@ abstract class _$ChallengeCWProxy {
     String? title,
     String? description,
     List<Hashtag>? hashtags,
-    bool? hashtagsRequired,
     List<Account>? accounts,
     bool? accountMentionRequired,
     DateTime? startDate,
@@ -78,10 +75,6 @@ class _$ChallengeCWProxyImpl implements _$ChallengeCWProxy {
   Challenge hashtags(List<Hashtag> hashtags) => this(hashtags: hashtags);
 
   @override
-  Challenge hashtagsRequired(bool hashtagsRequired) =>
-      this(hashtagsRequired: hashtagsRequired);
-
-  @override
   Challenge accounts(List<Account> accounts) => this(accounts: accounts);
 
   @override
@@ -98,7 +91,7 @@ class _$ChallengeCWProxyImpl implements _$ChallengeCWProxy {
   Challenge postId(String? postId) => this(postId: postId);
 
   @override
-  Challenge prizes(List<Prize>? prizes) => this(prizes: prizes);
+  Challenge prizes(List<Prize> prizes) => this(prizes: prizes);
 
   @override
   Challenge validEntryIds(List<String> validEntryIds) =>
@@ -124,7 +117,6 @@ class _$ChallengeCWProxyImpl implements _$ChallengeCWProxy {
     Object? title = const $CopyWithPlaceholder(),
     Object? description = const $CopyWithPlaceholder(),
     Object? hashtags = const $CopyWithPlaceholder(),
-    Object? hashtagsRequired = const $CopyWithPlaceholder(),
     Object? accounts = const $CopyWithPlaceholder(),
     Object? accountMentionRequired = const $CopyWithPlaceholder(),
     Object? startDate = const $CopyWithPlaceholder(),
@@ -153,11 +145,6 @@ class _$ChallengeCWProxyImpl implements _$ChallengeCWProxy {
           ? _value.hashtags
           // ignore: cast_nullable_to_non_nullable
           : hashtags as List<Hashtag>,
-      hashtagsRequired: hashtagsRequired == const $CopyWithPlaceholder() ||
-              hashtagsRequired == null
-          ? _value.hashtagsRequired
-          // ignore: cast_nullable_to_non_nullable
-          : hashtagsRequired as bool,
       accounts: accounts == const $CopyWithPlaceholder() || accounts == null
           ? _value.accounts
           // ignore: cast_nullable_to_non_nullable
@@ -180,10 +167,10 @@ class _$ChallengeCWProxyImpl implements _$ChallengeCWProxy {
           ? _value.postId
           // ignore: cast_nullable_to_non_nullable
           : postId as String?,
-      prizes: prizes == const $CopyWithPlaceholder()
+      prizes: prizes == const $CopyWithPlaceholder() || prizes == null
           ? _value.prizes
           // ignore: cast_nullable_to_non_nullable
-          : prizes as List<Prize>?,
+          : prizes as List<Prize>,
       validEntryIds:
           validEntryIds == const $CopyWithPlaceholder() || validEntryIds == null
               ? _value.validEntryIds

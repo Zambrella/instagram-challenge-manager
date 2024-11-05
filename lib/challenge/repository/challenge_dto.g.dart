@@ -13,7 +13,6 @@ _$ChallengeDtoImpl _$$ChallengeDtoImplFromJson(Map<String, dynamic> json) =>
       description: json['description'] as String,
       hashtags:
           (json['hashtags'] as List<dynamic>).map((e) => e as String).toList(),
-      hashtagsRequired: json['hashtagsRequired'] as bool,
       accounts:
           (json['accounts'] as List<dynamic>).map((e) => e as String).toList(),
       accountMentionRequired: json['accountMentionRequired'] as bool,
@@ -25,6 +24,9 @@ _$ChallengeDtoImpl _$$ChallengeDtoImplFromJson(Map<String, dynamic> json) =>
       invalidEntryIds: (json['invalidEntryIds'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
+      prizes: json['prizes'] == null
+          ? const []
+          : ChallengeDto.prizesFromJson(json['prizes'] as List),
       postId: json['postId'] as String?,
     );
 
@@ -33,12 +35,12 @@ Map<String, dynamic> _$$ChallengeDtoImplToJson(_$ChallengeDtoImpl instance) =>
       'title': instance.title,
       'description': instance.description,
       'hashtags': instance.hashtags,
-      'hashtagsRequired': instance.hashtagsRequired,
       'accounts': instance.accounts,
       'accountMentionRequired': instance.accountMentionRequired,
       'startDate': instance.startDate.toIso8601String(),
       'endDate': instance.endDate.toIso8601String(),
       'validEntryIds': instance.validEntryIds,
       'invalidEntryIds': instance.invalidEntryIds,
+      'prizes': ChallengeDto.prizesToJson(instance.prizes),
       'postId': instance.postId,
     };

@@ -8,22 +8,24 @@ part 'challenge.g.dart';
 
 @CopyWith()
 class Challenge extends Equatable {
-  const Challenge({
+  Challenge({
     required this.id,
     required this.title,
     required this.description,
     required this.hashtags,
-    required this.hashtagsRequired,
     required this.accounts,
     required this.accountMentionRequired,
     required this.startDate,
     required this.endDate,
     this.postId,
-    this.prizes,
+    this.prizes = const [],
     this.validEntryIds = const [],
     this.invalidEntryIds = const [],
     this.winners = const {},
-  });
+  }) : assert(
+          hashtags.isNotEmpty,
+          'There must be at least one hashtag.',
+        );
 
   /// The id of the challenge.
   final String id;
@@ -36,9 +38,6 @@ class Challenge extends Equatable {
 
   /// The hashtags associated with the challenge.
   final List<Hashtag> hashtags;
-
-  /// Whether the hashtags are required to be entered.
-  final bool hashtagsRequired;
 
   /// The instagram accounts of the owners of the challenge.
   final List<Account> accounts;
@@ -57,7 +56,7 @@ class Challenge extends Equatable {
 
   /// The prizes for the challenge.
   /// `null` means there are no prizes.
-  final List<Prize>? prizes;
+  final List<Prize> prizes;
 
   /// A list of valid entry ids.
   /// The ids are the relevant ids of the instagram post.
@@ -78,7 +77,6 @@ class Challenge extends Equatable {
         title,
         description,
         hashtags,
-        hashtagsRequired,
         accounts,
         accountMentionRequired,
         startDate,

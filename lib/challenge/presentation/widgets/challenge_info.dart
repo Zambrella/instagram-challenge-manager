@@ -94,6 +94,11 @@ class _ChallengeInfoState extends ConsumerState<ChallengeInfo> {
                 color: context.theme.colorScheme.onSurfaceVariant,
               ),
             ),
+            if (challenge.hashtags.isEmpty)
+              Text(
+                'No hashtags',
+                style: context.theme.textTheme.bodyLarge,
+              ),
             SizedBox(height: context.theme.appSpacing.small),
             Wrap(
               spacing: context.theme.appSpacing.small,
@@ -112,6 +117,11 @@ class _ChallengeInfoState extends ConsumerState<ChallengeInfo> {
                 color: context.theme.colorScheme.onSurfaceVariant,
               ),
             ),
+            if (challenge.accounts.isEmpty)
+              Text(
+                'No accounts',
+                style: context.theme.textTheme.bodyLarge,
+              ),
             SizedBox(height: context.theme.appSpacing.small),
             Wrap(
               spacing: context.theme.appSpacing.small,
@@ -142,9 +152,24 @@ class _ChallengeInfoState extends ConsumerState<ChallengeInfo> {
                 color: context.theme.colorScheme.onSurfaceVariant,
               ),
             ),
-            Text(
-              challenge.prizes.toString(),
-              style: context.theme.textTheme.bodyLarge,
+            if (challenge.prizes.isEmpty)
+              Text(
+                'No prizes',
+                style: context.theme.textTheme.bodyLarge,
+              ),
+            SizedBox(height: context.theme.appSpacing.small),
+            Wrap(
+              spacing: context.theme.appSpacing.small,
+              runSpacing: context.theme.appSpacing.small,
+              children: challenge.prizes
+                  .map(
+                    (prize) => Chip(
+                      label: Text(
+                        '${NumberFormat().format(prize.quantity)} x ${prize.name}',
+                      ),
+                    ),
+                  )
+                  .toList(),
             ),
             SizedBox(height: context.theme.appSpacing.medium),
           ],

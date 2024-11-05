@@ -3,10 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instagram_challenge_manager/app_exception.dart';
 import 'package:instagram_challenge_manager/authentication/presentation/controllers/logout_controller.dart';
+import 'package:instagram_challenge_manager/challenge/presentation/controllers/challenge_prizes_controller.dart';
+import 'package:instagram_challenge_manager/challenge/presentation/controllers/selected_post_controller.dart';
 import 'package:instagram_challenge_manager/challenge/presentation/widgets/challenge_sheet.dart';
 import 'package:instagram_challenge_manager/challenge/providers/all_challenges_provider.dart';
 import 'package:instagram_challenge_manager/common/common.dart';
-import 'package:instagram_challenge_manager/home/presentation/controllers/selected_post_controller.dart';
 import 'package:instagram_challenge_manager/routing/app_router.dart';
 import 'package:instagram_challenge_manager/theme/theme.dart';
 import 'package:toastification/toastification.dart';
@@ -26,7 +27,9 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   void onClose() {
-    ref.invalidate(selectedPostControllerProvider);
+    ref
+      ..invalidate(selectedPostControllerProvider)
+      ..invalidate(challengePrizesControllerProvider);
     Navigator.of(context).pop();
   }
 

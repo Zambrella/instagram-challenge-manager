@@ -109,9 +109,7 @@ class InstagramServiceImpl implements InstagramService {
   Future<List<InstagramPost>> getChallengeEntries(Challenge challenge) async {
     final instagramPostDtos = await _instagramRepository.getChallengeEntries(
       challengeId: challenge.id,
-      hashtags: challenge.hashtagsRequired
-          ? challenge.hashtags.map((e) => e.toString()).toList()
-          : null,
+      hashtags: challenge.hashtags.map((e) => e.toString()).toList(),
       accounts: challenge.accountMentionRequired
           ? challenge.accounts.map((e) => e.toString()).toList()
           : null,

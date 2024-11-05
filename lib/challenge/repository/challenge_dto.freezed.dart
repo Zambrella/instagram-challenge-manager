@@ -26,13 +26,16 @@ mixin _$ChallengeDto {
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   List<String> get hashtags => throw _privateConstructorUsedError;
-  bool get hashtagsRequired => throw _privateConstructorUsedError;
   List<String> get accounts => throw _privateConstructorUsedError;
   bool get accountMentionRequired => throw _privateConstructorUsedError;
   DateTime get startDate => throw _privateConstructorUsedError;
   DateTime get endDate => throw _privateConstructorUsedError;
   List<String> get validEntryIds => throw _privateConstructorUsedError;
-  List<String> get invalidEntryIds => throw _privateConstructorUsedError;
+  List<String> get invalidEntryIds =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(
+      toJson: ChallengeDto.prizesToJson, fromJson: ChallengeDto.prizesFromJson)
+  List<PrizeDto> get prizes => throw _privateConstructorUsedError;
   String? get postId => throw _privateConstructorUsedError;
 
   /// Serializes this ChallengeDto to a JSON map.
@@ -56,13 +59,16 @@ abstract class $ChallengeDtoCopyWith<$Res> {
       String title,
       String description,
       List<String> hashtags,
-      bool hashtagsRequired,
       List<String> accounts,
       bool accountMentionRequired,
       DateTime startDate,
       DateTime endDate,
       List<String> validEntryIds,
       List<String> invalidEntryIds,
+      @JsonKey(
+          toJson: ChallengeDto.prizesToJson,
+          fromJson: ChallengeDto.prizesFromJson)
+      List<PrizeDto> prizes,
       String? postId});
 }
 
@@ -85,13 +91,13 @@ class _$ChallengeDtoCopyWithImpl<$Res, $Val extends ChallengeDto>
     Object? title = null,
     Object? description = null,
     Object? hashtags = null,
-    Object? hashtagsRequired = null,
     Object? accounts = null,
     Object? accountMentionRequired = null,
     Object? startDate = null,
     Object? endDate = null,
     Object? validEntryIds = null,
     Object? invalidEntryIds = null,
+    Object? prizes = null,
     Object? postId = freezed,
   }) {
     return _then(_value.copyWith(
@@ -111,10 +117,6 @@ class _$ChallengeDtoCopyWithImpl<$Res, $Val extends ChallengeDto>
           ? _value.hashtags
           : hashtags // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      hashtagsRequired: null == hashtagsRequired
-          ? _value.hashtagsRequired
-          : hashtagsRequired // ignore: cast_nullable_to_non_nullable
-              as bool,
       accounts: null == accounts
           ? _value.accounts
           : accounts // ignore: cast_nullable_to_non_nullable
@@ -139,6 +141,10 @@ class _$ChallengeDtoCopyWithImpl<$Res, $Val extends ChallengeDto>
           ? _value.invalidEntryIds
           : invalidEntryIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      prizes: null == prizes
+          ? _value.prizes
+          : prizes // ignore: cast_nullable_to_non_nullable
+              as List<PrizeDto>,
       postId: freezed == postId
           ? _value.postId
           : postId // ignore: cast_nullable_to_non_nullable
@@ -160,13 +166,16 @@ abstract class _$$ChallengeDtoImplCopyWith<$Res>
       String title,
       String description,
       List<String> hashtags,
-      bool hashtagsRequired,
       List<String> accounts,
       bool accountMentionRequired,
       DateTime startDate,
       DateTime endDate,
       List<String> validEntryIds,
       List<String> invalidEntryIds,
+      @JsonKey(
+          toJson: ChallengeDto.prizesToJson,
+          fromJson: ChallengeDto.prizesFromJson)
+      List<PrizeDto> prizes,
       String? postId});
 }
 
@@ -187,13 +196,13 @@ class __$$ChallengeDtoImplCopyWithImpl<$Res>
     Object? title = null,
     Object? description = null,
     Object? hashtags = null,
-    Object? hashtagsRequired = null,
     Object? accounts = null,
     Object? accountMentionRequired = null,
     Object? startDate = null,
     Object? endDate = null,
     Object? validEntryIds = null,
     Object? invalidEntryIds = null,
+    Object? prizes = null,
     Object? postId = freezed,
   }) {
     return _then(_$ChallengeDtoImpl(
@@ -213,10 +222,6 @@ class __$$ChallengeDtoImplCopyWithImpl<$Res>
           ? _value._hashtags
           : hashtags // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      hashtagsRequired: null == hashtagsRequired
-          ? _value.hashtagsRequired
-          : hashtagsRequired // ignore: cast_nullable_to_non_nullable
-              as bool,
       accounts: null == accounts
           ? _value._accounts
           : accounts // ignore: cast_nullable_to_non_nullable
@@ -241,6 +246,10 @@ class __$$ChallengeDtoImplCopyWithImpl<$Res>
           ? _value._invalidEntryIds
           : invalidEntryIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      prizes: null == prizes
+          ? _value._prizes
+          : prizes // ignore: cast_nullable_to_non_nullable
+              as List<PrizeDto>,
       postId: freezed == postId
           ? _value.postId
           : postId // ignore: cast_nullable_to_non_nullable
@@ -250,25 +259,30 @@ class __$$ChallengeDtoImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$ChallengeDtoImpl extends _ChallengeDto {
   const _$ChallengeDtoImpl(
       {@JsonKey(includeToJson: false) required this.$id,
       required this.title,
       required this.description,
       required final List<String> hashtags,
-      required this.hashtagsRequired,
       required final List<String> accounts,
       required this.accountMentionRequired,
       required this.startDate,
       required this.endDate,
       required final List<String> validEntryIds,
       required final List<String> invalidEntryIds,
+      @JsonKey(
+          toJson: ChallengeDto.prizesToJson,
+          fromJson: ChallengeDto.prizesFromJson)
+      final List<PrizeDto> prizes = const [],
       this.postId})
       : _hashtags = hashtags,
         _accounts = accounts,
         _validEntryIds = validEntryIds,
         _invalidEntryIds = invalidEntryIds,
+        _prizes = prizes,
         super._();
 
   factory _$ChallengeDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -290,8 +304,6 @@ class _$ChallengeDtoImpl extends _ChallengeDto {
     return EqualUnmodifiableListView(_hashtags);
   }
 
-  @override
-  final bool hashtagsRequired;
   final List<String> _accounts;
   @override
   List<String> get accounts {
@@ -322,12 +334,24 @@ class _$ChallengeDtoImpl extends _ChallengeDto {
     return EqualUnmodifiableListView(_invalidEntryIds);
   }
 
+// ignore: invalid_annotation_target
+  final List<PrizeDto> _prizes;
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(
+      toJson: ChallengeDto.prizesToJson, fromJson: ChallengeDto.prizesFromJson)
+  List<PrizeDto> get prizes {
+    if (_prizes is EqualUnmodifiableListView) return _prizes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_prizes);
+  }
+
   @override
   final String? postId;
 
   @override
   String toString() {
-    return 'ChallengeDto(\$id: ${$id}, title: $title, description: $description, hashtags: $hashtags, hashtagsRequired: $hashtagsRequired, accounts: $accounts, accountMentionRequired: $accountMentionRequired, startDate: $startDate, endDate: $endDate, validEntryIds: $validEntryIds, invalidEntryIds: $invalidEntryIds, postId: $postId)';
+    return 'ChallengeDto(\$id: ${$id}, title: $title, description: $description, hashtags: $hashtags, accounts: $accounts, accountMentionRequired: $accountMentionRequired, startDate: $startDate, endDate: $endDate, validEntryIds: $validEntryIds, invalidEntryIds: $invalidEntryIds, prizes: $prizes, postId: $postId)';
   }
 
   @override
@@ -340,8 +364,6 @@ class _$ChallengeDtoImpl extends _ChallengeDto {
             (identical(other.description, description) ||
                 other.description == description) &&
             const DeepCollectionEquality().equals(other._hashtags, _hashtags) &&
-            (identical(other.hashtagsRequired, hashtagsRequired) ||
-                other.hashtagsRequired == hashtagsRequired) &&
             const DeepCollectionEquality().equals(other._accounts, _accounts) &&
             (identical(other.accountMentionRequired, accountMentionRequired) ||
                 other.accountMentionRequired == accountMentionRequired) &&
@@ -352,6 +374,7 @@ class _$ChallengeDtoImpl extends _ChallengeDto {
                 .equals(other._validEntryIds, _validEntryIds) &&
             const DeepCollectionEquality()
                 .equals(other._invalidEntryIds, _invalidEntryIds) &&
+            const DeepCollectionEquality().equals(other._prizes, _prizes) &&
             (identical(other.postId, postId) || other.postId == postId));
   }
 
@@ -363,13 +386,13 @@ class _$ChallengeDtoImpl extends _ChallengeDto {
       title,
       description,
       const DeepCollectionEquality().hash(_hashtags),
-      hashtagsRequired,
       const DeepCollectionEquality().hash(_accounts),
       accountMentionRequired,
       startDate,
       endDate,
       const DeepCollectionEquality().hash(_validEntryIds),
       const DeepCollectionEquality().hash(_invalidEntryIds),
+      const DeepCollectionEquality().hash(_prizes),
       postId);
 
   /// Create a copy of ChallengeDto
@@ -394,13 +417,16 @@ abstract class _ChallengeDto extends ChallengeDto {
       required final String title,
       required final String description,
       required final List<String> hashtags,
-      required final bool hashtagsRequired,
       required final List<String> accounts,
       required final bool accountMentionRequired,
       required final DateTime startDate,
       required final DateTime endDate,
       required final List<String> validEntryIds,
       required final List<String> invalidEntryIds,
+      @JsonKey(
+          toJson: ChallengeDto.prizesToJson,
+          fromJson: ChallengeDto.prizesFromJson)
+      final List<PrizeDto> prizes,
       final String? postId}) = _$ChallengeDtoImpl;
   const _ChallengeDto._() : super._();
 
@@ -418,8 +444,6 @@ abstract class _ChallengeDto extends ChallengeDto {
   @override
   List<String> get hashtags;
   @override
-  bool get hashtagsRequired;
-  @override
   List<String> get accounts;
   @override
   bool get accountMentionRequired;
@@ -430,7 +454,11 @@ abstract class _ChallengeDto extends ChallengeDto {
   @override
   List<String> get validEntryIds;
   @override
-  List<String> get invalidEntryIds;
+  List<String> get invalidEntryIds; // ignore: invalid_annotation_target
+  @override
+  @JsonKey(
+      toJson: ChallengeDto.prizesToJson, fromJson: ChallengeDto.prizesFromJson)
+  List<PrizeDto> get prizes;
   @override
   String? get postId;
 
