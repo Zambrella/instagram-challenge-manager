@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:instagram_challenge_manager/challenge/domain/challenge.dart';
 import 'package:instagram_challenge_manager/challenge/presentation/widgets/challenge_entry_list.dart';
 import 'package:instagram_challenge_manager/challenge/presentation/widgets/challenge_info.dart';
+import 'package:instagram_challenge_manager/challenge/presentation/widgets/challenge_sheet.dart';
 import 'package:instagram_challenge_manager/theme/theme.dart';
+import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
 class ChallengeDetailsView extends ConsumerStatefulWidget {
   const ChallengeDetailsView({
@@ -21,6 +23,10 @@ class ChallengeDetailsView extends ConsumerStatefulWidget {
 class _ChallengeDetailsViewState extends ConsumerState<ChallengeDetailsView> {
   Challenge get challenge => widget.challenge;
 
+  void onClose() {
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +37,24 @@ class _ChallengeDetailsViewState extends ConsumerState<ChallengeDetailsView> {
           IconButton(
             icon: const Icon(Icons.edit),
             tooltip: 'Edit',
-            onPressed: () {},
+            onPressed: () async {
+              await WoltModalSheet.show<void>(
+                context: context,
+                pageListBuilder: (bottomSheetContext) {
+                  return [
+                    ChallengeSheet.form(
+                      bottomSheetContext: bottomSheetContext,
+                      onClose: onClose,
+                      challenge: challenge,
+                    ),
+                    ChallengeSheet.createPrize(
+                      bottomSheetContext: bottomSheetContext,
+                      onClose: onClose,
+                    ),
+                  ];
+                },
+              );
+            },
           ),
           IconButton(
             icon: const Icon(Icons.delete),

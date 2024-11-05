@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instagram_challenge_manager/app_exception.dart';
 import 'package:instagram_challenge_manager/authentication/presentation/controllers/logout_controller.dart';
+import 'package:instagram_challenge_manager/challenge/presentation/widgets/challenge_sheet.dart';
 import 'package:instagram_challenge_manager/challenge/providers/all_challenges_provider.dart';
 import 'package:instagram_challenge_manager/common/common.dart';
 import 'package:instagram_challenge_manager/home/presentation/controllers/selected_post_controller.dart';
-import 'package:instagram_challenge_manager/home/presentation/widgets/new_challenge_sheet.dart';
 import 'package:instagram_challenge_manager/routing/app_router.dart';
 import 'package:instagram_challenge_manager/theme/theme.dart';
 import 'package:toastification/toastification.dart';
@@ -21,8 +20,6 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  final formKey = GlobalKey<FormBuilderState>();
-
   @override
   void initState() {
     super.initState();
@@ -100,14 +97,16 @@ class _HomePageState extends ConsumerState<HomePage> {
             onModalDismissedWithBarrierTap: onClose,
             pageListBuilder: (bottomSheetContext) {
               return [
-                NewChallengeSheet.choosePost(
+                ChallengeSheet.choosePost(
                   bottomSheetContext: bottomSheetContext,
-                  formKey: formKey,
                   onClose: onClose,
                 ),
-                NewChallengeSheet.form(
+                ChallengeSheet.form(
                   bottomSheetContext: bottomSheetContext,
-                  formKey: formKey,
+                  onClose: onClose,
+                ),
+                ChallengeSheet.createPrize(
+                  bottomSheetContext: bottomSheetContext,
                   onClose: onClose,
                 ),
               ];

@@ -13,23 +13,31 @@ import 'package:instagram_challenge_manager/instagram/presentation/widgets/insta
 import 'package:instagram_challenge_manager/theme/theme.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
+import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
-class NewChallengeForm extends ConsumerStatefulWidget {
-  const NewChallengeForm({
+class ChallengeForm extends ConsumerStatefulWidget {
+  const ChallengeForm({
     required this.bottomSheetContext,
-    required this.formKey,
+    this.challenge,
     super.key,
   });
 
+  /// The context of the bottom sheet.
+  /// This is used to navigate the form.
   final BuildContext bottomSheetContext;
-  final GlobalKey<FormBuilderState> formKey;
+
+  /// Optional: The existing challenge to edit.
+  final Challenge? challenge;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _NewChallengeFormState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ChallengeFormState();
 }
 
-class _NewChallengeFormState extends ConsumerState<NewChallengeForm> {
+class _ChallengeFormState extends ConsumerState<ChallengeForm> {
+  final formKey = GlobalKey<FormBuilderState>();
+  Challenge? get challenge => widget.challenge;
+  late final isNewChallenge = widget.challenge == null;
+
   // Work-around to https://github.com/woltapp/wolt_modal_sheet/issues/112
   bool isOffstageFromDelayedCheck = true;
 
@@ -43,6 +51,10 @@ class _NewChallengeFormState extends ConsumerState<NewChallengeForm> {
   void initState() {
     super.initState();
     checkVisibilityInitially();
+    if (!isNewChallenge) {
+      hashtags.addAll(challenge!.hashtags.map((e) => e.value));
+      accounts.addAll(challenge!.accounts.map((e) => e.value));
+    }
     _hashtagController = TextEditingController();
     _accountController = TextEditingController();
     _hashtagController.addListener(_handleHashtagInput);
@@ -157,7 +169,7 @@ class _NewChallengeFormState extends ConsumerState<NewChallengeForm> {
     final isOffstage = isOffstageFromDelayedCheck && isOffstageFromBuildCheck;
     final selectedPost = ref.watch(selectedPostControllerProvider);
     return FormBuilder(
-      key: isOffstage ? null : widget.formKey,
+      key: isOffstage ? null : formKey,
       child: SliverList.list(
         children: [
           if (selectedPost != null)
@@ -168,6 +180,7 @@ class _NewChallengeFormState extends ConsumerState<NewChallengeForm> {
           SizedBox(height: context.theme.appSpacing.medium),
           FormBuilderTextField(
             name: 'title',
+            initialValue: challenge?.title,
             decoration: const InputDecoration(
               labelText: 'Title',
               hintText: 'Enter the title of the challenge',
@@ -184,7 +197,8 @@ class _NewChallengeFormState extends ConsumerState<NewChallengeForm> {
           FormBuilderTextField(
             name: 'description',
             maxLines: null,
-            initialValue: selectedPost?.caption,
+            initialValue:
+                isNewChallenge ? selectedPost?.caption : challenge?.description,
             decoration: const InputDecoration(
               labelText: 'Description',
               hintText: 'Enter the description of the challenge',
@@ -200,6 +214,7 @@ class _NewChallengeFormState extends ConsumerState<NewChallengeForm> {
           SizedBox(height: context.theme.appSpacing.medium),
           FormBuilderDropdown<bool>(
             name: 'hashtagsRequired',
+            initialValue: challenge?.hashtagsRequired,
             decoration: const InputDecoration(
               labelText: 'Hashtags Required',
               hintText: '',
@@ -263,6 +278,7 @@ class _NewChallengeFormState extends ConsumerState<NewChallengeForm> {
           SizedBox(height: context.theme.appSpacing.medium),
           FormBuilderDropdown<bool>(
             name: 'accountsRequired',
+            initialValue: challenge?.accountMentionRequired,
             decoration: const InputDecoration(
               labelText: 'Accounts Required',
               hintText: '',
@@ -284,7 +300,6 @@ class _NewChallengeFormState extends ConsumerState<NewChallengeForm> {
             ],
           ),
           SizedBox(height: context.theme.appSpacing.medium),
-          // TODO: Fill in with the post owner's account
           FormBuilderTextField(
             name: 'accounts',
             controller: _accountController,
@@ -328,7 +343,8 @@ class _NewChallengeFormState extends ConsumerState<NewChallengeForm> {
           FormBuilderDateTimePicker(
             inputType: InputType.date,
             name: 'startDate',
-            initialValue: selectedPost?.timestamp,
+            initialValue:
+                isNewChallenge ? selectedPost?.timestamp : challenge?.startDate,
             format: DateFormat.yMMMd(),
             decoration: const InputDecoration(
               labelText: 'Start Date',
@@ -343,6 +359,7 @@ class _NewChallengeFormState extends ConsumerState<NewChallengeForm> {
           SizedBox(height: context.theme.appSpacing.medium),
           FormBuilderDateTimePicker(
             inputType: InputType.date,
+            initialValue: challenge?.endDate,
             name: 'endDate',
             format: DateFormat.yMMMd(),
             decoration: const InputDecoration(
@@ -358,16 +375,11 @@ class _NewChallengeFormState extends ConsumerState<NewChallengeForm> {
           SizedBox(height: context.theme.appSpacing.medium),
           const Divider(),
           SizedBox(height: context.theme.appSpacing.medium),
-          // TODO: Navigate to prizes page where new ones can be created.
-          FormBuilderTextField(
-            name: 'prizes',
-            decoration: const InputDecoration(
-              labelText: 'Prizes',
-              hintText: '',
-            ),
-            validator: FormBuilderValidators.compose(
-              [],
-            ),
+          TextButton(
+            onPressed: () {
+              WoltModalSheet.of(context).showPageWithId('create_prize');
+            },
+            child: const Text('Create prize'),
           ),
           Padding(
             padding: EdgeInsets.symmetric(
@@ -379,25 +391,48 @@ class _NewChallengeFormState extends ConsumerState<NewChallengeForm> {
                   )
                 : FilledButton(
                     onPressed: () async {
-                      if (widget.formKey.currentState!.saveAndValidate()) {
-                        final formData = widget.formKey.currentState!.value;
-                        final challenge = Challenge(
-                          id: const Uuid().v4(),
-                          title: formData['title'] as String,
-                          description: formData['description'] as String,
-                          hashtagsRequired:
-                              formData['hashtagsRequired'] as bool,
-                          accountMentionRequired:
-                              formData['accountsRequired'] as bool,
-                          hashtags: hashtags.map(Hashtag.new).toList(),
-                          accounts: accounts.map(Account.new).toList(),
-                          startDate: formData['startDate'] as DateTime,
-                          endDate: formData['endDate'] as DateTime,
-                          postId: selectedPost?.id,
-                        );
-                        await ref
-                            .read(createNewChallengeControllerProvider.notifier)
-                            .createNewChallenge(challenge);
+                      if (formKey.currentState!.saveAndValidate()) {
+                        final formData = formKey.currentState!.value;
+
+                        if (isNewChallenge) {
+                          final newChallenge = Challenge(
+                            id: challenge?.id ?? const Uuid().v4(),
+                            title: formData['title'] as String,
+                            description: formData['description'] as String,
+                            hashtagsRequired:
+                                formData['hashtagsRequired'] as bool,
+                            accountMentionRequired:
+                                formData['accountsRequired'] as bool,
+                            hashtags: hashtags.map(Hashtag.new).toList(),
+                            accounts: accounts.map(Account.new).toList(),
+                            startDate: formData['startDate'] as DateTime,
+                            endDate: formData['endDate'] as DateTime,
+                            postId: selectedPost?.id,
+                          );
+                          await ref
+                              .read(
+                                createNewChallengeControllerProvider.notifier,
+                              )
+                              .createNewChallenge(newChallenge);
+                        } else {
+                          final newChallenge = challenge!.copyWith(
+                            title: formData['title'] as String,
+                            description: formData['description'] as String,
+                            hashtagsRequired:
+                                formData['hashtagsRequired'] as bool,
+                            accountMentionRequired:
+                                formData['accountsRequired'] as bool,
+                            hashtags: hashtags.map(Hashtag.new).toList(),
+                            accounts: accounts.map(Account.new).toList(),
+                            startDate: formData['startDate'] as DateTime,
+                            endDate: formData['endDate'] as DateTime,
+                          );
+                          await ref
+                              .read(
+                                createNewChallengeControllerProvider.notifier,
+                              )
+                              .updateChallenge(newChallenge);
+                        }
                       }
                     },
                     child: const Text('Save'),

@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:instagram_challenge_manager/app_exception.dart';
+import 'package:instagram_challenge_manager/challenge/domain/challenge.dart';
+import 'package:instagram_challenge_manager/challenge/presentation/widgets/challenge_form.dart';
+import 'package:instagram_challenge_manager/challenge/presentation/widgets/prize_form.dart';
 import 'package:instagram_challenge_manager/home/presentation/controllers/selected_post_controller.dart';
-import 'package:instagram_challenge_manager/home/presentation/widgets/new_challenge_form.dart';
 import 'package:instagram_challenge_manager/instagram/presentation/widgets/instagram_post_widget.dart';
 import 'package:instagram_challenge_manager/instagram/providers/recent_user_instagram_posts.dart';
 import 'package:instagram_challenge_manager/theme/theme.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
-class NewChallengeSheet {
+class ChallengeSheet {
   static SliverWoltModalSheetPage form({
     required BuildContext bottomSheetContext,
-    required GlobalKey<FormBuilderState> formKey,
     required VoidCallback onClose,
+    Challenge? challenge,
   }) {
     return SliverWoltModalSheetPage(
       id: 'create_challenge',
@@ -24,18 +25,20 @@ class NewChallengeSheet {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Create a Challenge',
+              challenge == null ? 'Create a Challenge' : 'Edit Challenge',
               style: bottomSheetContext.theme.textTheme.titleLarge,
             ),
             Text(
-              'Fill in the information below to create a new challenge.',
+              challenge == null
+                  ? 'Fill in the information below to create a new challenge.'
+                  : 'Update the information below to edit the challenge.',
               style: bottomSheetContext.theme.textTheme.bodyMedium,
             ),
           ],
         ),
       ),
       topBarTitle: Text(
-        'Create a Challenge',
+        challenge == null ? 'Create a Challenge' : 'Edit Challenge',
         style: bottomSheetContext.theme.textTheme.titleMedium,
       ),
       trailingNavBarWidget: IconButton(
@@ -48,9 +51,9 @@ class NewChallengeSheet {
           padding: EdgeInsets.symmetric(
             horizontal: context.theme.appSpacing.medium,
           ),
-          sliver: NewChallengeForm(
+          sliver: ChallengeForm(
             bottomSheetContext: bottomSheetContext,
-            formKey: formKey,
+            challenge: challenge,
           ),
         ),
       ],
@@ -59,7 +62,6 @@ class NewChallengeSheet {
 
   static SliverWoltModalSheetPage choosePost({
     required BuildContext bottomSheetContext,
-    required GlobalKey<FormBuilderState> formKey,
     required VoidCallback onClose,
   }) {
     return SliverWoltModalSheetPage(
@@ -157,6 +159,63 @@ class NewChallengeSheet {
                         ),
                       ),
                     ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  static SliverWoltModalSheetPage createPrize({
+    required BuildContext bottomSheetContext,
+    required VoidCallback onClose,
+  }) {
+    return SliverWoltModalSheetPage(
+      id: 'create_prize',
+      pageTitle: Padding(
+        padding: EdgeInsets.all(bottomSheetContext.theme.appSpacing.medium),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Create a Prize',
+              style: bottomSheetContext.theme.textTheme.titleLarge,
+            ),
+            Text(
+              'Create a prize for the challenge you are creating.',
+              style: bottomSheetContext.theme.textTheme.bodyMedium,
+            ),
+          ],
+        ),
+      ),
+      topBarTitle: Text(
+        'Create a Prize',
+        style: bottomSheetContext.theme.textTheme.titleMedium,
+      ),
+      trailingNavBarWidget: IconButton(
+        icon: const Icon(Icons.close),
+        tooltip: 'Close',
+        onPressed: onClose,
+      ),
+      leadingNavBarWidget: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        tooltip: 'Back',
+        onPressed: () {
+          WoltModalSheet.of(bottomSheetContext)
+              .showPageWithId('create_challenge');
+        },
+      ),
+      mainContentSliversBuilder: (context) => [
+        Consumer(
+          builder: (context, ref, _) {
+            return SliverPadding(
+              padding: EdgeInsets.symmetric(
+                horizontal: context.theme.appSpacing.medium,
+              ),
+              sliver: PrizeForm(
+                bottomSheetContext: bottomSheetContext,
               ),
             );
           },
