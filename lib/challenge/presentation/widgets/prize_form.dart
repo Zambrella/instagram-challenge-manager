@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:instagram_challenge_manager/challenge/domain/prize.dart';
 import 'package:instagram_challenge_manager/challenge/presentation/controllers/challenge_form_state_controller.dart';
+import 'package:instagram_challenge_manager/common/common.dart';
 import 'package:instagram_challenge_manager/theme/theme.dart';
+import 'package:toastification/toastification.dart';
 import 'package:uuid/uuid.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
@@ -100,6 +102,29 @@ class _PrizeFormState extends ConsumerState<PrizeForm> {
             ),
           ),
           SizedBox(height: context.theme.appSpacing.medium),
+          OutlinedButton(
+            onPressed: () {
+              if (formKey.currentState!.saveAndValidate()) {
+                final formData = formKey.currentState!.value;
+                final prize = Prize(
+                  id: const Uuid().v4(),
+                  name: formData['Name'] as String,
+                  quantity: double.parse(formData['Quantity'] as String),
+                  sponsor: formData['Sponsor'] as String?,
+                );
+                ref
+                    .read(challengeFormStateControllerProvider.notifier)
+                    .addPrize(prize);
+                toastification.showSuccess(
+                  context: context,
+                  message: 'Prize added',
+                );
+                formKey.currentState!.reset();
+              }
+            },
+            child: const Text('Add prize'),
+          ),
+          SizedBox(height: context.theme.appSpacing.medium),
           FilledButton(
             onPressed: () {
               if (formKey.currentState!.saveAndValidate()) {
@@ -117,7 +142,7 @@ class _PrizeFormState extends ConsumerState<PrizeForm> {
                     .showPageWithId('create_challenge');
               }
             },
-            child: const Text('Add prize'),
+            child: const Text('Add prize and go back'),
           ),
           SizedBox(height: context.theme.appSpacing.medium),
         ],

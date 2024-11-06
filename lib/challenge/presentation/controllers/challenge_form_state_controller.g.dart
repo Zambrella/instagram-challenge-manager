@@ -21,6 +21,8 @@ abstract class _$ChallengeFormStateCWProxy {
 
   ChallengeFormState endDate(DateTime? endDate);
 
+  ChallengeFormState prizeJustAdded(bool prizeJustAdded);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `ChallengeFormState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -35,6 +37,7 @@ abstract class _$ChallengeFormStateCWProxy {
     String? description,
     DateTime? startDate,
     DateTime? endDate,
+    bool? prizeJustAdded,
   });
 }
 
@@ -70,6 +73,10 @@ class _$ChallengeFormStateCWProxyImpl implements _$ChallengeFormStateCWProxy {
   ChallengeFormState endDate(DateTime? endDate) => this(endDate: endDate);
 
   @override
+  ChallengeFormState prizeJustAdded(bool prizeJustAdded) =>
+      this(prizeJustAdded: prizeJustAdded);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `ChallengeFormState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -85,6 +92,7 @@ class _$ChallengeFormStateCWProxyImpl implements _$ChallengeFormStateCWProxy {
     Object? description = const $CopyWithPlaceholder(),
     Object? startDate = const $CopyWithPlaceholder(),
     Object? endDate = const $CopyWithPlaceholder(),
+    Object? prizeJustAdded = const $CopyWithPlaceholder(),
   }) {
     return ChallengeFormState(
       hashtags: hashtags == const $CopyWithPlaceholder() || hashtags == null
@@ -115,6 +123,11 @@ class _$ChallengeFormStateCWProxyImpl implements _$ChallengeFormStateCWProxy {
           ? _value.endDate
           // ignore: cast_nullable_to_non_nullable
           : endDate as DateTime?,
+      prizeJustAdded: prizeJustAdded == const $CopyWithPlaceholder() ||
+              prizeJustAdded == null
+          ? _value.prizeJustAdded
+          // ignore: cast_nullable_to_non_nullable
+          : prizeJustAdded as bool,
     );
   }
 }
@@ -173,7 +186,7 @@ final formPrizesProvider = AutoDisposeProvider<List<Prize>>.internal(
 
 typedef FormPrizesRef = AutoDisposeProviderRef<List<Prize>>;
 String _$challengeFormStateControllerHash() =>
-    r'bb7c6c578af31d00fdb814b3a1d793f05efc2dd8';
+    r'6734d7ff00c877a961ad9667bf1f4ee06ef5df07';
 
 /// See also [ChallengeFormStateController].
 @ProviderFor(ChallengeFormStateController)

@@ -21,11 +21,6 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   void onClose() {
     ref
       ..invalidate(selectedPostControllerProvider)

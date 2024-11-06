@@ -36,6 +36,7 @@ class ChallengeForm extends ConsumerStatefulWidget {
 
 class _ChallengeFormState extends ConsumerState<ChallengeForm> {
   final formKey = GlobalKey<FormBuilderState>();
+  final addPrizeKey = GlobalKey();
   Challenge? get challenge => widget.challenge;
   late final isNewChallenge = widget.challenge == null;
 
@@ -54,21 +55,23 @@ class _ChallengeFormState extends ConsumerState<ChallengeForm> {
     _accountController = TextEditingController();
     _hashtagController.addListener(_handleHashtagInput);
     _accountController.addListener(_handleAccountInput);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final selectedPost = ref.read(selectedPostControllerProvider);
-      if (selectedPost != null) {
-        ref.read(challengeFormStateControllerProvider.notifier)
-          ..addHashtags(selectedPost.hashtags)
-          ..addAccount(selectedPost.owner.toString());
-      }
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        final selectedPost = ref.read(selectedPostControllerProvider);
+        if (selectedPost != null) {
+          ref.read(challengeFormStateControllerProvider.notifier)
+            ..addHashtags(selectedPost.hashtags)
+            ..addAccount(selectedPost.owner.toString());
+        }
 
-      if (!isNewChallenge) {
-        ref.read(challengeFormStateControllerProvider.notifier)
-          ..addHashtags(challenge!.hashtags.map((e) => e.value).toList())
-          ..addAccounts(challenge!.accounts.map((e) => e.value).toList())
-          ..addPrizes(challenge!.prizes);
-      }
-    });
+        if (!isNewChallenge) {
+          ref.read(challengeFormStateControllerProvider.notifier)
+            ..addHashtags(challenge!.hashtags.map((e) => e.value).toList())
+            ..addAccounts(challenge!.accounts.map((e) => e.value).toList())
+            ..addPrizes(challenge!.prizes);
+        }
+      },
+    );
   }
 
   @override
@@ -426,6 +429,7 @@ class _ChallengeFormState extends ConsumerState<ChallengeForm> {
                 .toList()
               ..add(
                 OutlinedButton.icon(
+                  key: addPrizeKey,
                   onPressed: () {
                     formKey.currentState!.save();
                     ref

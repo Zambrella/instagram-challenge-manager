@@ -16,6 +16,7 @@ class ChallengeFormState extends Equatable {
     this.description,
     this.startDate,
     this.endDate,
+    this.prizeJustAdded = false,
   });
 
   const ChallengeFormState.empty()
@@ -25,7 +26,8 @@ class ChallengeFormState extends Equatable {
         endDate = null,
         hashtags = const [],
         accounts = const [],
-        prizes = const [];
+        prizes = const [],
+        prizeJustAdded = false;
 
   final String? title;
   final String? description;
@@ -34,6 +36,7 @@ class ChallengeFormState extends Equatable {
   final List<String> hashtags;
   final List<String> accounts;
   final List<Prize> prizes;
+  final bool prizeJustAdded;
 
   @override
   List<Object?> get props => [
@@ -44,6 +47,7 @@ class ChallengeFormState extends Equatable {
         hashtags,
         accounts,
         prizes,
+        prizeJustAdded,
       ];
 
   Map<String, dynamic> get initialValues => {
@@ -111,7 +115,10 @@ class ChallengeFormState extends Equatable {
     if (prizes.contains(prize)) {
       return this;
     }
-    return copyWith(prizes: [...prizes, prize]);
+    return copyWith(
+      prizes: [...prizes, prize],
+      prizeJustAdded: true,
+    );
   }
 
   ChallengeFormState addPrizes(List<Prize> prizes) {
