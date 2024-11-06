@@ -7,8 +7,7 @@ import 'package:instagram_challenge_manager/app_exception.dart';
 import 'package:instagram_challenge_manager/challenge/domain/account.dart';
 import 'package:instagram_challenge_manager/challenge/domain/challenge.dart';
 import 'package:instagram_challenge_manager/challenge/domain/hashtag.dart';
-import 'package:instagram_challenge_manager/challenge/domain/prize.dart';
-import 'package:instagram_challenge_manager/challenge/presentation/controllers/challenge_prizes_controller.dart';
+import 'package:instagram_challenge_manager/challenge/presentation/controllers/challenge_form_state_controller.dart';
 import 'package:instagram_challenge_manager/challenge/presentation/controllers/create_new_challenge_controller.dart';
 import 'package:instagram_challenge_manager/challenge/presentation/controllers/selected_post_controller.dart';
 import 'package:instagram_challenge_manager/instagram/presentation/widgets/instagram_post_widget.dart';
@@ -43,10 +42,6 @@ class _ChallengeFormState extends ConsumerState<ChallengeForm> {
   // Work-around to https://github.com/woltapp/wolt_modal_sheet/issues/112
   bool isOffstageFromDelayedCheck = true;
 
-  List<String> hashtags = [];
-  List<String> accounts = [];
-  List<Prize> prizes = [];
-
   late final TextEditingController _hashtagController;
   late final TextEditingController _accountController;
 
@@ -54,11 +49,7 @@ class _ChallengeFormState extends ConsumerState<ChallengeForm> {
   void initState() {
     super.initState();
     checkVisibilityInitially();
-    if (!isNewChallenge) {
-      hashtags.addAll(challenge!.hashtags.map((e) => e.value));
-      accounts.addAll(challenge!.accounts.map((e) => e.value));
-      prizes.addAll(challenge!.prizes);
-    }
+
     _hashtagController = TextEditingController();
     _accountController = TextEditingController();
     _hashtagController.addListener(_handleHashtagInput);
@@ -66,10 +57,17 @@ class _ChallengeFormState extends ConsumerState<ChallengeForm> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final selectedPost = ref.read(selectedPostControllerProvider);
       if (selectedPost != null) {
-        hashtags.addAll(selectedPost.hashtags);
-        accounts.add(selectedPost.owner.toString());
+        ref.read(challengeFormStateControllerProvider.notifier)
+          ..addHashtags(selectedPost.hashtags)
+          ..addAccount(selectedPost.owner.toString());
       }
-      prizes = ref.read(challengePrizesControllerProvider);
+
+      if (!isNewChallenge) {
+        ref.read(challengeFormStateControllerProvider.notifier)
+          ..addHashtags(challenge!.hashtags.map((e) => e.value).toList())
+          ..addAccounts(challenge!.accounts.map((e) => e.value).toList())
+          ..addPrizes(challenge!.prizes);
+      }
     });
   }
 
@@ -92,15 +90,15 @@ class _ChallengeFormState extends ConsumerState<ChallengeForm> {
   void _handleHashtagInput() {
     var value = _hashtagController.text;
 
-    if (value.isNotEmpty && !hashtags.contains(value)) {
+    if (value.isNotEmpty) {
       if (value.startsWith('#')) {
         value = value.substring(1);
       }
       if (value.endsWith(',')) {
         value = value.substring(0, value.length - 1);
-        setState(() {
-          hashtags.add(value);
-        });
+        ref
+            .read(challengeFormStateControllerProvider.notifier)
+            .addHashtag(value);
         _hashtagController.clear();
       }
     }
@@ -109,15 +107,15 @@ class _ChallengeFormState extends ConsumerState<ChallengeForm> {
   void _handleAccountInput() {
     var value = _accountController.text;
 
-    if (value.isNotEmpty && !accounts.contains(value)) {
+    if (value.isNotEmpty) {
       if (value.startsWith('@')) {
         value = value.substring(1);
       }
       if (value.endsWith(',')) {
         value = value.substring(0, value.length - 1);
-        setState(() {
-          accounts.add(value);
-        });
+        ref
+            .read(challengeFormStateControllerProvider.notifier)
+            .addAccount(value);
         _accountController.clear();
       }
     }
@@ -125,26 +123,22 @@ class _ChallengeFormState extends ConsumerState<ChallengeForm> {
 
   void _onHashtagSubmit() {
     var value = _hashtagController.text;
-    if (value.isNotEmpty && !hashtags.contains(value)) {
+    if (value.isNotEmpty) {
       if (value.startsWith('#')) {
         value = value.substring(1);
       }
-      setState(() {
-        hashtags.add(value);
-      });
+      ref.read(challengeFormStateControllerProvider.notifier).addHashtag(value);
       _hashtagController.clear();
     }
   }
 
   void _onAccountSubmit() {
     var value = _accountController.text;
-    if (value.isNotEmpty && !accounts.contains(value)) {
+    if (value.isNotEmpty) {
       if (value.startsWith('@')) {
         value = value.substring(1);
       }
-      setState(() {
-        accounts.add(value);
-      });
+      ref.read(challengeFormStateControllerProvider.notifier).addAccount(value);
       _accountController.clear();
     }
   }
@@ -167,7 +161,7 @@ class _ChallengeFormState extends ConsumerState<ChallengeForm> {
       if (prev != null && prev is AsyncLoading && next is AsyncData) {
         ref
           ..invalidate(selectedPostControllerProvider)
-          ..invalidate(challengePrizesControllerProvider);
+          ..invalidate(challengeFormStateControllerProvider);
         Navigator.of(widget.bottomSheetContext).pop();
       }
     });
@@ -176,8 +170,13 @@ class _ChallengeFormState extends ConsumerState<ChallengeForm> {
         context.findAncestorWidgetOfExactType<Offstage>()?.offstage ?? true;
     final isOffstage = isOffstageFromDelayedCheck && isOffstageFromBuildCheck;
     final selectedPost = ref.watch(selectedPostControllerProvider);
+    final hashtags = ref.watch(formHashtagsProvider);
+    final accounts = ref.watch(formAccountsProvider);
+    final prizes = ref.watch(formPrizesProvider);
     return FormBuilder(
       key: isOffstage ? null : formKey,
+      initialValue:
+          ref.watch(challengeFormStateControllerProvider).initialValues,
       child: SliverList.list(
         children: [
           if (selectedPost != null)
@@ -429,6 +428,9 @@ class _ChallengeFormState extends ConsumerState<ChallengeForm> {
                 OutlinedButton.icon(
                   onPressed: () {
                     formKey.currentState!.save();
+                    ref
+                        .read(challengeFormStateControllerProvider.notifier)
+                        .saveFields(formKey.currentState!.value);
                     WoltModalSheet.of(context).showPageWithId('create_prize');
                   },
                   icon: const Icon(Icons.add),

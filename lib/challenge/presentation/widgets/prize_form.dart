@@ -3,7 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:instagram_challenge_manager/challenge/domain/prize.dart';
-import 'package:instagram_challenge_manager/challenge/presentation/controllers/challenge_prizes_controller.dart';
+import 'package:instagram_challenge_manager/challenge/presentation/controllers/challenge_form_state_controller.dart';
 import 'package:instagram_challenge_manager/theme/theme.dart';
 import 'package:uuid/uuid.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
@@ -111,7 +111,7 @@ class _PrizeFormState extends ConsumerState<PrizeForm> {
                   sponsor: formData['Sponsor'] as String?,
                 );
                 ref
-                    .read(challengePrizesControllerProvider.notifier)
+                    .read(challengeFormStateControllerProvider.notifier)
                     .addPrize(prize);
                 WoltModalSheet.of(widget.bottomSheetContext)
                     .showPageWithId('create_challenge');
