@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:instagram_challenge_manager/challenge/domain/account.dart';
@@ -67,9 +69,8 @@ class Challenge extends Equatable {
   final List<String> invalidEntryIds;
 
   /// The winners of the challenge.
-  /// The key is the account id and value is the prize id.
-  /// Prize id can be `null` if the winner did not win a prize.
-  final Map<String, String?> winners;
+  /// The key is the entryId and the value is the prize id.
+  final Map<String, String> winners;
 
   @override
   List<Object?> get props => [
@@ -116,5 +117,34 @@ class Challenge extends Equatable {
           ? List<String>.from(validEntryIds.where((element) => element != id))
           : validEntryIds,
     );
+  }
+
+  Challenge drawWinners() {
+    final winners = <String, String>{};
+
+    final mutPrizes = List<Prize>.from(
+      prizes.expand(
+        (e) => List.generate(
+          e.quantity,
+          (_) => e.copyWith(quantity: 1),
+        ),
+      ),
+    );
+    final mutEntries = List<String>.from(validEntryIds);
+
+    // Can't have more winners than the number of prizes or entries
+    final numberOfWinners = min(mutPrizes.length, mutEntries.length);
+
+    final random = Random();
+
+    for (var i = 0; i < numberOfWinners; i++) {
+      final winnerEntryIndex = random.nextInt(mutEntries.length);
+      final prizeEntryIndex = random.nextInt(mutPrizes.length);
+      final winner = mutEntries.removeAt(winnerEntryIndex);
+      final prize = mutPrizes.removeAt(prizeEntryIndex);
+      winners[winner] = prize.id;
+    }
+
+    return copyWith(winners: winners);
   }
 }

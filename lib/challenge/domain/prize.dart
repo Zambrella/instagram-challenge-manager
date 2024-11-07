@@ -19,7 +19,7 @@ class Prize extends Equatable {
   final String name;
 
   /// The quantity of the prize.
-  final double quantity;
+  final int quantity;
 
   /// The (optional) sponsor of the prize.
   final String? sponsor;

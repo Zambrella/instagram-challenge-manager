@@ -27,6 +27,7 @@ _$ChallengeDtoImpl _$$ChallengeDtoImplFromJson(Map<String, dynamic> json) =>
       prizes: json['prizes'] == null
           ? const []
           : ChallengeDto.prizesFromJson(json['prizes'] as List),
+      winners: ChallengeDto.winnersFromJson(json['winners']),
       postId: json['postId'] as String?,
     );
 
@@ -42,5 +43,6 @@ Map<String, dynamic> _$$ChallengeDtoImplToJson(_$ChallengeDtoImpl instance) =>
       'validEntryIds': instance.validEntryIds,
       'invalidEntryIds': instance.invalidEntryIds,
       'prizes': ChallengeDto.prizesToJson(instance.prizes),
+      'winners': ChallengeDto.winnersToJson(instance.winners),
       'postId': instance.postId,
     };

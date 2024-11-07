@@ -11,7 +11,7 @@ class PrizeDto with _$PrizeDto {
   const factory PrizeDto({
     required String id,
     required String name,
-    required double quantity,
+    required int quantity,
     String? sponsor,
   }) = _PrizeDto;
 

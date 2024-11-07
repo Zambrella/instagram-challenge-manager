@@ -50,7 +50,6 @@ class ChallengeEntriesController extends _$ChallengeEntriesController {
       await ref.read(challengeServiceProvider).updateChallenge(newChallenge);
     } catch (e, st) {
       state = AsyncError(e, st);
-      ref.invalidateSelf();
     }
   }
 
@@ -65,7 +64,6 @@ class ChallengeEntriesController extends _$ChallengeEntriesController {
       await ref.read(challengeServiceProvider).updateChallenge(newChallenge);
     } catch (e, st) {
       state = AsyncError(e, st);
-      ref.invalidateSelf();
     }
   }
 }

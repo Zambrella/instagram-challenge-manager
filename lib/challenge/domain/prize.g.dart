@@ -11,7 +11,7 @@ abstract class _$PrizeCWProxy {
 
   Prize name(String name);
 
-  Prize quantity(double quantity);
+  Prize quantity(int quantity);
 
   Prize sponsor(String? sponsor);
 
@@ -24,7 +24,7 @@ abstract class _$PrizeCWProxy {
   Prize call({
     String? id,
     String? name,
-    double? quantity,
+    int? quantity,
     String? sponsor,
   });
 }
@@ -42,7 +42,7 @@ class _$PrizeCWProxyImpl implements _$PrizeCWProxy {
   Prize name(String name) => this(name: name);
 
   @override
-  Prize quantity(double quantity) => this(quantity: quantity);
+  Prize quantity(int quantity) => this(quantity: quantity);
 
   @override
   Prize sponsor(String? sponsor) => this(sponsor: sponsor);
@@ -73,7 +73,7 @@ class _$PrizeCWProxyImpl implements _$PrizeCWProxy {
       quantity: quantity == const $CopyWithPlaceholder() || quantity == null
           ? _value.quantity
           // ignore: cast_nullable_to_non_nullable
-          : quantity as double,
+          : quantity as int,
       sponsor: sponsor == const $CopyWithPlaceholder()
           ? _value.sponsor
           // ignore: cast_nullable_to_non_nullable

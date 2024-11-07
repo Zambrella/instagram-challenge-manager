@@ -80,7 +80,7 @@ class _PrizeFormState extends ConsumerState<PrizeForm> {
             validator: FormBuilderValidators.compose(
               [
                 FormBuilderValidators.required(),
-                FormBuilderValidators.numeric(),
+                FormBuilderValidators.integer(),
                 FormBuilderValidators.min(1),
               ],
             ),
@@ -109,7 +109,7 @@ class _PrizeFormState extends ConsumerState<PrizeForm> {
                 final prize = Prize(
                   id: const Uuid().v4(),
                   name: formData['Name'] as String,
-                  quantity: double.parse(formData['Quantity'] as String),
+                  quantity: int.parse(formData['Quantity'] as String),
                   sponsor: formData['Sponsor'] as String?,
                 );
                 ref
@@ -132,7 +132,7 @@ class _PrizeFormState extends ConsumerState<PrizeForm> {
                 final prize = Prize(
                   id: const Uuid().v4(),
                   name: formData['Name'] as String,
-                  quantity: double.parse(formData['Quantity'] as String),
+                  quantity: int.parse(formData['Quantity'] as String),
                   sponsor: formData['Sponsor'] as String?,
                 );
                 ref

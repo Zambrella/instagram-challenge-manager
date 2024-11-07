@@ -10,7 +10,7 @@ _$PrizeDtoImpl _$$PrizeDtoImplFromJson(Map<String, dynamic> json) =>
     _$PrizeDtoImpl(
       id: json['id'] as String,
       name: json['name'] as String,
-      quantity: (json['quantity'] as num).toDouble(),
+      quantity: (json['quantity'] as num).toInt(),
       sponsor: json['sponsor'] as String?,
     );
 

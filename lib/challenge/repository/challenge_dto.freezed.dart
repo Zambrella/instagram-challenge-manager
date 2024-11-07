@@ -35,7 +35,12 @@ mixin _$ChallengeDto {
       throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(
       toJson: ChallengeDto.prizesToJson, fromJson: ChallengeDto.prizesFromJson)
-  List<PrizeDto> get prizes => throw _privateConstructorUsedError;
+  List<PrizeDto> get prizes =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(
+      toJson: ChallengeDto.winnersToJson,
+      fromJson: ChallengeDto.winnersFromJson)
+  Map<String, String>? get winners => throw _privateConstructorUsedError;
   String? get postId => throw _privateConstructorUsedError;
 
   /// Serializes this ChallengeDto to a JSON map.
@@ -69,6 +74,10 @@ abstract class $ChallengeDtoCopyWith<$Res> {
           toJson: ChallengeDto.prizesToJson,
           fromJson: ChallengeDto.prizesFromJson)
       List<PrizeDto> prizes,
+      @JsonKey(
+          toJson: ChallengeDto.winnersToJson,
+          fromJson: ChallengeDto.winnersFromJson)
+      Map<String, String>? winners,
       String? postId});
 }
 
@@ -98,6 +107,7 @@ class _$ChallengeDtoCopyWithImpl<$Res, $Val extends ChallengeDto>
     Object? validEntryIds = null,
     Object? invalidEntryIds = null,
     Object? prizes = null,
+    Object? winners = freezed,
     Object? postId = freezed,
   }) {
     return _then(_value.copyWith(
@@ -145,6 +155,10 @@ class _$ChallengeDtoCopyWithImpl<$Res, $Val extends ChallengeDto>
           ? _value.prizes
           : prizes // ignore: cast_nullable_to_non_nullable
               as List<PrizeDto>,
+      winners: freezed == winners
+          ? _value.winners
+          : winners // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
       postId: freezed == postId
           ? _value.postId
           : postId // ignore: cast_nullable_to_non_nullable
@@ -176,6 +190,10 @@ abstract class _$$ChallengeDtoImplCopyWith<$Res>
           toJson: ChallengeDto.prizesToJson,
           fromJson: ChallengeDto.prizesFromJson)
       List<PrizeDto> prizes,
+      @JsonKey(
+          toJson: ChallengeDto.winnersToJson,
+          fromJson: ChallengeDto.winnersFromJson)
+      Map<String, String>? winners,
       String? postId});
 }
 
@@ -203,6 +221,7 @@ class __$$ChallengeDtoImplCopyWithImpl<$Res>
     Object? validEntryIds = null,
     Object? invalidEntryIds = null,
     Object? prizes = null,
+    Object? winners = freezed,
     Object? postId = freezed,
   }) {
     return _then(_$ChallengeDtoImpl(
@@ -250,6 +269,10 @@ class __$$ChallengeDtoImplCopyWithImpl<$Res>
           ? _value._prizes
           : prizes // ignore: cast_nullable_to_non_nullable
               as List<PrizeDto>,
+      winners: freezed == winners
+          ? _value._winners
+          : winners // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
       postId: freezed == postId
           ? _value.postId
           : postId // ignore: cast_nullable_to_non_nullable
@@ -277,12 +300,17 @@ class _$ChallengeDtoImpl extends _ChallengeDto {
           toJson: ChallengeDto.prizesToJson,
           fromJson: ChallengeDto.prizesFromJson)
       final List<PrizeDto> prizes = const [],
+      @JsonKey(
+          toJson: ChallengeDto.winnersToJson,
+          fromJson: ChallengeDto.winnersFromJson)
+      final Map<String, String>? winners,
       this.postId})
       : _hashtags = hashtags,
         _accounts = accounts,
         _validEntryIds = validEntryIds,
         _invalidEntryIds = invalidEntryIds,
         _prizes = prizes,
+        _winners = winners,
         super._();
 
   factory _$ChallengeDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -346,12 +374,27 @@ class _$ChallengeDtoImpl extends _ChallengeDto {
     return EqualUnmodifiableListView(_prizes);
   }
 
+// ignore: invalid_annotation_target
+  final Map<String, String>? _winners;
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(
+      toJson: ChallengeDto.winnersToJson,
+      fromJson: ChallengeDto.winnersFromJson)
+  Map<String, String>? get winners {
+    final value = _winners;
+    if (value == null) return null;
+    if (_winners is EqualUnmodifiableMapView) return _winners;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
   @override
   final String? postId;
 
   @override
   String toString() {
-    return 'ChallengeDto(\$id: ${$id}, title: $title, description: $description, hashtags: $hashtags, accounts: $accounts, accountMentionRequired: $accountMentionRequired, startDate: $startDate, endDate: $endDate, validEntryIds: $validEntryIds, invalidEntryIds: $invalidEntryIds, prizes: $prizes, postId: $postId)';
+    return 'ChallengeDto(\$id: ${$id}, title: $title, description: $description, hashtags: $hashtags, accounts: $accounts, accountMentionRequired: $accountMentionRequired, startDate: $startDate, endDate: $endDate, validEntryIds: $validEntryIds, invalidEntryIds: $invalidEntryIds, prizes: $prizes, winners: $winners, postId: $postId)';
   }
 
   @override
@@ -375,6 +418,7 @@ class _$ChallengeDtoImpl extends _ChallengeDto {
             const DeepCollectionEquality()
                 .equals(other._invalidEntryIds, _invalidEntryIds) &&
             const DeepCollectionEquality().equals(other._prizes, _prizes) &&
+            const DeepCollectionEquality().equals(other._winners, _winners) &&
             (identical(other.postId, postId) || other.postId == postId));
   }
 
@@ -393,6 +437,7 @@ class _$ChallengeDtoImpl extends _ChallengeDto {
       const DeepCollectionEquality().hash(_validEntryIds),
       const DeepCollectionEquality().hash(_invalidEntryIds),
       const DeepCollectionEquality().hash(_prizes),
+      const DeepCollectionEquality().hash(_winners),
       postId);
 
   /// Create a copy of ChallengeDto
@@ -427,6 +472,10 @@ abstract class _ChallengeDto extends ChallengeDto {
           toJson: ChallengeDto.prizesToJson,
           fromJson: ChallengeDto.prizesFromJson)
       final List<PrizeDto> prizes,
+      @JsonKey(
+          toJson: ChallengeDto.winnersToJson,
+          fromJson: ChallengeDto.winnersFromJson)
+      final Map<String, String>? winners,
       final String? postId}) = _$ChallengeDtoImpl;
   const _ChallengeDto._() : super._();
 
@@ -458,7 +507,12 @@ abstract class _ChallengeDto extends ChallengeDto {
   @override
   @JsonKey(
       toJson: ChallengeDto.prizesToJson, fromJson: ChallengeDto.prizesFromJson)
-  List<PrizeDto> get prizes;
+  List<PrizeDto> get prizes; // ignore: invalid_annotation_target
+  @override
+  @JsonKey(
+      toJson: ChallengeDto.winnersToJson,
+      fromJson: ChallengeDto.winnersFromJson)
+  Map<String, String>? get winners;
   @override
   String? get postId;
 

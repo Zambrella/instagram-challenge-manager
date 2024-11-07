@@ -22,7 +22,7 @@ PrizeDto _$PrizeDtoFromJson(Map<String, dynamic> json) {
 mixin _$PrizeDto {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  double get quantity => throw _privateConstructorUsedError;
+  int get quantity => throw _privateConstructorUsedError;
   String? get sponsor => throw _privateConstructorUsedError;
 
   /// Serializes this PrizeDto to a JSON map.
@@ -40,7 +40,7 @@ abstract class $PrizeDtoCopyWith<$Res> {
   factory $PrizeDtoCopyWith(PrizeDto value, $Res Function(PrizeDto) then) =
       _$PrizeDtoCopyWithImpl<$Res, PrizeDto>;
   @useResult
-  $Res call({String id, String name, double quantity, String? sponsor});
+  $Res call({String id, String name, int quantity, String? sponsor});
 }
 
 /// @nodoc
@@ -75,7 +75,7 @@ class _$PrizeDtoCopyWithImpl<$Res, $Val extends PrizeDto>
       quantity: null == quantity
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       sponsor: freezed == sponsor
           ? _value.sponsor
           : sponsor // ignore: cast_nullable_to_non_nullable
@@ -92,7 +92,7 @@ abstract class _$$PrizeDtoImplCopyWith<$Res>
       __$$PrizeDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, double quantity, String? sponsor});
+  $Res call({String id, String name, int quantity, String? sponsor});
 }
 
 /// @nodoc
@@ -125,7 +125,7 @@ class __$$PrizeDtoImplCopyWithImpl<$Res>
       quantity: null == quantity
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       sponsor: freezed == sponsor
           ? _value.sponsor
           : sponsor // ignore: cast_nullable_to_non_nullable
@@ -153,7 +153,7 @@ class _$PrizeDtoImpl extends _PrizeDto {
   @override
   final String name;
   @override
-  final double quantity;
+  final int quantity;
   @override
   final String? sponsor;
 
@@ -198,7 +198,7 @@ abstract class _PrizeDto extends PrizeDto {
   const factory _PrizeDto(
       {required final String id,
       required final String name,
-      required final double quantity,
+      required final int quantity,
       final String? sponsor}) = _$PrizeDtoImpl;
   const _PrizeDto._() : super._();
 
@@ -210,7 +210,7 @@ abstract class _PrizeDto extends PrizeDto {
   @override
   String get name;
   @override
-  double get quantity;
+  int get quantity;
   @override
   String? get sponsor;
 

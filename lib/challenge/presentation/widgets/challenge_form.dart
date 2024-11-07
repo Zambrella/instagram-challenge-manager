@@ -464,8 +464,7 @@ class _ChallengeFormState extends ConsumerState<ChallengeForm> {
                             id: challenge?.id ?? const Uuid().v4(),
                             title: formData['title'] as String,
                             description: formData['description'] as String,
-                            accountMentionRequired:
-                                formData['accountsRequired'] as bool,
+                            accountMentionRequired: false,
                             hashtags: hashtags.map(Hashtag.new).toList(),
                             accounts: accounts.map(Account.new).toList(),
                             startDate: formData['startDate'] as DateTime,
@@ -482,8 +481,7 @@ class _ChallengeFormState extends ConsumerState<ChallengeForm> {
                           final newChallenge = challenge!.copyWith(
                             title: formData['title'] as String,
                             description: formData['description'] as String,
-                            accountMentionRequired:
-                                formData['accountsRequired'] as bool,
+                            accountMentionRequired: false,
                             hashtags: hashtags.map(Hashtag.new).toList(),
                             accounts: accounts.map(Account.new).toList(),
                             startDate: formData['startDate'] as DateTime,
@@ -498,7 +496,7 @@ class _ChallengeFormState extends ConsumerState<ChallengeForm> {
                         }
                       }
                     },
-                    child: const Text('Save'),
+                    child: Text(isNewChallenge ? 'Save' : 'Update'),
                   ),
           ),
           if (ref.watch(createNewChallengeControllerProvider).hasError)

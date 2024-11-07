@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:instagram_challenge_manager/challenge/domain/challenge.dart';
+import 'package:instagram_challenge_manager/challenge/presentation/controllers/challenge_form_state_controller.dart';
+import 'package:instagram_challenge_manager/challenge/presentation/controllers/selected_post_controller.dart';
+import 'package:instagram_challenge_manager/challenge/presentation/controllers/winners_controller.dart';
 import 'package:instagram_challenge_manager/challenge/presentation/widgets/challenge_entry_list.dart';
 import 'package:instagram_challenge_manager/challenge/presentation/widgets/challenge_info.dart';
 import 'package:instagram_challenge_manager/challenge/presentation/widgets/challenge_sheet.dart';
@@ -24,6 +27,9 @@ class _ChallengeDetailsViewState extends ConsumerState<ChallengeDetailsView> {
   Challenge get challenge => widget.challenge;
 
   void onClose() {
+    ref
+      ..invalidate(selectedPostControllerProvider)
+      ..invalidate(challengeFormStateControllerProvider);
     Navigator.of(context).pop();
   }
 
@@ -64,7 +70,11 @@ class _ChallengeDetailsViewState extends ConsumerState<ChallengeDetailsView> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () async {
+          await ref
+              .read(winnersControllerProvider(challenge).notifier)
+              .drawWinners(challenge);
+        },
         icon: const Icon(Icons.shuffle),
         label: const Text('Draw winners'),
       ),

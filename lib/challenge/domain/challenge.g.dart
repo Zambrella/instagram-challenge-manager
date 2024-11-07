@@ -31,7 +31,7 @@ abstract class _$ChallengeCWProxy {
 
   Challenge invalidEntryIds(List<String> invalidEntryIds);
 
-  Challenge winners(Map<String, String?> winners);
+  Challenge winners(Map<String, String> winners);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `Challenge(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -52,7 +52,7 @@ abstract class _$ChallengeCWProxy {
     List<Prize>? prizes,
     List<String>? validEntryIds,
     List<String>? invalidEntryIds,
-    Map<String, String?>? winners,
+    Map<String, String>? winners,
   });
 }
 
@@ -102,7 +102,7 @@ class _$ChallengeCWProxyImpl implements _$ChallengeCWProxy {
       this(invalidEntryIds: invalidEntryIds);
 
   @override
-  Challenge winners(Map<String, String?> winners) => this(winners: winners);
+  Challenge winners(Map<String, String> winners) => this(winners: winners);
 
   @override
 
@@ -184,7 +184,7 @@ class _$ChallengeCWProxyImpl implements _$ChallengeCWProxy {
       winners: winners == const $CopyWithPlaceholder() || winners == null
           ? _value.winners
           // ignore: cast_nullable_to_non_nullable
-          : winners as Map<String, String?>,
+          : winners as Map<String, String>,
     );
   }
 }

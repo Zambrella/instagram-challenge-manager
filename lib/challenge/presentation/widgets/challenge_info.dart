@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:instagram_challenge_manager/challenge/domain/challenge.dart';
+import 'package:instagram_challenge_manager/challenge/presentation/controllers/winners_controller.dart';
 import 'package:instagram_challenge_manager/instagram/presentation/widgets/instagram_post_widget.dart';
 import 'package:instagram_challenge_manager/instagram/providers/instagram_post.dart';
 import 'package:instagram_challenge_manager/theme/theme.dart';
@@ -171,6 +172,53 @@ class _ChallengeInfoState extends ConsumerState<ChallengeInfo> {
                   )
                   .toList(),
             ),
+            SizedBox(height: context.theme.appSpacing.medium),
+            Text(
+              'Winners',
+              style: context.theme.textTheme.bodyMedium!.copyWith(
+                fontWeight: FontWeight.bold,
+                color: context.theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+            if (challenge.prizes.isEmpty)
+              Text(
+                'No winners drawn yet',
+                style: context.theme.textTheme.bodyLarge,
+              ),
+            SizedBox(height: context.theme.appSpacing.small),
+            ref.watch(winnersControllerProvider(challenge)).when(
+                  data: (winners) {
+                    return Wrap(
+                      spacing: context.theme.appSpacing.small,
+                      runSpacing: context.theme.appSpacing.small,
+                      children: winners.entries.map((winner) {
+                        final MapEntry(key: post, value: prize) = winner;
+                        return Chip(
+                          label:
+                              Text('${post.owner.withAtSign} - ${prize.name}'),
+                        );
+                      }).toList(),
+                    );
+                  },
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  error: (error, _) => Text(error.toString()),
+                ),
+
+            // Wrap(
+            //   spacing: context.theme.appSpacing.small,
+            //   runSpacing: context.theme.appSpacing.small,
+            //   children: challenge.prizes
+            //       .map(
+            //         (prize) => Chip(
+            //           label: Text(
+            //             '${NumberFormat().format(prize.quantity)} x ${prize.name}',
+            //           ),
+            //         ),
+            //       )
+            //       .toList(),
+            // ),
             SizedBox(height: context.theme.appSpacing.medium),
           ],
         ),

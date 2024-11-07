@@ -32,6 +32,12 @@ class ChallengeDto with _$ChallengeDto {
     )
     @Default([])
     List<PrizeDto> prizes,
+    // ignore: invalid_annotation_target
+    @JsonKey(
+      toJson: ChallengeDto.winnersToJson,
+      fromJson: ChallengeDto.winnersFromJson,
+    )
+    Map<String, String>? winners,
     String? postId,
   }) = _ChallengeDto;
 
@@ -54,6 +60,7 @@ class ChallengeDto with _$ChallengeDto {
       invalidEntryIds: challenge.invalidEntryIds,
       postId: challenge.postId,
       prizes: challenge.prizes.map(PrizeDto.fromDomain).toList(),
+      winners: challenge.winners,
     );
   }
 
@@ -73,6 +80,16 @@ class ChallengeDto with _$ChallengeDto {
     return prizesDecoded;
   }
 
+  static Object winnersToJson(Map<String, String>? winners) {
+    return jsonEncode(winners);
+  }
+
+  static Map<String, String>? winnersFromJson(Object? winners) {
+    if (winners == null) return null;
+    return (jsonDecode(winners as String) as Map<String, dynamic>)
+        .cast<String, String>();
+  }
+
   Challenge toDomain() {
     return Challenge(
       id: $id,
@@ -87,6 +104,7 @@ class ChallengeDto with _$ChallengeDto {
       invalidEntryIds: invalidEntryIds,
       postId: postId,
       prizes: prizes.map((e) => e.toDomain()).toList(),
+      winners: winners ?? {},
     );
   }
 }
