@@ -180,45 +180,51 @@ class _ChallengeInfoState extends ConsumerState<ChallengeInfo> {
                 color: context.theme.colorScheme.onSurfaceVariant,
               ),
             ),
-            if (challenge.prizes.isEmpty)
-              Text(
-                'No winners drawn yet',
-                style: context.theme.textTheme.bodyLarge,
-              ),
             SizedBox(height: context.theme.appSpacing.small),
-            ref.watch(winnersControllerProvider(challenge)).when(
+            ...ref.watch(winnersControllerProvider(challenge)).when(
                   data: (winners) {
-                    return Wrap(
-                      spacing: context.theme.appSpacing.small,
-                      runSpacing: context.theme.appSpacing.small,
-                      children: winners.entries.map((winner) {
-                        final MapEntry(key: post, value: prize) = winner;
-                        return Chip(
-                          label:
-                              Text('${post.owner.withAtSign} - ${prize.name}'),
-                        );
-                      }).toList(),
-                    );
+                    return [
+                      if (winners.isEmpty)
+                        Text(
+                          'No winners drawn yet',
+                          style: context.theme.textTheme.bodyLarge,
+                        ),
+                      Wrap(
+                        spacing: context.theme.appSpacing.small,
+                        runSpacing: context.theme.appSpacing.small,
+                        children: winners.entries.map((winner) {
+                          final MapEntry(key: post, value: prize) = winner;
+                          return Chip(
+                            label: Text(
+                              '${post.owner.withAtSign} - ${prize.name}',
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                      if (winners.isNotEmpty)
+                        SizedBox(height: context.theme.appSpacing.medium),
+                      if (winners.isNotEmpty)
+                        OutlinedButton(
+                          onPressed: () async {
+                            await ref
+                                .read(
+                                  winnersControllerProvider(challenge).notifier,
+                                )
+                                .clearWinners(challenge);
+                          },
+                          child: const Text('Clear Winners'),
+                        ),
+                    ];
                   },
-                  loading: () => const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  error: (error, _) => Text(error.toString()),
+                  loading: () => [
+                    const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ],
+                  error: (error, _) => [
+                    Text(error.toString()),
+                  ],
                 ),
-
-            // Wrap(
-            //   spacing: context.theme.appSpacing.small,
-            //   runSpacing: context.theme.appSpacing.small,
-            //   children: challenge.prizes
-            //       .map(
-            //         (prize) => Chip(
-            //           label: Text(
-            //             '${NumberFormat().format(prize.quantity)} x ${prize.name}',
-            //           ),
-            //         ),
-            //       )
-            //       .toList(),
-            // ),
             SizedBox(height: context.theme.appSpacing.medium),
           ],
         ),

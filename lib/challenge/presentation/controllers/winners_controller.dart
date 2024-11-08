@@ -30,10 +30,21 @@ class WinnersController extends _$WinnersController {
     );
   }
 
+  Future<void> clearWinners(Challenge challenge) async {
+    state = const AsyncLoading();
+    try {
+      final newChallenge = challenge.copyWith(winners: {});
+      await ref.read(challengeServiceProvider).updateChallenge(newChallenge);
+      state = const AsyncData({});
+    } catch (e, st) {
+      state = AsyncError(e, st);
+    }
+  }
+
   Future<void> drawWinners(Challenge challenge) async {
     try {
       state = const AsyncLoading();
-      await Future.delayed(const Duration(seconds: 2));
+      await Future<void>.delayed(const Duration(seconds: 2));
       final newChallenge = challenge.drawWinners();
       await ref.read(challengeServiceProvider).updateChallenge(newChallenge);
       final posts = await ref.watch(challengeEntriesProvider(challenge).future);

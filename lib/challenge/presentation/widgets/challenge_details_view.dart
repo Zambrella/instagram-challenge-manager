@@ -6,6 +6,7 @@ import 'package:instagram_challenge_manager/challenge/presentation/controllers/s
 import 'package:instagram_challenge_manager/challenge/presentation/controllers/winners_controller.dart';
 import 'package:instagram_challenge_manager/challenge/presentation/widgets/challenge_entry_list.dart';
 import 'package:instagram_challenge_manager/challenge/presentation/widgets/challenge_info.dart';
+import 'package:instagram_challenge_manager/challenge/presentation/widgets/challenge_pize_draw_dialog.dart';
 import 'package:instagram_challenge_manager/challenge/presentation/widgets/challenge_sheet.dart';
 import 'package:instagram_challenge_manager/theme/theme.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
@@ -71,9 +72,14 @@ class _ChallengeDetailsViewState extends ConsumerState<ChallengeDetailsView> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          await ref
-              .read(winnersControllerProvider(challenge).notifier)
-              .drawWinners(challenge);
+          await showDialog<void>(
+            context: context,
+            builder: (dialogContext) {
+              return ChallengePrizeDrawDialog(
+                challenge: challenge,
+              );
+            },
+          );
         },
         icon: const Icon(Icons.shuffle),
         label: const Text('Draw winners'),
