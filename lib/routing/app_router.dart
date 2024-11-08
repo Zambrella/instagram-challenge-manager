@@ -5,6 +5,7 @@ import 'package:instagram_challenge_manager/authentication/presentation/pages/lo
 import 'package:instagram_challenge_manager/authentication/providers/authentication_providers.dart';
 import 'package:instagram_challenge_manager/challenge/presentation/pages/challenge_details_page.dart';
 import 'package:instagram_challenge_manager/home/presentation/pages/home_page.dart';
+import 'package:instagram_challenge_manager/instagram/presentation/pages/authenticate_page.dart';
 import 'package:instagram_challenge_manager/routing/not_found_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -16,6 +17,7 @@ final _rootNavigatorKey =
 
 enum AppRoute {
   login,
+  authenticate,
   home,
   challengeDetails,
 }
@@ -32,14 +34,14 @@ GoRouter goRouter(Ref ref) {
 
       // Redirect to home page if navigating to login pages while logged in
       if (isLoggedIn) {
-        if (path.startsWith('/login')) {
+        if (path.startsWith('/login') || path.startsWith('/authenticate')) {
           return '/';
         }
       }
 
       // Redirect to login page if navigating to protected pages while not logged in
       if (!isLoggedIn) {
-        if (path.startsWith('/login')) {
+        if (path.startsWith('/login') || path.startsWith('/authenticate')) {
           return null;
         } else {
           return '/login';
@@ -62,6 +64,16 @@ GoRouter goRouter(Ref ref) {
         pageBuilder: (context, state) => const NoTransitionPage(
           child: LoginPage(),
         ),
+      ),
+      GoRoute(
+        path: '/authenticate',
+        name: AppRoute.authenticate.name,
+        pageBuilder: (context, state) {
+          final uri = state.uri;
+          return NoTransitionPage(
+            child: AuthenticatePage(uri: uri),
+          );
+        },
       ),
       GoRoute(
         path: '/',
